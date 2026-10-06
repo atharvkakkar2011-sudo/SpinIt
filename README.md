@@ -13,12 +13,14 @@ npm run typecheck
 npm test            # wheel + filter logic checks
 ```
 
-## What's built (phase 1: core flow, local data only)
+## What's built
 
-Discover (search, chips, vibe sheet), Spin (photo wheel, Place/Food/Dessert modes, 3 spins/night refilling at 6 PM, trippy spin layer, haptics), Reveal (confetti, bonus), Tonight's plan (swap, keep, lock it in, Maps), Place detail, Saved, Profile (stats, bonus wallet, history + ratings, settings), Make it yours (wheel name, glow, emoji, places).
+Everything in the design handoff except the real backend: sign up / log in, 4-step setup, Explore (search, chips, vibe sheet with budget slider, heat mode, what's on tonight, local picks, post-night rating), Spin (photo wheel, Place/Food/Dessert modes, 3 spins a night refilling at 6 PM, trippy spin layer, haptics, calm mode, mystery mode), Reveal (confetti, bonus QR), Tonight's plan (neon route map, swap, table booking, lock it in with calendar, WhatsApp, story card), Place detail, AI tab, Squad spin, Profile (Wrapped, badges, bonus wallet, Doha passport, saved, history + ratings, theme, shabab invite, settings, edit profile, help, logout, delete).
 
-State persists on-device (zustand + AsyncStorage). Places come from `src/data/places.json` (34 places, from `Doha_Night_Out_Places.xlsx`; the 6 originals use bundled photos, the rest load remote images).
+## What is simulated
 
-## Not built yet
+No backend is connected, so these run locally: accounts (stored on the device, passwords are not checked), squad members and votes, table availability and booking, QR bonuses (the QR encodes an unsigned token), and the AI tab (keyword matcher over the same place data; set `EXPO_PUBLIC_AI_ENDPOINT` to a route that takes `{prompt}` and returns `{text}` to use a real model). Remote place photos need a network connection. `docs/design/BACKEND.md` is the plan for making these real.
 
-Auth + setup, AI tab, live squad spin, booking, QR bonus redemption, route map, opening hours, push, and the backend (Supabase). See `docs/design/BACKEND.md` for the build order.
+## Web build
+
+`npm run build:web` writes a static build to `dist/` that works from any sub-path.

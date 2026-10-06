@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { OfflineBanner } from '../components/OfflineBanner';
 import { Toast } from '../components/Toast';
 import { useStore } from '../store';
 import { colors } from '../theme';
@@ -53,12 +54,18 @@ export default function RootLayout() {
         <View style={{ flex: 1, backgroundColor: colors.bg }}>
           <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg }, animation: 'fade' }}>
             <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="auth" />
+            <Stack.Screen name="setup" />
+            <Stack.Screen name="squad" options={{ animation: 'slide_from_right' }} />
             <Stack.Screen name="place/[id]" options={{ animation: 'slide_from_right' }} />
             <Stack.Screen name="reveal" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
             <Stack.Screen name="plan" options={{ animation: 'slide_from_right' }} />
-            <Stack.Screen name="mood" options={{ presentation: 'transparentModal', animation: 'slide_from_bottom' }} />
+            {['mood', 'book', 'qr', 'edit-profile', 'help', 'story'].map((n) => (
+              <Stack.Screen key={n} name={n} options={{ presentation: 'transparentModal', animation: 'slide_from_bottom' }} />
+            ))}
             <Stack.Screen name="edit-wheel" options={{ animation: 'slide_from_right' }} />
           </Stack>
+          <OfflineBanner />
           <Toast />
         </View>
       </SafeAreaProvider>

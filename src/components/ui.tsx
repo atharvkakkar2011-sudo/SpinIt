@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 import { type ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, Switch, Text, TextInput, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { colors, fonts } from '../theme';
 import { useStore } from '../store';
 
@@ -83,4 +83,32 @@ export function RoundButton({ glyph, onPress, label, color = colors.white }: { g
       </Glass>
     </Pressable>
   );
+}
+
+export function Field({ value, onChangeText, placeholder, secure, keyboardType, label, right, autoCapitalize = 'none', onSubmitEditing }: {
+  value: string; onChangeText: (t: string) => void; placeholder: string; secure?: boolean; keyboardType?: 'email-address' | 'default';
+  label: string; right?: ReactNode; autoCapitalize?: 'none' | 'words'; onSubmitEditing?: () => void;
+}) {
+  return (
+    <Glass radius={16} style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={colors.dim}
+        secureTextEntry={secure}
+        keyboardType={keyboardType}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={false}
+        accessibilityLabel={label}
+        onSubmitEditing={onSubmitEditing}
+        style={{ flex: 1, fontFamily: fonts.bodySemi, fontSize: 16, color: colors.white, padding: 16 }}
+      />
+      {right}
+    </Glass>
+  );
+}
+
+export function Toggle({ value, onValueChange, acc, label }: { value: boolean; onValueChange: (v: boolean) => void; acc: string; label: string }) {
+  return <Switch value={value} onValueChange={onValueChange} trackColor={{ true: acc, false: colors.disabled }} thumbColor="#fff" accessibilityLabel={label} />;
 }

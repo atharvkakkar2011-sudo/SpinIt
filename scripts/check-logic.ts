@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { PLACES } from '../src/data/places';
-import { defaultFilters, nightKey, sliceAtRotation, targetRotation, wheelList } from '../src/lib/logic';
+import { budgetLabel, defaultFilters, nightKey, sliceAtRotation, targetRotation, wheelList } from '../src/lib/logic';
+import { localReply, okEmail, passStrength, placesIn, routeFor } from '../src/lib/extra';
 
 // 34 places, unique ids, every place has two food + two dessert options and a deal.
 assert.equal(PLACES.length, 34);
@@ -29,4 +30,26 @@ assert.ok(wheelList(PLACES, {}, { ...defaultFilters, mood: 'Romantic' }).every((
 const d = (h: number) => new Date(2026, 9, 6, h, 0).getTime();
 assert.equal(nightKey(d(17)), nightKey(d(3)));
 assert.notEqual(nightKey(d(17)), nightKey(d(19)));
+// Budget copy matches the prototype.
+assert.equal(budgetLabel(0, 60), 'broke era');
+assert.equal(budgetLabel(50, 150), 'balanced queen');
+assert.equal(budgetLabel(150, 400), 'bougie mode');
+assert.equal(budgetLabel(0, 400), 'no limits');
+
+// Auth validation helpers.
+assert.ok(okEmail('a@b.co') && !okEmail('a@b') && !okEmail('nope'));
+assert.deepEqual(['', 'abc', 'abcdef', 'abcdefghi', 'abcdefgh1'].map(passStrength), [0, 1, 2, 3, 4]);
+
+// Route map: three pins inside the frame for every place, two legs.
+PLACES.forEach((p, i) => {
+  const r = routeFor(p, i);
+  assert.equal(r.pts.length, 3);
+  assert.equal(r.legs.length, 2);
+  assert.ok(r.totalMins > 0);
+});
+
+// Local AI only recommends real places, and respects "romantic".
+const reply = localReply('Date night under QAR 150, make it cute', { ratings: [] });
+const named = placesIn(reply);
+assert.ok(named.length >= 1 && named.every((p) => p.moods.includes('Romantic')));
 console.log('logic ok');

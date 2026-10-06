@@ -72,10 +72,10 @@ export function fmtDuration(ms: number): string {
 }
 
 export function budgetLabel(min: number, max: number): string {
-  if (max >= 400 && min === 0) return 'no limits';
   if (max <= 60) return 'broke era';
-  if (max <= 150) return 'balanced queen';
-  return 'bougie mode';
+  if (min >= 150) return 'bougie mode';
+  if (max < 400) return 'balanced queen';
+  return 'no limits';
 }
 
 /** Haversine distance in metres. */

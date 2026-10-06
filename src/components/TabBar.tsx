@@ -9,8 +9,8 @@ import { useStore } from '../store';
 import { colors, fonts } from '../theme';
 import { tap } from './ui';
 
-const ICONS: Record<string, string> = { index: '🧭', spin: '🎡', saved: '♡', profile: '☻' };
-const LABELS: Record<string, string> = { index: 'Discover', spin: 'Spin', saved: 'Saved', profile: 'You' };
+const ICONS: Record<string, string> = { index: '🧭', spin: '🎡', ai: '✦', profile: '☻' };
+const LABELS: Record<string, string> = { index: 'Explore', spin: 'Spin', ai: 'AI', profile: 'You' };
 const SPRING = { damping: 14, stiffness: 180, mass: 0.8 };
 
 /** Floating glass pill with a draggable lens that snaps to the active tab. */

@@ -1,14 +1,15 @@
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { Easing, FadeInDown, ZoomIn, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Confetti } from '../components/Confetti';
 import { Body, Button, Glass, Headline, Label, tap } from '../components/ui';
 import { photoSource } from '../data/photos';
 import type { MenuItem, Place } from '../data/places';
+import { DIRECTIONS, term } from '../lib/extra';
 import { placeOf, useStore } from '../store';
 import { colors, fonts } from '../theme';
 
@@ -31,7 +32,8 @@ function Row({ delay, kind, photo, title, sub, price, accent }: { delay: number;
 export default function Reveal() {
   const router = useRouter();
   const { top, bottom } = useSafeAreaInsets();
-  const { result, foodAlt, dessertAlt, acc, calm } = useStore();
+  const { result, foodAlt, dessertAlt, acc, calm, mysteryOpen, user, limitOn, spinsLeft, deals, patch, say } = useStore();
+  const [burst, setBurst] = useState(0);
   const place: Place | undefined = placeOf(result);
   const flicker = useSharedValue(1);
   useEffect(() => {
@@ -59,30 +61,52 @@ export default function Reveal() {
       <ScrollView contentContainerStyle={{ paddingTop: top + 30, paddingHorizontal: 20, paddingBottom: bottom + 30 }} showsVerticalScrollIndicator={false}>
         <Animated.Text style={[{ fontFamily: fonts.label, fontSize: 12, letterSpacing: 2, color: acc, textAlign: 'center' }, flick]}>🌙 THE WHEEL HAS SPOKEN</Animated.Text>
         <Animated.View entering={ZoomIn.delay(150).springify().damping(9)}>
-          <Headline size={38} style={{ textAlign: 'center', marginTop: 14, marginBottom: 26 }}>Yalla, it’s {place.short}.</Headline>
+          <Headline size={38} style={{ textAlign: 'center', marginTop: 14, marginBottom: 26 }}>{mysteryOpen ? 'Yalla, it’s a mystery.' : `Yalla, it’s ${place.short}.`}</Headline>
         </Animated.View>
 
+        {mysteryOpen ? (
+          <View style={{ gap: 10 }}>
+            {[['🧭', 'HEAD', DIRECTIONS[place.id] ?? `Head to ${place.area}`], ['✨', 'THE VIBE', place.vibe], ['🕢', 'BE THERE BY', `6:30 PM · dress ${place.budget === 3 ? 'nice' : 'comfy'}`]].map(([e, k, v], i) => (
+              <Animated.View key={k} entering={FadeInDown.delay(350 + i * 300).duration(500)}>
+                <Glass radius={18} style={{ flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 }}>
+                  <Text style={{ fontSize: 26 }}>{e}</Text>
+                  <View style={{ flex: 1 }}><Label style={{ color: acc }}>{k}</Label><Text style={{ fontFamily: fonts.bodySemi, fontSize: 15, color: colors.white, marginTop: 3 }}>{v}</Text></View>
+                </Glass>
+              </Animated.View>
+            ))}
+            <Button label="Drive me there" variant="glass" accent={acc} style={{ marginTop: 8 }} onPress={() => { Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name + ', Doha')}`).catch(() => {}); say('Eyes on the road, not the map 👀'); }} />
+            <Button label="Reveal it" accent={acc} onPress={() => { patch({ mysteryOpen: false }); setBurst((b) => b + 1); }} />
+          </View>
+        ) : (
+          <>
         <View style={{ gap: 10 }}>
-          <Row delay={350} kind="PLACE" photo={photoSource(photos[0])} title={place.name} sub={place.vibe} accent={acc} />
-          <Row delay={650} kind="DINNER" photo={photoSource(photos[Math.min(1, photos.length - 1)])} title={food.name} sub={food.note} price={food.price} accent={acc} />
-          <Row delay={950} kind="DESSERT" photo={photoSource(photos[Math.min(2, photos.length - 1)])} title={dessert.name} sub={dessert.note} price={dessert.price} accent={acc} />
+          <Row delay={350} kind="FIRST · GO" photo={photoSource(photos[0])} title={place.name} sub={place.vibe} accent={acc} />
+          <Row delay={650} kind="THEN · EAT" photo={photoSource(photos[Math.min(1, photos.length - 1)])} title={food.name} sub={`${food.note}`} price={food.price} accent={acc} />
+          <Row delay={950} kind="LAST · SWEET" photo={photoSource(photos[Math.min(2, photos.length - 1)])} title={dessert.name} sub={dessert.note} price={dessert.price} accent={acc} />
         </View>
 
         <Animated.View entering={FadeInDown.delay(1250).duration(500)} style={{ marginTop: 16 }}>
-          <View style={{ borderRadius: 20, borderWidth: 1.5, borderStyle: 'dashed', borderColor: acc, padding: 16, backgroundColor: acc + '14', shadowColor: acc, shadowOpacity: 0.5, shadowRadius: 16, shadowOffset: { width: 0, height: 0 } }}>
-            <Label style={{ color: acc }}>+ BONUS UNLOCKED · {place.deal.code}</Label>
-            <Text style={{ fontFamily: fonts.headline, fontSize: 17, letterSpacing: -0.5, color: colors.white, marginTop: 6 }}>{place.deal.title}</Text>
-          </View>
+          <Pressable onPress={() => { tap(); if (!deals.some((d) => d.placeId === place.id)) return say(`Spin first, ${term(user?.g)}`); patch({ qrFor: place.id }); router.push('/qr'); }} accessibilityRole="button">
+            <View style={{ borderRadius: 20, borderWidth: 1.5, borderStyle: 'dashed', borderColor: acc, padding: 16, backgroundColor: acc + '14', shadowColor: acc, shadowOpacity: 0.5, shadowRadius: 16, shadowOffset: { width: 0, height: 0 } }}>
+              <Label style={{ color: acc }}>+ BONUS UNLOCKED · {place.deal.code}</Label>
+              <Text style={{ fontFamily: fonts.headline, fontSize: 17, letterSpacing: -0.5, color: colors.white, marginTop: 6 }}>{place.deal.title}</Text>
+              <Body style={{ color: colors.mid, fontSize: 13, marginTop: 4 }}>{deals.find((d) => d.placeId === place.id)?.used ? 'Redeemed. Eat up.' : 'Tap for your QR'}</Body>
+            </View>
+          </Pressable>
         </Animated.View>
 
         <View style={{ marginTop: 22, gap: 6 }}>
           <Button label="Show me the plan" accent={acc} onPress={() => router.replace('/plan')} />
-          <Pressable onPress={() => { tap(); useStore.setState({ autoSpin: true }); router.dismissTo('/spin'); }} accessibilityRole="button" style={{ alignItems: 'center', padding: 14 }}>
-            <Text style={{ fontFamily: fonts.bodySemi, fontSize: 15, color: colors.offWhite }}>Not feeling it? <Text style={{ color: acc }}>Reroll</Text></Text>
+          <Pressable onPress={() => { tap(); if (limitOn && spinsLeft <= 0) return say(`No rerolls. It’s fate now, ${term(user?.g)}.`); patch({ autoSpin: true }); router.dismissTo('/spin'); }} accessibilityRole="button" style={{ alignItems: 'center', padding: 14 }}>
+            <Text style={{ fontFamily: fonts.bodySemi, fontSize: 15, color: colors.offWhite }}>
+              {limitOn && spinsLeft <= 0 ? 'No rerolls. It’s fate now.' : <>Not the vibe? <Text style={{ color: acc }}>Reroll{limitOn ? ` (${spinsLeft} left)` : ''}</Text></>}
+            </Text>
           </Pressable>
         </View>
+          </>
+        )}
       </ScrollView>
-      <Confetti accent={acc} calm={calm} />
+      <Confetti key={burst} accent={acc} calm={calm || mysteryOpen} />
     </View>
   );
 }

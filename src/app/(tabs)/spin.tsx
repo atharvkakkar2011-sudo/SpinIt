@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Backdrop } from '../../components/Backdrop';
 import { Trippy } from '../../components/Trippy';
 import { SPIN_MS, Wheel, WHEEL_SIZE } from '../../components/Wheel';
-import { Body, Button, Glass, Headline, Label, tap } from '../../components/ui';
+import { Body, Button, Glass, Headline, Label, Toggle, tap } from '../../components/ui';
 import { photoSource } from '../../data/photos';
 import { placeById } from '../../data/places';
 import { MAX_SPINS, fmtDuration, msUntilRefill, targetRotation } from '../../lib/logic';
@@ -133,13 +133,21 @@ export default function Spin() {
         </View>
 
         <Body style={{ color: colors.mid, marginTop: 22, textAlign: 'center', minHeight: 22 }}>
-          {s.spinning ? 'Hold up… the wheel is cooking' : landedPlace ? `It’s ${landedPlace.short}.` : `${items.length} options on the wheel`}
+          {s.spinning ? 'Hold up… the wheel is cooking' : landedPlace ? `The wheel has spoken · ${landedPlace.short}` : s.limitOn && s.spinsLeft <= 0 ? 'That’s your 3. Commit, no cap.' : `${items.length} options on the wheel`}
         </Body>
 
-        <Button label={s.spinning ? 'SPINNING…' : 'SPIN IT'} accent={s.acc} disabled={s.spinning || items.length < 2} onPress={spin} style={{ alignSelf: 'stretch', marginTop: 14 }} />
-        <Pressable onPress={() => { tap(); router.push('/edit-wheel'); }} accessibilityRole="button" style={{ marginTop: 18, padding: 8 }}>
-          <Label>EDIT WHEEL</Label>
-        </Pressable>
+        <Button label={s.spinning ? 'COOKING…' : s.limitOn && s.spinsLeft <= 0 ? 'NO SPINS LEFT' : 'YALLA SPIN'} accent={s.acc} disabled={s.spinning || items.length < 2} onPress={spin} style={{ alignSelf: 'stretch', marginTop: 14 }} />
+        <Glass radius={18} style={{ alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', padding: 12, marginTop: 18 }}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: fonts.bodySemi, fontSize: 15, color: colors.white }}>Mystery mode 🕵️</Text>
+            <Text style={{ fontFamily: fonts.body, fontSize: 12.5, color: colors.mid }}>{s.mystery ? 'On · no spoilers' : 'Hide the spot until you’re close'}</Text>
+          </View>
+          <Toggle value={s.mystery} onValueChange={(v) => { s.patch({ mystery: v }); s.say(v ? 'Mystery on. No peeking 🕵️' : 'Mystery off.'); }} acc={s.acc} label="Mystery mode" />
+        </Glass>
+        <View style={{ flexDirection: 'row', gap: 22, marginTop: 14 }}>
+          <Pressable onPress={() => { tap(); router.push('/edit-wheel'); }} accessibilityRole="button" style={{ padding: 8 }}><Label>EDIT WHEEL</Label></Pressable>
+          <Pressable onPress={() => { tap(); router.push('/squad'); }} accessibilityRole="button" style={{ padding: 8 }}><Label style={{ color: s.acc }}>SQUAD SPIN</Label></Pressable>
+        </View>
       </ScrollView>
     </View>
   );
