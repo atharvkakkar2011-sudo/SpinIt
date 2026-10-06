@@ -1,0 +1,21 @@
+// Static requires so Metro bundles the local place photos.
+export const LOCAL_PHOTOS: Record<string, number> = {
+  'corniche-1': require('../../assets/places/corniche-1.jpg'),
+  'corniche-2': require('../../assets/places/corniche-2.jpg'),
+  'corniche-3': require('../../assets/places/corniche-3.jpg'),
+  'katara-1': require('../../assets/places/katara-1.jpg'),
+  'katara-2': require('../../assets/places/katara-2.jpg'),
+  'katara-3': require('../../assets/places/katara-3.jpg'),
+  'katara-4': require('../../assets/places/katara-4.jpg'),
+  'lusail-1': require('../../assets/places/lusail-1.jpg'),
+  'lusail-2': require('../../assets/places/lusail-2.jpg'),
+  'msheireb-1': require('../../assets/places/msheireb-1.jpg'),
+  'msheireb-2': require('../../assets/places/msheireb-2.jpg'),
+  'pearl-1': require('../../assets/places/pearl-1.jpg'),
+  'pearl-2': require('../../assets/places/pearl-2.jpg'),
+  'pearl-3': require('../../assets/places/pearl-3.jpg'),
+  'souq-1': require('../../assets/places/souq-1.jpg'),
+  'souq-2': require('../../assets/places/souq-2.jpg'),
+  'souq-3': require('../../assets/places/souq-3.jpg'),
+  'souq-4': require('../../assets/places/souq-4.jpg'),
+};

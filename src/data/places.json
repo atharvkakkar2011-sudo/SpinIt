@@ -1,0 +1,2125 @@
+[
+ {
+  "id": "katara",
+  "name": "Katara Cultural Village",
+  "short": "Katara",
+  "area": "West Bay",
+  "vibe": "Pink walls, sea breeze, pics go hard",
+  "tags": [
+   "Culture",
+   "Outdoors",
+   "Coffee"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "katara-2",
+   "katara-1",
+   "katara-4",
+   "katara-3"
+  ],
+  "about": "Galleries, an amphitheatre and a beach, all walkable. Pull up at golden hour, stay for the lights.",
+  "hours": "Till late",
+  "price": "Free to wander",
+  "best": "Golden hour",
+  "food": [
+   {
+    "tag": "Mezze",
+    "name": "Seaside mezze",
+    "note": "Hummus, grills, fresh bread. Beach views on the side.",
+    "price": "QAR 60–120"
+   },
+   {
+    "tag": "Grills",
+    "name": "Levantine grill house",
+    "note": "Mixed grill for the table. Loud, slow, elite.",
+    "price": "QAR 70–140"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Kunafa",
+    "name": "Kunafa & karak",
+    "note": "Warm, cheesy, pistachio on top. Ate.",
+    "price": "QAR 20–35"
+   },
+   {
+    "tag": "Gelato",
+    "name": "Beachfront gelato",
+    "note": "Two scoops for the walk back, obviously",
+    "price": "QAR 18–30"
+   }
+  ],
+  "deal": {
+   "title": "Free karak with any kunafa",
+   "code": "KATARA-KK"
+  },
+  "lat": 25.36,
+  "lng": 51.526,
+  "indoor": false,
+  "category": "Spot"
+ },
+ {
+  "id": "msheireb",
+  "name": "Msheireb Downtown Doha",
+  "short": "Msheireb",
+  "area": "Downtown Doha",
+  "vibe": "Alleys, cafés, quiet luxury",
+  "tags": [
+   "Culture",
+   "Coffee",
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Adventurous"
+  ],
+  "budget": 2,
+  "photos": [
+   "msheireb-1",
+   "msheireb-2"
+  ],
+  "about": "Shaded alleys, heritage houses and a tram loop. Hits different after the heat breaks.",
+  "hours": "Cafés till late",
+  "price": "Free to wander",
+  "best": "After sunset",
+  "food": [
+   {
+    "tag": "Burgers",
+    "name": "Courtyard burgers",
+    "note": "Smash patties under the shade sails. Bussin.",
+    "price": "QAR 45–80"
+   },
+   {
+    "tag": "Ramen",
+    "name": "Corner ramen bar",
+    "note": "Rich broth, counter seats, zero regrets",
+    "price": "QAR 50–90"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Ice cream",
+    "name": "Saffron ice cream",
+    "note": "Saffron + pistachio for the alley walk",
+    "price": "QAR 18–30"
+   },
+   {
+    "tag": "Cookies",
+    "name": "Warm cookie shop",
+    "note": "Fresh out the oven, still gooey",
+    "price": "QAR 12–25"
+   }
+  ],
+  "deal": {
+   "title": "2-for-1 ice cream",
+   "code": "MSH-2FOR1"
+  },
+  "lat": 25.2867,
+  "lng": 51.526,
+  "indoor": true,
+  "category": "Spot"
+ },
+ {
+  "id": "lusail",
+  "name": "Lusail Marina Promenade",
+  "short": "Lusail",
+  "area": "Lusail",
+  "vibe": "Towers, water, skyline flex",
+  "tags": [
+   "Outdoors",
+   "Food"
+  ],
+  "moods": [
+   "Romantic",
+   "Adventurous"
+  ],
+  "budget": 3,
+  "photos": [
+   "lusail-1",
+   "lusail-2"
+  ],
+  "about": "A long waterfront under the Katara Towers. Slow walks and skyline pics that eat.",
+  "hours": "Open all day",
+  "price": "Free to wander",
+  "best": "Blue hour",
+  "food": [
+   {
+    "tag": "Sushi",
+    "name": "Marina sushi",
+    "note": "Waterfront tables, skyline views, date-night coded",
+    "price": "QAR 120–220"
+   },
+   {
+    "tag": "Steak",
+    "name": "Promenade steakhouse",
+    "note": "A proper night out. Dress up.",
+    "price": "QAR 180–300"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Cheesecake",
+    "name": "Date cheesecake",
+    "note": "Local dates, toasted base. Ate.",
+    "price": "QAR 30–45"
+   },
+   {
+    "tag": "Crêpes",
+    "name": "Marina crêpes",
+    "note": "Nutella and banana by the water. Iconic.",
+    "price": "QAR 25–40"
+   }
+  ],
+  "deal": {
+   "title": "15% off dinner",
+   "code": "LUSAIL-15"
+  },
+  "lat": 25.387,
+  "lng": 51.539,
+  "indoor": false,
+  "category": "Spot"
+ },
+ {
+  "id": "souq",
+  "name": "Souq Waqif",
+  "short": "Souq Waqif",
+  "area": "Old Doha",
+  "vibe": "Lanterns, spice, good chaos",
+  "tags": [
+   "Culture",
+   "Food",
+   "Coffee"
+  ],
+  "moods": [
+   "Adventurous",
+   "Family",
+   "Chill"
+  ],
+  "budget": 1,
+  "photos": [
+   "souq-2",
+   "souq-1",
+   "souq-3",
+   "souq-4"
+  ],
+  "about": "Lantern-lit alleys of spices, textiles and falcons. Lowkey peaks after midnight.",
+  "hours": "Busiest after dark",
+  "price": "Free to wander",
+  "best": "Late night",
+  "food": [
+   {
+    "tag": "Machboos",
+    "name": "Machboos & grills",
+    "note": "Spiced rice, slow-cooked lamb. Comfort food final boss.",
+    "price": "QAR 40–80"
+   },
+   {
+    "tag": "Shawarma",
+    "name": "Alley shawarma",
+    "note": "Quick, cheap, no notes",
+    "price": "QAR 15–30"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Luqaimat",
+    "name": "Luqaimat",
+    "note": "Hot dumplings in date syrup. Addictive fr.",
+    "price": "QAR 15–25"
+   },
+   {
+    "tag": "Halwa",
+    "name": "Omani halwa & qahwa",
+    "note": "Sticky, rose-scented, with gahwa",
+    "price": "QAR 15–30"
+   }
+  ],
+  "deal": {
+   "title": "Free luqaimat for two",
+   "code": "SOUQ-LQM"
+  },
+  "lat": 25.2875,
+  "lng": 51.533,
+  "indoor": true,
+  "category": "Spot"
+ },
+ {
+  "id": "pearl",
+  "name": "The Pearl-Qatar",
+  "short": "The Pearl",
+  "area": "Qanat Quartier",
+  "vibe": "Pastel canals, very Pinterest",
+  "tags": [
+   "Food",
+   "Outdoors"
+  ],
+  "moods": [
+   "Romantic",
+   "Family"
+  ],
+  "budget": 3,
+  "photos": [
+   "pearl-2",
+   "pearl-1",
+   "pearl-3"
+  ],
+  "about": "Pastel canals and little bridges in Qanat Quartier, marina food a short walk away. Bring your camera.",
+  "hours": "Restaurants till late",
+  "price": "Free to wander",
+  "best": "Sunset",
+  "food": [
+   {
+    "tag": "Pasta",
+    "name": "Canal-side pasta",
+    "note": "Fresh pasta by the bridges. Main character dinner.",
+    "price": "QAR 80–150"
+   },
+   {
+    "tag": "Seafood",
+    "name": "Marina seafood",
+    "note": "Catch of the day, grilled. Clean.",
+    "price": "QAR 120–200"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Gelato",
+    "name": "Gelato walk",
+    "note": "Pistachio cone over the canal. Soft launch material.",
+    "price": "QAR 20–35"
+   },
+   {
+    "tag": "Waffles",
+    "name": "Waffle bar",
+    "note": "Crisp, loaded, share if you want (you won’t)",
+    "price": "QAR 25–40"
+   }
+  ],
+  "deal": {
+   "title": "Free scoop upgrade",
+   "code": "PEARL-SCOOP"
+  },
+  "lat": 25.3683,
+  "lng": 51.551,
+  "indoor": true,
+  "category": "Spot"
+ },
+ {
+  "id": "corniche",
+  "name": "Doha Corniche",
+  "short": "Corniche",
+  "area": "Corniche",
+  "vibe": "Skyline, dhows, sea breeze",
+  "tags": [
+   "Outdoors",
+   "Coffee"
+  ],
+  "moods": [
+   "Chill",
+   "Family",
+   "Romantic"
+  ],
+  "budget": 1,
+  "photos": [
+   "corniche-2",
+   "corniche-1",
+   "corniche-3"
+  ],
+  "about": "The seafront arc. Dhows on the water, West Bay lit up across the bay. Free and still a vibe.",
+  "hours": "Always open",
+  "price": "Free",
+  "best": "Night skyline",
+  "food": [
+   {
+    "tag": "Seafood",
+    "name": "Dhow harbour seafood",
+    "note": "Grilled hammour, facing the water. Peak.",
+    "price": "QAR 60–110"
+   },
+   {
+    "tag": "Chips Oman",
+    "name": "Chips Oman sandwich",
+    "note": "The late-night classic. Respect it.",
+    "price": "QAR 8–15"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Karak",
+    "name": "Karak & chapati",
+    "note": "Sweet karak for the seafront walk",
+    "price": "QAR 5–12"
+   },
+   {
+    "tag": "Soft serve",
+    "name": "Seafront soft serve",
+    "note": "Simple, cold, does the job",
+    "price": "QAR 8–15"
+   }
+  ],
+  "deal": {
+   "title": "Free karak refill",
+   "code": "CORN-KARAK"
+  },
+  "lat": 25.299,
+  "lng": 51.53,
+  "indoor": false,
+  "category": "Spot"
+ },
+ {
+  "id": "mina-district",
+  "name": "Mina District, Old Doha Port",
+  "short": "Mina District",
+  "area": "Old Doha Port",
+  "vibe": "Pastel streets made for your camera",
+  "tags": [
+   "Culture",
+   "Outdoors"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic",
+   "Family"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--aa95aee2-249a-404f-b97b-f4e63aafa344/mina-block.jpg"
+  ],
+  "about": "Wander colourful lanes beside the port, browse boutiques, and stop for something sweet. The waterfront gives your camera plenty to work with.",
+  "hours": "Check before you go",
+  "price": "Free to wander",
+  "best": "Golden hour",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Mina District.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Mina District.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "CHAC’LATE",
+    "name": "CHAC’LATE",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "MINADIST-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": false,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/romantic-getaway/places/mina-district-old-doha-port",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "aspire-park",
+  "name": "Aspire Park",
+  "short": "Aspire Park",
+  "area": "Aspire Zone",
+  "vibe": "Lake loops and picnic energy",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--825e4387-d0be-4938-982d-460ffb9aa54b/aspire-park-banner.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--dc6b427f-0b0c-44fe-9d65-f254eed337cf/aspire-park.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--3bc3ffb8-759a-4c19-b253-e97a2d06795b/aspire-park-water.jpg"
+  ],
+  "about": "Walk around the lake, spread out on the grass, or get moving on the paths. Great for a low-key group hang.",
+  "hours": "Daily 24 hours",
+  "price": "Free to wander",
+  "best": "Golden hour",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Aspire Park.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Aspire Park.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "ASPIREPA-10"
+  },
+  "lat": 25.2629315,
+  "lng": 51.4357765,
+  "indoor": false,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/family-break/parks/aspire",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "oxygen-park",
+  "name": "Oxygen Park",
+  "short": "Oxygen Park",
+  "area": "Education City",
+  "vibe": "Green paths and a proper reset",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://cdn.educationcity.qa/uploads/7957/5fb910a3c33e6_Oxygen-Park-Picnic-Area.jpg",
+   "https://cdn.educationcity.qa/uploads/7867/5fb9109f78cea_Oxygen-Park-Landmark.jpg"
+  ],
+  "about": "Take a walk through landscaped paths or meet friends for an outdoor break. There are spaces for sport and quieter corners to unwind.",
+  "hours": "Daily 6 AM–10 PM",
+  "price": "Free to wander",
+  "best": "After sunset",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Oxygen Park.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Oxygen Park.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "OXYGENPA-10"
+  },
+  "lat": 25.313125,
+  "lng": 51.4444708,
+  "indoor": false,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://educationcity.qa/venue/oxygen-park",
+  "credit": "Official source: cdn.educationcity.qa"
+ },
+ {
+  "id": "qnl",
+  "name": "Qatar National Library",
+  "short": "National Library",
+  "area": "Education City",
+  "vibe": "Books, beautiful architecture, quiet recharge",
+  "tags": [
+   "Culture"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--5d36c7c0-1b83-42cb-8c7d-09e12be5fdcb/qatar-national-library1.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--35286398-7767-4d76-9a0f-bdb7bb8128fb/qatar-national-library2.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--689f4472-62a2-482b-b3f6-f5deb3f9fb4e/qatar-national-library3.jpg"
+  ],
+  "about": "Explore a striking library, browse exhibitions, and find a quiet reading spot. This works best for a calm early-evening plan.",
+  "hours": "Sat–Thu 8 AM–8 PM; Fri 4 PM–8 PM",
+  "price": "Free entry",
+  "best": "Early evening",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around National Library.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around National Library.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "QNL-10"
+  },
+  "lat": 25.3181284,
+  "lng": 51.4416892,
+  "indoor": true,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://www.qnl.qa/en/library-hours",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "mia",
+  "name": "Museum of Islamic Art",
+  "short": "Islamic Art",
+  "area": "Al Corniche",
+  "vibe": "Art inside, skyline outside, excellent combo",
+  "tags": [
+   "Culture",
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://static.qm.org.qa/media/images/mia-architecture-071128-2956.38f8deb7.fill-1600x1068.jpg"
+  ],
+  "about": "Explore Islamic art in an iconic waterfront museum. Pair the galleries with a café stop or a walk through the nearby park.",
+  "hours": "Sat–Tue 9 AM–7 PM; Wed closed; Thu 9 AM–9 PM; Fri 1:30 PM–7 PM",
+  "price": "Price varies",
+  "best": "Late afternoon",
+  "food": [
+   {
+    "tag": "MIA Café",
+    "name": "MIA Café by Flat White",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "IDAM by",
+    "name": "IDAM by Alain Ducasse",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "MIA-10"
+  },
+  "lat": 25.2955284,
+  "lng": 51.5391579,
+  "indoor": true,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://mia.org.qa/en/visit/",
+  "credit": "Official source: static.qm.org.qa"
+ },
+ {
+  "id": "nmoq",
+  "name": "National Museum of Qatar",
+  "short": "National Museum",
+  "area": "Old Doha",
+  "vibe": "Desert rose architecture meets Qatar stories",
+  "tags": [
+   "Culture",
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://static.qm.org.qa/media/images/nmoq-exterior-pigeon.4f08c5aa.fill-1600x1068.jpg"
+  ],
+  "about": "Discover Qatar through immersive galleries inside a striking museum. Some galleries may close for enhancements, so check the visit page before going.",
+  "hours": "Sat–Mon, Wed 9 AM–7 PM; Tue closed; Thu 9 AM–9 PM; Fri 1:30 PM–7 PM",
+  "price": "Price varies",
+  "best": "Late afternoon",
+  "food": [
+   {
+    "tag": "Jiwan",
+    "name": "Jiwan",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Desert Rose",
+    "name": "Desert Rose Café",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "NMOQ-10"
+  },
+  "lat": 25.2880431,
+  "lng": 51.5493985,
+  "indoor": true,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://nmoq.org.qa/en/visit/",
+  "credit": "Official source: static.qm.org.qa"
+ },
+ {
+  "id": "place-vendome",
+  "name": "Place Vendôme",
+  "short": "Place Vendôme",
+  "area": "Lusail",
+  "vibe": "Big mall energy, fountain show finish",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--85e9d7dc-9829-484d-904e-89229d1b4613/place-vendome-outdoor.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--fc96af83-89fb-4aa9-8877-e8a0087a0a3a/pv-interior-014.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--7095b1fb-935a-4ec7-b763-be55305ce269/pv-interior-005.jpg"
+  ],
+  "about": "Browse shops indoors, grab something to eat, then head outside for the fountain show. A simple plan when everyone wants different things.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "After sunset",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Place Vendôme.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Place Vendôme.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "PLACEVEN-10"
+  },
+  "lat": 25.4050223,
+  "lng": 51.5205349,
+  "indoor": true,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://placevendomeqatar.com/visitors-information",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "villaggio",
+  "name": "Villaggio Mall",
+  "short": "Villaggio",
+  "area": "Aspire Zone",
+  "vibe": "Indoor canals and a shopping detour",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--c24e1029-f305-46ac-a672-d6e9d1443a73/villagio-mall-1.jpg"
+  ],
+  "about": "Explore a Venetian-inspired mall with an indoor canal, shops, and dining. Add Gondolania if your group wants something more active.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Villaggio.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Villaggio.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "VILLAGGI-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/shopping/malls/villaggio-mall",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "city-center",
+  "name": "City Center Doha",
+  "short": "City Center",
+  "area": "West Bay",
+  "vibe": "Metro-friendly mall with plenty of choices",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://citycenterdoha.com/wp-content/uploads/slider/cache/b4fe78537b14e2f4763e34202387e1dc/DSC06524-scaled.jpg",
+   "https://citycenterdoha.com/wp-content/uploads/slider/cache/626490c8c2d7985a41d9f367a22c9f69/DSC02225_compressed-scaled.webp",
+   "https://citycenterdoha.com/wp-content/uploads/slider/cache/496130d1e958cb199e79f27ade6cef6b/DSC02925-scaled.jpg"
+  ],
+  "about": "Meet in West Bay for shops, cinema, and plenty of food choices. A convenient indoor option when the weather refuses to cooperate.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Nando’s",
+    "name": "Nando’s",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Shake Shack",
+    "name": "Shake Shack",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Baskin Robbins",
+    "name": "Baskin Robbins",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Cold Stone",
+    "name": "Cold Stone Creamery",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "CITYCENT-10"
+  },
+  "lat": 25.3257716,
+  "lng": 51.5306132,
+  "indoor": true,
+  "category": "Spot",
+  "insta": "@citycenterdoha",
+  "web": "https://citycenterdoha.com/",
+  "credit": "Official source: citycenterdoha.com"
+ },
+ {
+  "id": "festival-city",
+  "name": "Doha Festival City",
+  "short": "Festival City",
+  "area": "Umm Salal Mohammed",
+  "vibe": "One mall, several completely different plans",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--87fb39f8-2ece-4f9a-8c18-8f634427ca74/doha-festival-city-2.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--549be2dd-2ad6-4bc8-a041-373c1c544128/doha-festival-city-1.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--8642ad75-a5a9-4181-9de9-8e51ae309d38/festival-city-mall2.jpg"
+  ],
+  "about": "Browse the mall, catch a film, or choose an entertainment park. Useful when your group cannot agree on just one activity.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Nando’s",
+    "name": "Nando’s",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "PF Chang’s",
+    "name": "PF Chang’s",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "The Cheesecake",
+    "name": "The Cheesecake Factory",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Ladurée",
+    "name": "Ladurée",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "FESTIVAL-10"
+  },
+  "lat": 25.3856021,
+  "lng": 51.4413374,
+  "indoor": true,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://www.dohafestivalcity.com/home/",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "quest",
+  "name": "Doha Quest",
+  "short": "Doha Quest",
+  "area": "Msheireb",
+  "vibe": "Big ride energy without the heat",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Adventurous",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--5dec7def-8cfc-4493-8c33-19fa4b0bfda6/quest-27.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--ddbf0675-e67d-4910-9671-12d0d34b2d9c/dohaoasis-quest-6.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--a16008a9-9cc5-462f-9eb5-c671b9a2d798/doha-quest-2.jpg"
+  ],
+  "about": "An indoor theme park with thrill rides, simulators, and family attractions. Book ahead and check the current ride requirements.",
+  "hours": "Mon–Sat 2 PM–10 PM; Sun closed",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Doha Quest.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Doha Quest.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "QUEST-10"
+  },
+  "lat": 25.2849182,
+  "lng": 51.5176238,
+  "indoor": true,
+  "category": "Activity",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/family-break/amusement-parks/doha-quest",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "gondolania",
+  "name": "Gondolania Theme Park",
+  "short": "Gondolania",
+  "area": "Aspire Zone",
+  "vibe": "Bowling, rides, and friendly competitive chaos",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Adventurous",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--f22ce209-27b0-4a59-86ba-40880abfca02/gondolania-6.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--6636a46d-bf1e-4a0f-836c-7dc62ce5cf23/gondolania-8.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--f0d8fd25-b74e-45d9-b18d-deab0060af68/gondolania-009.jpg"
+  ],
+  "about": "An entertainment park inside Villaggio with rides and activities, including bowling. Pick your activities before topping up or buying tickets.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Gondolania.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Gondolania.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "GONDOLAN-10"
+  },
+  "lat": 25.2620421,
+  "lng": 51.4426741,
+  "indoor": true,
+  "category": "Activity",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/family-break/amusement-parks/gondolania",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "lusail-karting",
+  "name": "Lusail Karting, Lusail International Circuit",
+  "short": "Lusail Karting",
+  "area": "Al Wusail",
+  "vibe": "Settle the fastest-friend debate properly",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Adventurous"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://www.lcsc.qa/sites/default/files/styles/image_banner/public/2026-08/DSC00032_0.jpg.webp",
+   "https://www.lcsc.qa/sites/default/files/styles/avif_webp/public/2026-08/DSC09244.jpg.webp",
+   "https://www.lcsc.qa/sites/default/files/styles/avif_webp/public/2026-08/DSC00012-%281%29.jpg.webp"
+  ],
+  "about": "Race outdoor karts at Lusail International Circuit. Sessions last 12 minutes; age, height, and guardian requirements apply.",
+  "hours": "Wed–Sat 6 PM–11 PM",
+  "price": "QAR 125 / 12-minute session",
+  "best": "After sunset",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Lusail Karting.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Lusail Karting.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "LUSAILKA-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": false,
+  "category": "Activity",
+  "insta": "@lusailcircuit",
+  "web": "https://www.lcsc.qa/lusail-karting-0",
+  "credit": "Official source: www.lcsc.qa"
+ },
+ {
+  "id": "angry-birds",
+  "name": "Angry Birds World",
+  "short": "Angry Birds",
+  "area": "Umm Salal Mohammed",
+  "vibe": "Arcade rivalry with cartoon-level energy",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Adventurous",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--062724bf-949f-4d22-888e-8c09764b2ba1/angry-birds-5.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--2890fdb7-bcd0-4644-be8e-aa9c8cc79026/angry-birds-4.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--2e24dfcb-b607-4733-9684-1025101907c6/angry-birds-world-2.jpg"
+  ],
+  "about": "A theme park with indoor and outdoor attractions at Doha Festival City. Choose rides around your group’s ages and the weather.",
+  "hours": "Sun–Wed 12 PM–10 PM; Thu 12 PM–12 AM; Fri 1 PM–12 AM; Sat 10 AM–10 PM",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "South Beach",
+    "name": "South Beach Café",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Angry Birds.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "South Beach",
+    "name": "South Beach Café",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "South Beach",
+    "name": "South Beach Café",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "ANGRYBIR-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": false,
+  "category": "Activity",
+  "insta": "@angrybirdsworld.qatar",
+  "web": "https://www.angrybirdsworld.qa/",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "snow-dunes",
+  "name": "Snow Dunes",
+  "short": "Snow Dunes",
+  "area": "Umm Salal Mohammed",
+  "vibe": "Actual snow when Doha feels extra",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Adventurous",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--87fb39f8-2ece-4f9a-8c18-8f634427ca74/doha-festival-city-2.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--549be2dd-2ad6-4bc8-a041-373c1c544128/doha-festival-city-1.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--8642ad75-a5a9-4181-9de9-8e51ae309d38/festival-city-mall2.jpg"
+  ],
+  "about": "Escape the heat at an indoor snow park with slides and snowy activities. Choose a pass and check clothing and age requirements.",
+  "hours": "Check before you go",
+  "price": "QAR 149 regular day pass",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Nando’s",
+    "name": "Nando’s",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "PF Chang’s",
+    "name": "PF Chang’s",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "The Cheesecake",
+    "name": "The Cheesecake Factory",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Ladurée",
+    "name": "Ladurée",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "SNOWDUNE-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Activity",
+  "insta": "@snowdunesqatar",
+  "web": "https://www.snowdunes.qa/",
+  "credit": ""
+ },
+ {
+  "id": "virtuocity",
+  "name": "Virtuocity",
+  "short": "Virtuocity",
+  "area": "Umm Salal Mohammed",
+  "vibe": "Gaming night with escape-room plot twists",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Adventurous",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://www.virtuocity.qa/wp-content/uploads/2022/09/VIRTUOCITY-GAMING-THEME-PARK-IN-QATAR.webp"
+  ],
+  "about": "Choose gaming stations, VR, or an escape room at Doha Festival City. It is an indoor plan built around friendly competition.",
+  "hours": "Check before you go",
+  "price": "QAR 100 play card; activity charges vary",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Nando’s",
+    "name": "Nando’s",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "PF Chang’s",
+    "name": "PF Chang’s",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "The Cheesecake",
+    "name": "The Cheesecake Factory",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Ladurée",
+    "name": "Ladurée",
+    "note": "Sweet stop to end it.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "VIRTUOCI-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Activity",
+  "insta": "@virtuocityqatar",
+  "web": "https://www.virtuocity.qa/",
+  "credit": "Official source: www.virtuocity.qa"
+ },
+ {
+  "id": "flat-white-pearl",
+  "name": "Flat White Specialty Coffee – The Pearl",
+  "short": "Flat White",
+  "area": "The Pearl",
+  "vibe": "Specialty coffee and a marina-side catch-up",
+  "tags": [
+   "Coffee"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--e9740025-9d69-40c9-a5ef-b123d608d1eb/the-pearl.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--e3f98d9a-fcec-475d-bd94-599b9caee501/pearl2.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--ce95128e-aaec-425d-a248-c72c85805c8b/pearl3.jpg"
+  ],
+  "about": "Grab specialty coffee at the Porto Arabia branch. Pair it with a waterfront stroll if your group wants to keep the evening going.",
+  "hours": "Daily 6:30 AM–11 PM",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Coffee",
+    "name": "Flat White",
+    "note": "Coffee and a little something.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Flat White.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "FLATWHIT-10"
+  },
+  "lat": 25.3229343,
+  "lng": 51.526033,
+  "indoor": true,
+  "category": "Café",
+  "insta": "@flatwhite.qa",
+  "web": "https://flatwhite.qa/pages/our-menu",
+  "credit": ""
+ },
+ {
+  "id": "desert-rose",
+  "name": "Desert Rose Café",
+  "short": "Desert Rose",
+  "area": "Old Doha",
+  "vibe": "Qatari flavours inside striking museum architecture",
+  "tags": [
+   "Coffee",
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://static.qm.org.qa/media/images/interior-architecture-desert-rose.2e16d0ba.fill-1480x925.jpg",
+   "https://static.qm.org.qa/media/images/desert-rose-cafe-interior-nmoq-qatar.max-1740x979.jpg"
+  ],
+  "about": "Take a relaxed food or coffee break inside the National Museum of Qatar. Friday has later hours than the rest of the week.",
+  "hours": "Sat–Thu 8 AM–6 PM; Fri 1:30 PM–9 PM",
+  "price": "Price varies",
+  "best": "Late afternoon; Friday evening",
+  "food": [
+   {
+    "tag": "Jiwan",
+    "name": "Jiwan",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Desert Rose",
+    "name": "Desert Rose Café",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "DESERTRO-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Café",
+  "insta": "",
+  "web": "https://nmoq.org.qa/en/visit/desert-rose-cafe/",
+  "credit": "Official source: static.qm.org.qa"
+ },
+ {
+  "id": "mia-cafe",
+  "name": "MIA Café by Flat White",
+  "short": "MIA Café",
+  "area": "Al Corniche",
+  "vibe": "Coffee break with an artful backdrop",
+  "tags": [
+   "Coffee",
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://static.qm.org.qa/media/images/mia-2026-23-07-doha-0122.2e16d0ba.fill-1480x925.jpg"
+  ],
+  "about": "Stop for coffee and food inside the Museum of Islamic Art. Pair it with the galleries and check museum-day opening hours.",
+  "hours": "Sat–Tue 9 AM–7 PM; Wed closed; Thu 9 AM–9 PM; Fri 1:30 PM–7 PM",
+  "price": "Price varies",
+  "best": "Late afternoon",
+  "food": [
+   {
+    "tag": "MIA Café",
+    "name": "MIA Café by Flat White",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "IDAM by",
+    "name": "IDAM by Alain Ducasse",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "MIACAFE-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Café",
+  "insta": "",
+  "web": "https://mia.org.qa/en/visit/cafe/",
+  "credit": "Official source: static.qm.org.qa"
+ },
+ {
+  "id": "boho-social",
+  "name": "BOHO Social",
+  "short": "BOHO Social",
+  "area": "Katara",
+  "vibe": "Sea views and a dress-up dinner",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic"
+  ],
+  "budget": 3,
+  "photos": [
+   "https://bohosocialqatar.com/images/boho-restaurant-beachfront-doha.jpg"
+  ],
+  "about": "A relaxed restaurant above Katara Beach Club with indoor seating and a terrace. Come for the setting and stay for dessert.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Golden hour",
+  "food": [
+   {
+    "tag": "Dinner",
+    "name": "BOHO Social",
+    "note": "Book ahead on weekends.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around BOHO Social.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "DSRT Lab",
+    "name": "DSRT Lab",
+    "note": "Sweet stop to end it.",
+    "price": "QAR 45"
+   },
+   {
+    "tag": "DSRT Lab",
+    "name": "DSRT Lab",
+    "note": "Sweet stop to end it.",
+    "price": "QAR 45"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "BOHOSOCI-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Restaurant",
+  "insta": "@bohosocialqatar",
+  "web": "https://bohosocialqatar.com/",
+  "credit": "Official source: bohosocialqatar.com"
+ },
+ {
+  "id": "damasca-one",
+  "name": "Damasca One",
+  "short": "Damasca One",
+  "area": "Old Doha",
+  "vibe": "Syrian dinner right in souq energy",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Family"
+  ],
+  "budget": 3,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--41706b80-243b-4c3b-a7fe-395726b6ba6e/souq2.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--f90042ed-2431-459d-882e-debce2a5d607/souq-waqif-087.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--f6c98303-7432-4961-9bc0-318a5ffadd43/souq-waqif36.jpg"
+  ],
+  "about": "A Syrian restaurant in Souq Waqif with space for a group dinner. Pair your meal with a walk through the market.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Dinner",
+    "name": "Damasca One",
+    "note": "Book ahead on weekends.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Damasca One.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "DAMASCAO-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Restaurant",
+  "insta": "",
+  "web": "https://damascarestaurant.com/EN/About.aspx",
+  "credit": ""
+ },
+ {
+  "id": "jiwan",
+  "name": "Jiwan",
+  "short": "Jiwan",
+  "area": "Old Doha",
+  "vibe": "Museum rooftop with a sunset dinner",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Romantic",
+   "Family"
+  ],
+  "budget": 3,
+  "photos": [
+   "https://static.qm.org.qa/media/images/terrace-seating-evening-jiwan-re.34a5affd.fill-2560x1600.jpg",
+   "https://static.qm.org.qa/media/images/terrace-seating-evening-jiwan-res.34a5affd.fill-1480x925.jpg",
+   "https://static.qm.org.qa/media/images/table-with-food-jiwan-restaurant-nmoq-doha.max-1740x979.jpg"
+  ],
+  "about": "Share modern regional dishes at the National Museum of Qatar. The terrace makes sunset an especially good time to book.",
+  "hours": "Sat–Mon, Wed–Thu 12:30 PM–9 PM; Tue closed; Fri 1:30 PM–9 PM",
+  "price": "Price varies",
+  "best": "Golden hour",
+  "food": [
+   {
+    "tag": "Jiwan",
+    "name": "Jiwan",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Desert Rose",
+    "name": "Desert Rose Café",
+    "note": "On-site or right nearby.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "JIWAN-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Restaurant",
+  "insta": "",
+  "web": "https://nmoq.org.qa/en/visit/jiwan/",
+  "credit": "Official source: static.qm.org.qa"
+ },
+ {
+  "id": "idam",
+  "name": "IDAM by Alain Ducasse",
+  "short": "IDAM",
+  "area": "Al Corniche",
+  "vibe": "A proper occasion with skyline views",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Romantic"
+  ],
+  "budget": 3,
+  "photos": [
+   "https://static.qm.org.qa/media/images/interior-design-idam-restaurant-.2e16d0ba.fill-2560x1600.jpg",
+   "https://static.qm.org.qa/media/images/interior-design-idam-restaurant-m.2e16d0ba.fill-1480x925.jpg"
+  ],
+  "about": "Book an elevated dining experience on the Museum of Islamic Art’s top floor. This is a plan for a special occasion.",
+  "hours": "Sun–Thu 12:30 PM–2 PM and 7 PM–9 PM; Fri–Sat closed",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Dinner",
+    "name": "IDAM",
+    "note": "Book ahead on weekends.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around IDAM.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "IDAM-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Restaurant",
+  "insta": "",
+  "web": "https://mia.org.qa/en/visit/idam-restaurant/",
+  "credit": "Official source: static.qm.org.qa"
+ },
+ {
+  "id": "chaclate-mina",
+  "name": "CHAC’LATE – Mina District",
+  "short": "CHAC’LATE",
+  "area": "Old Doha Port",
+  "vibe": "Chocolate stop after your pastel street walk",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic",
+   "Family"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--aa95aee2-249a-404f-b97b-f4e63aafa344/mina-block.jpg"
+  ],
+  "about": "Stop for chocolate, cakes, or hot chocolate in Mina District. An easy sweet finish after exploring the port.",
+  "hours": "Daily 2 PM–11 PM",
+  "price": "Price varies",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around CHAC’LATE.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around CHAC’LATE.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Dessert",
+    "name": "CHAC’LATE",
+    "note": "The whole point of the trip.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "CHACLATE-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Dessert",
+  "insta": "",
+  "web": "https://chaclate.com/",
+  "credit": ""
+ },
+ {
+  "id": "dsrt-lab",
+  "name": "DSRT Lab at BOHO Social",
+  "short": "DSRT Lab",
+  "area": "Katara",
+  "vibe": "Cake cravings with a sea-view bonus",
+  "tags": [
+   "Food"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic"
+  ],
+  "budget": 1,
+  "photos": [
+   "https://bohosocialqatar.com/images/dessert-dsrtlab-cake-carrot-boho-social-doha-qatar.jpg",
+   "https://bohosocialqatar.com/images/dessert-dsrtlab-cake-design-delicious-boho-social-doha-qatar.jpg",
+   "https://bohosocialqatar.com/images/DsrtLab-Boho-Restaurant-Doha-Qatar.jpg"
+  ],
+  "about": "Try DSRT Lab desserts served inside BOHO Social. Mini cakes make this an easy stop after a walk around Katara.",
+  "hours": "Check before you go",
+  "price": "QAR 45 per baby cake; dine-in price may vary",
+  "best": "Evening",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around DSRT Lab.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around DSRT Lab.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "DSRT Lab",
+    "name": "DSRT Lab",
+    "note": "Sweet stop to end it.",
+    "price": "QAR 45"
+   },
+   {
+    "tag": "DSRT Lab",
+    "name": "DSRT Lab",
+    "note": "Sweet stop to end it.",
+    "price": "QAR 45"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "DSRTLAB-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": true,
+  "category": "Dessert",
+  "insta": "@dsrtlabqatar",
+  "web": "https://qatar.sugarmoo.com/",
+  "credit": "Official source: bohosocialqatar.com"
+ },
+ {
+  "id": "inland-sea",
+  "name": "Khor Al Adaid (Inland Sea)",
+  "short": "Inland Sea",
+  "area": "Khor Al Adaid",
+  "vibe": "Dunes meet sea, group chat finally agrees",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Adventurous"
+  ],
+  "budget": 3,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--494323e6-d609-4fd4-bd04-75283fbbf05a/inland-sea-88-nature.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--b0ac51e5-9af7-4908-b838-4dd74647fd4a/inland-sea-87-nature.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--8b916aa7-4ddd-43b9-ad04-a1fc4d121339/inland-sea-129.jpg"
+  ],
+  "about": "Take a guided desert trip where dunes meet the sea. There is no road to the destination, so arrange suitable transport.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Golden hour",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Inland Sea.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Inland Sea.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "INLANDSE-10"
+  },
+  "lat": 24.71388888888889,
+  "lng": 51.41527777777777,
+  "indoor": false,
+  "category": "Trip",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/adventure-sports/desert/khor-al-adaid",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "wakrah-beach",
+  "name": "Al Wakrah Beach",
+  "short": "Wakrah Beach",
+  "area": "Al Wakrah",
+  "vibe": "Beach breeze and a slower evening",
+  "tags": [
+   "Outdoors"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic",
+   "Family"
+  ],
+  "budget": 3,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--f4e11698-ba7d-4e3d-b37a-b0c1f47614e2/al-wakra-beach-boardwalk-4.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--8f1d4f1b-f3d5-4dae-8f27-2635fb2c48eb/-dsc9368.jpg",
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--f9bfadfe-3c28-4751-906e-99779cc7254c/-dsc9253.jpg"
+  ],
+  "about": "Head south for a beach walk, a picnic, and open-water views. Plan around daylight and the weather.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "Golden hour",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Wakrah Beach.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Wakrah Beach.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "WAKRAHBE-10"
+  },
+  "lat": 25.1317597,
+  "lng": 51.6151644,
+  "indoor": false,
+  "category": "Trip",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/beach-holiday/al-wakrah",
+  "credit": "Official source: visitqatar.com"
+ },
+ {
+  "id": "souq-wakrah",
+  "name": "Souq Al Wakrah",
+  "short": "Souq Wakrah",
+  "area": "Al Wakrah",
+  "vibe": "Seaside souq with a calmer pace",
+  "tags": [
+   "Culture",
+   "Outdoors"
+  ],
+  "moods": [
+   "Chill",
+   "Romantic",
+   "Family"
+  ],
+  "budget": 2,
+  "photos": [
+   "https://visitqatar.com/adobe/dynamicmedia/deliver/dm-aid--d2a561e8-8830-4dcb-b382-70978c8d9e9d/souq-al-wakrah3.jpg"
+  ],
+  "about": "Explore a waterfront souq with traditional architecture and places to eat. It is an easy change of scene from central Doha.",
+  "hours": "Check before you go",
+  "price": "Price varies",
+  "best": "After sunset",
+  "food": [
+   {
+    "tag": "Bites",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Souq Wakrah.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Nearby",
+    "name": "Food nearby",
+    "note": "Plenty of spots around Souq Wakrah.",
+    "price": "Price varies"
+   }
+  ],
+  "dessert": [
+   {
+    "tag": "Sweets",
+    "name": "Something sweet nearby",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   },
+   {
+    "tag": "Karak",
+    "name": "Karak to go",
+    "note": "End the night on sugar.",
+    "price": "Price varies"
+   }
+  ],
+  "deal": {
+   "title": "10% off with SpinIt",
+   "code": "SOUQWAKR-10"
+  },
+  "lat": null,
+  "lng": null,
+  "indoor": false,
+  "category": "Spot",
+  "insta": "",
+  "web": "https://visitqatar.com/intl-en/things-to-do/get-inspired/shopping-like-a-local",
+  "credit": "Official source: visitqatar.com"
+ }
+]
