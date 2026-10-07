@@ -1,57 +1,19 @@
 {
   "name": "spinit",
-  "main": "expo-router/entry",
   "version": "1.0.0",
-  "dependencies": {
-    "@expo-google-fonts/instrument-sans": "^0.4.2",
-    "@expo-google-fonts/space-mono": "^0.4.2",
-    "@expo-google-fonts/unbounded": "^0.4.1",
-    "@react-native-async-storage/async-storage": "^2.2.0",
-    "@react-native-community/netinfo": "^12.0.1",
-    "expo": "~57.0.27",
-    "expo-blur": "^57.0.3",
-    "expo-calendar": "^57.0.5",
-    "expo-clipboard": "^57.0.2",
-    "expo-constants": "~57.0.21",
-    "expo-font": "~57.0.4",
-    "expo-haptics": "^57.0.3",
-    "expo-image": "~57.0.5",
-    "expo-linear-gradient": "^57.0.2",
-    "expo-linking": "~57.0.12",
-    "expo-location": "^57.0.20",
-    "expo-router": "~57.0.25",
-    "expo-splash-screen": "~57.0.9",
-    "expo-status-bar": "~57.0.1",
-    "expo-system-ui": "~57.0.4",
-    "expo-web-browser": "~57.0.3",
-    "qrcode": "^1.5.4",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-native": "0.86.3",
-    "react-native-gesture-handler": "~2.32.0",
-    "react-native-reanimated": "4.5.1",
-    "react-native-safe-area-context": "~5.7.0",
-    "react-native-screens": "~4.26.0",
-    "react-native-svg": "^15.15.5",
-    "react-native-web": "~0.21.0",
-    "react-native-worklets": "0.10.1",
-    "zustand": "^5.0.15"
+  "private": true,
+  "description": "Spin It: the design prototype wrapped in Capacitor, with a Supabase backend.",
+  "type": "module",
+  "scripts": {
+    "build:www": "node scripts/build-www.mjs",
+    "sync": "npm run build:www && npx cap sync",
+    "test:db": "node scripts/test-db.mjs",
+    "test:app": "node scripts/test-app.mjs",
+    "test": "npm run test:db && npm run test:app",
+    "seed": "node scripts/gen-seed.mjs"
   },
   "devDependencies": {
-    "@types/node": "^26.6.4",
-    "@types/qrcode": "^1.5.6",
-    "@types/react": "~19.2.2",
-    "tsx": "^4.23.15",
-    "typescript": "~6.0.3"
-  },
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "typecheck": "tsc --noEmit",
-    "test": "tsx scripts/check-logic.ts",
-    "build:web": "expo export --platform web --output-dir dist && node scripts/web-relative.mjs dist"
-  },
-  "private": true
+    "esbuild": "^0.28.2",
+    "pg": "^8.23.1"
+  }
 }
