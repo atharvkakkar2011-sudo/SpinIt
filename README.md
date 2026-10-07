@@ -4,14 +4,24 @@ Night-out wheel for Doha. Spin a wheel of 34 places, get paired with dinner and 
 
 Expo (React Native, TypeScript, expo-router) port of the design handoff in [`docs/design/`](docs/design). The prototype `SpinIt App v2.dc.html` is the source of truth for UI and copy; `BACKEND.md` is the plan for the server side.
 
-## Run
+## Run on your phone
 
-```bash
-npm install
-npx expo start      # Expo Go / simulator
-npm run typecheck
-npm test            # wheel + filter logic checks
-```
+1. Install **Expo Go** from the App Store or Google Play.
+2. On a computer with Node 20+:
+   ```bash
+   git clone https://github.com/atharvkakkar2011-sudo/SpinIt.git
+   cd SpinIt
+   git checkout claude/new-session-2ay0s8
+   npm install
+   npx expo start
+   ```
+3. Scan the QR code (iOS: Camera app, Android: Expo Go). Use `npx expo start --tunnel` if your phone and computer are on different networks.
+
+Other commands: `npm run typecheck`, `npm test` (wheel, filter and route logic checks).
+
+### Installable builds (TestFlight / APK)
+
+Needs a free Expo account (`npm i -g eas-cli && eas login`). `eas build -p android --profile preview` produces an installable APK. iOS builds need an Apple Developer account (`eas build -p ios --profile preview`). Build profiles are in `eas.json`.
 
 ## What's built
 
