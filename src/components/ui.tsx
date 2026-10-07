@@ -32,9 +32,10 @@ export function tap() {
 /** Liquid-glass surface: translucent fill, 1.5px edge, blur, inset top highlight. */
 export function Glass({ children, style, radius = 20, intensity = 24 }: { children?: ReactNode; style?: StyleProp<ViewStyle>; radius?: number; intensity?: number }) {
   return (
-    <View style={[{ borderRadius: radius, overflow: 'hidden', borderWidth: 1.5, borderColor: colors.glassBorder }, style]}>
-      <BlurView intensity={intensity} tint="dark" style={StyleSheet.absoluteFill} />
-      <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.glassFill }]} />
+    <View style={[{ borderRadius: radius, overflow: 'hidden', borderWidth: 1.5, borderColor: colors.glassBorder, zIndex: 0 }, style]}>
+      {/* Negative zIndex keeps the glass layers under the content on web, where absolute siblings otherwise paint on top and eat taps. */}
+      <BlurView pointerEvents="none" intensity={intensity} tint="dark" style={[StyleSheet.absoluteFill, { zIndex: -1 }]} />
+      <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: colors.glassFill, zIndex: -1 }]} />
       <View pointerEvents="none" style={[styles.highlight, { borderTopLeftRadius: radius, borderTopRightRadius: radius }]} />
       {children}
     </View>
