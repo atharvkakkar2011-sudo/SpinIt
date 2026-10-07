@@ -13,7 +13,32 @@
     "seed": "node scripts/gen-seed.mjs"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
     "esbuild": "^0.28.2",
-    "pg": "^8.23.1"
+    "jsqr": "^1.4.0",
+    "pg": "^8.23.1",
+    "pngjs": "^7.0.0"
+  },
+  "dependencies": {
+    "@capacitor-firebase/messaging": "^8.5.2",
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/app-launcher": "^8.0.1",
+    "@capacitor/browser": "^8.0.5",
+    "@capacitor/clipboard": "^8.0.1",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/filesystem": "^8.1.4",
+    "@capacitor/geolocation": "^8.2.3",
+    "@capacitor/ios": "^8.5.2",
+    "@capacitor/keyboard": "^8.0.6",
+    "@capacitor/local-notifications": "^8.3.1",
+    "@capacitor/network": "^8.0.1",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.4",
+    "@supabase/supabase-js": "^2.117.2",
+    "firebase": "^12.19.0",
+    "qrcode": "^1.5.4"
   }
 }

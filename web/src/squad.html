@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Squad vote · Spin It</title><link rel="stylesheet" href="/fonts/fonts.css"><link rel="stylesheet" href="/base.css"><script src="/config.js"></script></head>
+<body><main>
+  <img class="logo" src="/logo-pink.png" alt="SpinIt">
+  <div class="kicker" id="code">SQUAD SPIN</div>
+  <h1 id="title">Pick tonight’s vibe.</h1>
+  <p id="sub">Your vote goes straight to the wheel. Majority wins.</p>
+  <div id="join">
+    <label class="kicker" for="name" style="color:var(--soft)">Your name</label>
+    <input id="name" maxlength="24" autocomplete="given-name" placeholder="So they know it’s you">
+  </div>
+  <div class="grid" id="vibes" role="group" aria-label="Vibe"></div>
+  <div class="msg" id="msg" role="status"></div>
+  <section class="card" aria-label="Who voted"><div class="kicker" style="margin-bottom:6px">The shabab</div><div id="members"></div></section>
+  <section class="card" id="result" hidden></section>
+</main>
+<script type="module">
+import { rpc, $, lastSegment } from '/api.js';
+const raw = lastSegment().toUpperCase();
+const code = raw.startsWith('SPIN-') ? raw : `SPIN-${raw}`;
+$('#code').textContent = `Squad ${code}`;
+const KEY = `spinit-guest-${code}`;
+let token = localStorage.getItem('spinit-guest-token');
+if (!token) { token = crypto.randomUUID().replaceAll('-', ''); localStorage.setItem('spinit-guest-token', token); }
+$('#name').value = localStorage.getItem('spinit-guest-name') || '';
+let mine = localStorage.getItem(KEY);
+const VIBES = [['Chill', 'karak + sea breeze'], ['Romantic', 'date night coded'], ['Adventurous', 'chaos, the good kind'], ['Family', 'bring the parents']];
+
+function render(st) {
+  if (st.status === 'missing') { $('#title').textContent = 'This squad has ended.'; $('#sub').textContent = 'Ask for a fresh link.'; $('#vibes').hidden = $('#join').hidden = true; return; }
+  $('#members').innerHTML = '';
+  for (const m of st.members) {
+    const row = document.createElement('div'); row.className = 'row';
+    row.innerHTML = '<span></span><span class="pill"></span>';
+    row.children[0].textContent = m.host ? `${m.name} (host)` : m.name;
+    row.children[1].textContent = m.vote || 'Thinking…';
+    $('#members').append(row);
+  }
+  if (st.status === 'spun' && st.result) {
+    $('#vibes').hidden = $('#join').hidden = true;
+    $('#title').textContent = `Yalla, it’s ${st.result.short}.`;
+    $('#sub').textContent = st.result.vibe;
+    $('#result').hidden = false;
+    $('#result').innerHTML = '<div class="kicker">The wheel has spoken</div><p style="margin-top:8px"></p>';
+    $('#result p').textContent = st.result.name;
+  }
+}
+
+for (const [v, note] of VIBES) {
+  const b = document.createElement('button');
+  b.className = 'vibe'; b.type = 'button'; b.setAttribute('aria-pressed', String(mine === v));
+  b.innerHTML = `${v}<br><span style="font-weight:500;font-size:12px;opacity:.8"></span>`;
+  b.querySelector('span').textContent = note;
+  b.onclick = async () => {
+    const name = $('#name').value.trim();
+    if (!name && !mine) { $('#msg').className = 'msg bad'; $('#msg').textContent = 'Add your name first.'; $('#name').focus(); return; }
+    try {
+      localStorage.setItem('spinit-guest-name', name);
+      render(await rpc('squad_vote', { p_code: code, p_guest_name: name, p_guest_token: token, p_vote: v }));
+      mine = v; localStorage.setItem(KEY, v);
+      document.querySelectorAll('.vibe').forEach((x) => x.setAttribute('aria-pressed', String(x.firstChild.textContent === v)));
+      $('#msg').className = 'msg ok'; $('#msg').textContent = `Voted ${v}. You can change it until the host spins.`;
+    } catch (e) {
+      $('#msg').className = 'msg bad';
+      $('#msg').textContent = /closed/.test(e.message) ? 'Too late, the wheel already spun.' : /no_squad/.test(e.message) ? 'This squad has ended.' : /full/.test(e.message) ? 'This squad is full.' : 'Couldn’t send your vote. Try again?';
+    }
+  };
+  $('#vibes').append(b);
+}
+const tick = async () => { try { render(await rpc('squad_state', { p_code: code })); } catch { /* retry next tick */ } };
+tick(); setInterval(tick, 3000);
+</script></body></html>

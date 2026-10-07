@@ -1,54 +1,8 @@
-// Runs every migration + the seed against a throwaway PostgreSQL 16 cluster and exercises the
-// backend rules: row-level security, the server-side spin limit, opening hours, signed deal QR
-// tokens, squad voting, bookings and the push queue. Needs the postgresql-16 server binaries.
 import assert from 'node:assert/strict';
-import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdtempSync, readdirSync, readFileSync, chmodSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import pg from 'pg';
+import { startCluster } from './lib-pg.mjs';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const BIN = ['/usr/lib/postgresql/16/bin', '/usr/lib/postgresql/17/bin', '/usr/lib/postgresql/15/bin'].find((d) => { try { readdirSync(d); return true; } catch { return false; } });
-if (!BIN) throw new Error('PostgreSQL server binaries not found (apt install postgresql-16)');
-const PORT = 54329;
-const dir = mkdtempSync(join(tmpdir(), 'spinit-pg-'));
-chmodSync(dir, 0o777);
-let p = dir;
-while (p !== '/' && p !== dirname(p)) { try { chmodSync(p, (require_mode(p)) | 0o001); } catch {} p = dirname(p); }
-function require_mode(path) { return execFileSync('stat', ['-c', '%a', path]).toString().trim().split('').reduce((a, c) => a * 8 + Number(c), 0); }
-
-const asPg = (cmd, args) => {
-  const isRoot = process.getuid?.() === 0;
-  const r = isRoot ? spawnSync('runuser', ['-u', 'postgres', '--', cmd, ...args], { encoding: 'utf8' }) : spawnSync(cmd, args, { encoding: 'utf8' });
-  if (r.status !== 0) throw new Error(`${cmd} failed:\n${r.stdout}\n${r.stderr}`);
-};
-const data = join(dir, 'data');
-asPg(`${BIN}/initdb`, ['-D', data, '-A', 'trust', '-U', 'postgres']);
-asPg(`${BIN}/pg_ctl`, ['-D', data, '-o', `-p ${PORT} -k ${dir} -c listen_addresses=127.0.0.1`, '-l', join(dir, 'log'), '-w', 'start']);
-const stop = () => { try { asPg(`${BIN}/pg_ctl`, ['-D', data, '-m', 'immediate', 'stop']); } catch {} rmSync(dir, { recursive: true, force: true }); };
+const { db, stop } = await startCluster({ port: 54329 });
 process.on('exit', stop);
-
-const db = new pg.Client({ host: '127.0.0.1', port: PORT, user: 'postgres', database: 'postgres' });
-await db.connect();
-
-// --- stand-ins for what Supabase provides -------------------------------------------------------
-await db.query(`
-  create role anon nologin; create role authenticated nologin; create role service_role nologin bypassrls;
-  create schema extensions; create extension pgcrypto schema extensions;
-  create schema auth;
-  create table auth.users (id uuid primary key default gen_random_uuid(), email text, raw_user_meta_data jsonb not null default '{}');
-  create function auth.uid() returns uuid language sql stable as $$
-    select nullif(nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub', '')::uuid $$;
-  grant usage on schema public, extensions, auth to anon, authenticated, service_role;
-`);
-
-for (const f of readdirSync(join(root, 'supabase/migrations')).sort()) {
-  await db.query(readFileSync(join(root, 'supabase/migrations', f), 'utf8')).catch((e) => { const sql = readFileSync(join(root, 'supabase/migrations', f), 'utf8'); throw new Error(`${f}: ${e.message}${e.position ? ' near: ' + JSON.stringify(sql.slice(Math.max(0, e.position - 80), Number(e.position) + 40)) : ''}`); });
-}
-await db.query(readFileSync(join(root, 'supabase/seed.sql'), 'utf8'));
-await db.query('grant usage on schema public to anon, authenticated, service_role');
 
 // --- helpers --------------------------------------------------------------------------------------
 const as = async (uid, fn, role = 'authenticated') => {
@@ -308,6 +262,22 @@ await test('referral: both sides earn a spin when a friend signs up with a code'
   const bonus = async (id) => (await db.query('select bonus_spins from public.profiles where id = $1', [id])).rows[0].bonus_spins;
   assert.equal(await bonus(a), 1); assert.equal(await bonus(b), 1);
   await newUser('nobody', { ref: 'ZZZZZZ' });
+});
+
+await test('venues: a booking queues one message to the venue; admin sets staff keys', async () => {
+  const u = await newUser('outbox');
+  await db.query(`update public.venues set contact_whatsapp = '+97455500000' where place_id = 'pearl'`);
+  const b = await as(u, (q) => rpc(q, 'request_booking', ['pearl', 0, 2, '9:30 PM']));
+  const claimed = (await as(null, (q) => q('select * from public.claim_venue_messages(10)'), 'service_role')).rows.filter((r) => r.booking_id === b.id);
+  assert.equal(claimed.length, 1); assert.equal(claimed[0].whatsapp, '+97455500000'); assert.equal(claimed[0].party_size, 2);
+  assert.ok(claimed[0].confirm_token.length >= 32);
+  await as(null, (q) => q('select public.finish_venue_message($1, $2)', [claimed[0].id, 'whatsapp']), 'service_role');
+  assert.equal((await as(null, (q) => q('select * from public.claim_venue_messages(10)'), 'service_role')).rows.filter((r) => r.booking_id === b.id).length, 0);
+  await rejects(as(u, (q) => q('select * from public.claim_venue_messages(10)')), /permission denied/);
+  await rejects(as(u, (q) => rpc(q, 'set_venue_staff_key', ['pearl', 'a-long-staff-key'])), /admins only/);
+  await db.query('insert into public.admins values ($1)', [u]);
+  await as(u, (q) => rpc(q, 'set_venue_staff_key', ['pearl', 'a-long-staff-key']));
+  assert.equal((await db.query(`select staff_key_hash = encode(extensions.digest('a-long-staff-key','sha256'),'hex') as ok from public.venues where place_id='pearl'`)).rows[0].ok, true);
 });
 
 console.log(`\n${passed} passed${process.exitCode ? ', some FAILED' : ''}`);

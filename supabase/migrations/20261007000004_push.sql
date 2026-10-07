@@ -115,7 +115,7 @@ begin
 end $$;
 create trigger squad_members_push after insert or update of vote on public.squad_members for each row execute function public._push_squad_vote();
 
--- ---- scheduled jobs (called by pg_cron, see 0005) -----------------------------------------
+-- ---- scheduled jobs (called by pg_cron, see the realtime_cron migration) -----------------------------------------
 -- 6 PM Doha: spins refill. Only for people who spun in the last 14 days.
 create or replace function public.enqueue_refill_pushes() returns int
 language plpgsql security definer set search_path = public as $$

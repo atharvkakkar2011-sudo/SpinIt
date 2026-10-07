@@ -1,0 +1,28 @@
+# Supabase CLI config (supabase link / supabase db push / supabase functions deploy).
+project_id = "spinit"
+
+[api]
+schemas = ["public"]
+max_rows = 1000
+
+[auth]
+site_url = "https://spinit.app"
+additional_redirect_urls = ["https://spinit.app/reset/", "capacitor://localhost", "https://localhost"]
+jwt_expiry = 3600
+
+[auth.email]
+enable_signup = true
+# The app signs people straight in after sign-up. Turn this on if you want confirmation emails;
+# the app then shows "Check your inbox to confirm your email, then log in."
+enable_confirmations = false
+
+[functions.ai-chat]
+verify_jwt = true
+
+# Called by schedules with x-cron-secret, not by users.
+[functions.push-dispatch]
+verify_jwt = false
+[functions.notify-venues]
+verify_jwt = false
+[functions.refresh-hours]
+verify_jwt = false

@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>You’re invited · Spin It</title><link rel="stylesheet" href="/fonts/fonts.css"><link rel="stylesheet" href="/base.css"><script src="/config.js"></script></head>
+<body><main>
+  <img class="logo" src="/logo-pink.png" alt="SpinIt">
+  <div class="kicker" id="code">Invite</div>
+  <h1>Can’t pick a spot? Let the wheel cook.</h1>
+  <p>Get the app and sign up from this link: you and your friend both get a bonus spin.</p>
+  <button id="open">Open Spin It</button>
+  <p style="font-size:13px;color:var(--dim)">If nothing happens, install Spin It first, then tap this link again.</p>
+</main>
+<script type="module">
+import { $, lastSegment } from '/api.js';
+const code = lastSegment().toUpperCase();
+$('#code').textContent = `Invite code ${code}`;
+// On phones with the app installed, this same https link opens the app (universal/app links).
+$('#open').onclick = () => { location.href = `spinit://i/${code}`; };
+</script></body></html>

@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Table request · Spin It</title><link rel="stylesheet" href="/fonts/fonts.css"><link rel="stylesheet" href="/base.css"><script src="/config.js"></script></head>
+<body><main>
+  <img class="logo" src="/logo-pink.png" alt="SpinIt">
+  <div class="kicker">Table request</div>
+  <h1 id="title">Loading…</h1>
+  <section class="card" id="details" hidden></section>
+  <button id="yes" hidden>Confirm the table</button>
+  <button id="no" class="ghost" hidden>We can’t fit them</button>
+  <div class="msg" id="msg" role="status"></div>
+</main>
+<script type="module">
+import { rpc, $, lastSegment } from '/api.js';
+const token = lastSegment();
+const when = (iso) => new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Qatar', weekday: 'long', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date(iso));
+function show(b) {
+  if (!b) { $('#title').textContent = 'This link doesn’t match a booking.'; return; }
+  $('#title').textContent = `${b.party_size} ${b.party_size === 1 ? 'person' : 'people'}, ${when(b.slot_at)}`;
+  $('#details').hidden = false;
+  $('#details').innerHTML = '<div class="row"><span>Dish</span><span class="pill"></span></div><div class="row"><span>Area</span><span class="pill"></span></div><div class="row"><span>Status</span><span class="pill"></span></div>';
+  const pills = $('#details').querySelectorAll('.pill');
+  pills[0].textContent = b.dish || 'Dinner'; pills[1].textContent = b.place; pills[2].textContent = b.status;
+  const open = b.status === 'requested';
+  $('#yes').hidden = $('#no').hidden = !open;
+}
+async function answer(accept) {
+  $('#yes').disabled = $('#no').disabled = true;
+  try {
+    const r = await rpc('venue_respond', { p_token: token, p_accept: accept });
+    $('#msg').className = 'msg ok';
+    $('#msg').textContent = r.ok ? (accept ? 'Confirmed. The guest gets a notification now.' : 'Declined. The guest will pick another time.') : 'This request was already answered.';
+    show(await rpc('venue_booking_view', { p_token: token }));
+  } catch { $('#msg').className = 'msg bad'; $('#msg').textContent = 'Couldn’t save that. Try again?'; $('#yes').disabled = $('#no').disabled = false; }
+}
+$('#yes').onclick = () => answer(true);
+$('#no').onclick = () => answer(false);
+rpc('venue_booking_view', { p_token: token }).then(show).catch(() => { $('#title').textContent = 'Couldn’t load this request.'; });
+</script></body></html>

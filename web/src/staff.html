@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Staff scanner · Spin It</title><link rel="stylesheet" href="/fonts/fonts.css"><link rel="stylesheet" href="/base.css"><script src="/config.js"></script></head>
+<body><main>
+  <img class="logo" src="/logo-pink.png" alt="SpinIt">
+  <div class="kicker">Staff · bonus scanner</div>
+  <h1>Scan a Spin It bonus.</h1>
+  <div id="keybox">
+    <p style="margin-bottom:8px">Enter the staff key Spin It gave your venue. It stays on this device.</p>
+    <input id="key" type="password" autocomplete="off" placeholder="Staff key">
+    <button id="savekey" style="margin-top:10px;width:100%">Save key</button>
+  </div>
+  <div id="scanner" hidden>
+    <video id="video" playsinline muted aria-label="Camera preview"></video>
+    <p style="margin-top:8px">Point the camera at the QR in the guest’s app. Or type the code under it:</p>
+    <input id="manual" placeholder="Code from the QR" autocapitalize="off" autocorrect="off" style="margin-top:8px">
+    <button id="check" class="ghost" style="margin-top:10px;width:100%">Redeem</button>
+    <button id="forget" class="ghost" style="margin-top:10px;width:100%">Forget the staff key</button>
+  </div>
+  <section class="card" aria-live="polite"><div class="big" id="verdict">Ready</div><p id="detail">Each bonus works once and expires 3 hours after the spin.</p></section>
+</main>
+<script type="module" src="/staff.js"></script></body></html>

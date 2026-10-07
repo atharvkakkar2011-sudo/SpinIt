@@ -1,0 +1,52 @@
+// Builds www/ (what Capacitor ships) from the untouched design files:
+//   design/SpinIt App v2.dc.html  --patches-->  www/index.html
+//   design/img, sp-avatar.png     ------------>  www/
+//   app-src/vendor (React + the design runtime), app-src/fonts  -->  www/
+//   app-src/bridge  --esbuild-->  www/spinit-bridge.js
+// Backend settings come from the environment (or a .env file):
+//   SPINIT_SUPABASE_URL, SPINIT_SUPABASE_ANON_KEY, SPINIT_WEB_BASE
+import { build } from 'esbuild';
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { applyPatches } from './patches.mjs';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const out = join(root, 'www');
+
+// tiny .env reader (no dependency)
+const env = { ...process.env };
+const envFile = join(root, '.env');
+if (existsSync(envFile)) {
+  for (const line of readFileSync(envFile, 'utf8').split('\n')) {
+    const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/.exec(line);
+    if (m && !(m[1] in env)) env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+  }
+}
+
+rmSync(out, { recursive: true, force: true });
+mkdirSync(out, { recursive: true });
+
+const html = applyPatches(readFileSync(join(root, 'design/SpinIt App v2.dc.html'), 'utf8'));
+writeFileSync(join(out, 'index.html'), html);
+
+cpSync(join(root, 'design/img'), join(out, 'img'), { recursive: true });
+cpSync(join(root, 'design/sp-avatar.png'), join(out, 'sp-avatar.png'));
+cpSync(join(root, 'app-src/vendor'), out, { recursive: true });
+cpSync(join(root, 'app-src/fonts'), join(out, 'fonts'), { recursive: true });
+
+const config = {
+  supabaseUrl: env.SPINIT_SUPABASE_URL || 'http://127.0.0.1:54321',
+  supabaseAnonKey: env.SPINIT_SUPABASE_ANON_KEY || 'dev-anon-key',
+  webBase: env.SPINIT_WEB_BASE || 'https://spinit.app',
+};
+writeFileSync(join(out, 'config.js'), `window.SPINIT_CONFIG = ${JSON.stringify(config)};\n`);
+
+await build({
+  entryPoints: [join(root, 'app-src/bridge/index.js')],
+  outfile: join(out, 'spinit-bridge.js'),
+  bundle: true, format: 'iife', target: ['es2020', 'ios15', 'chrome90'], minify: true, sourcemap: false,
+  loader: { '.json': 'json' }, logLevel: 'warning',
+});
+
+console.log(`www/ ready (backend: ${config.supabaseUrl})`);

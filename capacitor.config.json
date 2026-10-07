@@ -1,0 +1,45 @@
+{
+  "appId": "app.spinit.mobile",
+  "appName": "Spin It",
+  "webDir": "www",
+  "backgroundColor": "#0E0A12",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#0E0A12",
+    "scheme": "Spin It"
+  },
+  "android": {
+    "backgroundColor": "#0E0A12"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#0E0A12",
+      "showSpinner": false
+    },
+    "Keyboard": {
+      "resize": "none"
+    },
+    "FirebaseMessaging": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
+    },
+    "LocalNotifications": {
+      "iconColor": "#FF3D8B"
+    }
+  },
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/messaging": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}
