@@ -18,10 +18,19 @@ const SQUAD_SIM = String.raw`  startSquad() {
 
 export const patches = [
   // ---- document head: local scripts, offline fonts, safe-area viewport ------------------------------
+  // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
+  {
+    find: 'this.P = [...this.P, ...this.LIB];',
+    replace: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])];',
+  },
+  {
+    find: 'Object.fromEntries(this.LIB.filter(p => p.indoor)',
+    replace: 'Object.fromEntries([...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])].filter(p => p.indoor)',
+  },
   {
     name: 'head: load config, React, bridge before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./config.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
   },
   {
     name: 'head: full-bleed viewport for notches',

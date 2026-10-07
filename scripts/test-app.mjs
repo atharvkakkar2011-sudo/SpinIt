@@ -58,8 +58,8 @@ try {
   await a.p.waitForTimeout(800);
   const uid = sql(`select id from auth.users where email='${email}'`);
   assert.equal(sql(`select name||'/'||g||'/'||budget_min||'-'||budget_max from public.profiles where id='${uid}'`), 'Noor/habibti/50-150');
-  assert.equal(await a.p.evaluate(() => Object.values(window.SpinIt.app.state.wheel).filter(Boolean).length), 34);
-  step('sign-up and setup answers land in profiles; all 34 places start on the wheel');
+  assert.equal(await a.p.evaluate(() => Object.values(window.SpinIt.app.state.wheel).filter(Boolean).length), 154);
+  step('sign-up and setup answers land in profiles; all 154 places start on the wheel');
 
   await a.p.evaluate(() => { const x = window.SpinIt.app; x.toggleSave(3); x.setState({ wheelName: 'Friday Crew', emoji: '🔥', acc: '#C6FF3D' }); });
   await a.p.waitForTimeout(1500);

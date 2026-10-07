@@ -27,7 +27,7 @@ const test = async (name, fn) => { try { await fn(); passed++; console.log('  ok
 // --- tests ----------------------------------------------------------------------------------------
 await test('seed: places, deals, venues, hours, events', async () => {
   const c = async (t) => Number((await db.query(`select count(*) from public.${t}`)).rows[0].count);
-  assert.equal(await c('places'), 34); assert.equal(await c('deals'), 34); assert.equal(await c('venues'), 34);
+  assert.equal(await c('places'), 154); assert.equal(await c('deals'), 154); assert.equal(await c('venues'), 154);
   assert.ok((await c('place_hours')) > 50); assert.equal(await c('events'), 6); assert.equal(await c('local_picks'), 3);
 });
 
@@ -46,7 +46,7 @@ await test('row-level security: users only see and change their own rows', async
   await rejects(as(a, (q) => q('update public.profiles set bonus_spins = 99 where id = $1', [a])), /permission denied/);
   await rejects(as(a, (q) => q(`insert into public.spins (user_id, place_id, mode, night_key) values ($1,'katara','place', current_date)`, [a])), /permission denied/);
   await rejects(as(null, (q) => q('select * from public.profiles'), 'anon'), /permission denied/);
-  assert.equal((await as(null, (q) => q('select * from public.places'), 'anon')).rowCount, 34);
+  assert.equal((await as(null, (q) => q('select * from public.places'), 'anon')).rowCount, 154);
 });
 
 await test('spin: 3 a night, 4th refused, bonus spin extends, results stay inside the candidates', async () => {

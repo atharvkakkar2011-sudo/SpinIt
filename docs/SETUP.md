@@ -10,7 +10,7 @@ Everything here is a one-time setup. It takes about an hour, most of it waiting 
    npx supabase login
    npx supabase link --project-ref YOUR-REF
    npx supabase db push            # runs supabase/migrations/*
-   psql "$(npx supabase db url)" -f supabase/seed.sql   # 34 places, deals, venues, hours, events
+   psql "$(npx supabase db url)" -f supabase/seed.sql   # 154 places, deals, venues, hours, events
    ```
 3. **Auth → Providers → Email:** on. Email confirmation is off in `supabase/config.toml` so people go straight into setup. If you turn it on, the app tells people to check their inbox.
 4. **Auth → URL configuration:** add `https://spinit.app/reset/` as a redirect URL (password reset page).
@@ -93,3 +93,16 @@ Set `SPINIT_IOS_TEAM_ID` and `SPINIT_ANDROID_SHA256` before building so `/i/` an
 
 - **What's on tonight / local picks / places / hours:** edit the `events`, `local_picks`, `places`, `place_hours` tables in the dashboard. Ramadan or Eid hours go in `place_exceptions`; they override the weekly hours for that date.
 - **Changing the design:** export again from Claude Design into `design/`, run `npm run build:www`. If a patch no longer matches, the build says which one; update it in `scripts/patches.mjs`.
+
+## Adding more places
+
+Put new rows in a spreadsheet laid out like `docs/design/Doha_120_New_Places.xlsx`, then:
+
+```
+python3 -I scripts/import_places.py path/to/places.xlsx   # appends to supabase/seed-src/*.json
+node scripts/gen-seed.mjs                                 # regenerates supabase/seed.sql
+npm run build                                             # app picks them up via www/places-extra.js
+```
+
+Existing ids are skipped, so re-running is safe. Missing fields are filled the way the design does it
+(placeholder food/dessert, a "10% off with SpinIt" deal, budget tier guessed from category).

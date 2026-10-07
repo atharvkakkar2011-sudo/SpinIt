@@ -42,6 +42,10 @@ const config = {
 };
 writeFileSync(join(out, 'config.js'), `window.SPINIT_CONFIG = ${JSON.stringify(config)};\n`);
 
+// The design ships 6 + 28 places; anything after that in places.json is added on top.
+const places = JSON.parse(readFileSync(join(root, 'supabase/seed-src/places.json'), 'utf8'));
+writeFileSync(join(out, 'places-extra.js'), `window.SPINIT_EXTRA_PLACES = ${JSON.stringify(places.slice(34))};\n`);
+
 await build({
   entryPoints: [join(root, 'app-src/bridge/index.js')],
   outfile: join(out, 'spinit-bridge.js'),
