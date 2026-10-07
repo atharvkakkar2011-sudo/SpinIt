@@ -177,7 +177,7 @@ export const patches = [
     find: "this.setState({ user: { name: s.fName.trim(), email: s.fEmail.trim(), g: s.fG }, authErr: '', fPass: '', showPass: false, signStep: 0, setupStep: 0 }); this.go('setup'); this.say('You’re in, ' + term(s.fG) + '. Quick setup.');",
     replace: [
       "window.SpinIt.auth.signUp({ name: s.fName.trim(), email: s.fEmail.trim(), password: s.fPass, g: s.fG })",
-      "              .then(user => { this.setState({ user, authErr: '', fPass: '', showPass: false, signStep: 0, setupStep: 0 }); this.go('setup'); this.say('You’re in, ' + term(s.fG) + '. Quick setup.'); })",
+      "              .then(blob => { this.applyBlob(blob); this.setState({ authErr: '', fPass: '', showPass: false, signStep: 0, setupStep: 0 }); this.go('setup'); this.say('You’re in, ' + term(s.fG) + '. Quick setup.'); })",
       "              .catch(e => this.setState({ authErr: window.SpinIt.errText(e, 'signup') }));",
     ].join('\n'),
   },

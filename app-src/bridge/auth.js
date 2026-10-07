@@ -27,8 +27,7 @@ export const auth = {
     const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { name, g, ...(ref ? { ref } : {}) } } });
     if (error) throw Object.assign(new Error(error.message), { code: error.code });
     if (!data.session) throw new Error('confirm_email'); // project requires email confirmation
-    const blob = await enter(data.user);
-    return blob.user;
+    return enter(data.user); // the full blob, so the app starts from the server's view (all 34 places on the wheel)
   },
 
   async signIn(email, password) {
