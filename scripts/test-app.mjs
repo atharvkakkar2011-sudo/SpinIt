@@ -67,11 +67,20 @@ try {
   assert.equal(sql(`select name||'/'||accent from public.wheels where user_id='${uid}'`), 'Friday Crew/#C6FF3D');
   step('saved spots and wheel style sync to the database');
 
-  await a.click('Spin'); await a.click('YALLA SPIN'); await a.p.waitForTimeout(7800);
+  // loosen the filters so far more than 25 places match; the wheel still shows 25
+  await a.p.evaluate(() => window.SpinIt.app.setState({ mood: null, bMin: 0, bMax: 400 }));
+  await a.click('Spin'); await a.p.waitForTimeout(300);
+  const shown = await a.p.evaluate(() => window.SpinIt.app.wheelList(window.SpinIt.app.state).map(x => x.p.id));
+  assert.equal(shown.length, 25);
+  await a.click('YALLA SPIN'); await a.p.waitForTimeout(7800);
   const placeId = sql(`select place_id from public.spins where user_id='${uid}'`);
+  assert.ok(shown.includes(placeId), 'the server picks one of the 25 slices on screen');
+  // the next spin deals a new 25 (checked without spending a spin)
+  const next = await a.p.evaluate(() => { const x = window.SpinIt.app; return x._reshuffle && x.wheelList({ ...x.state, wheelSeed: (x.state.wheelSeed ?? x._seed0) + 1 }).map(y => y.p.id); });
+  assert.ok(next && next.length === 25 && next.some((id) => !shown.includes(id)), 'a respin changes the 25');
   assert.equal(await a.p.evaluate((i) => window.SpinIt.app.P[i].id, await a.st('result')), placeId);
   assert.equal(await a.st('spinsLeft'), 2);
-  step(`the server picks the spin (${placeId}) and the wheel lands on it`);
+  step(`wheel shows 25 of the matching places; the server picks one of them (${placeId}); a respin deals a new 25`);
 
   await a.click('Yalla, show me the plan');
   await a.click('Reserve a table'); await a.click('Book for', false);

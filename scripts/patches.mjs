@@ -18,6 +18,22 @@ const SQUAD_SIM = String.raw`  startSquad() {
 
 export const patches = [
   // ---- document head: local scripts, offline fonts, safe-area viewport ------------------------------
+  // With 150+ places the wheel can't show everything: it shows at most 25 of the places that match,
+  // a random set per app open, and a respin deals a new set. The server only picks from what's shown.
+  {
+    name: 'wheel: at most 25 slices',
+    find: '  wheelList(s) { return this.P.map((p, i) => ({ p, i })).filter(x => s.wheel[x.p.id] && this.matches(x.p, s)); }',
+    replace: [
+      '  WHEEL_MAX = 25;',
+      '  _seed0 = (Math.random() * 1e9) | 0;',
+      '  wheelList(s) {',
+      '    const all = this.P.map((p, i) => ({ p, i })).filter(x => s.wheel[x.p.id] && this.matches(x.p, s));',
+      '    if (all.length <= this.WHEEL_MAX) return all;',
+      '    const seed = s.wheelSeed ?? this._seed0, h = id => { let v = 2166136261 ^ seed; for (let c = 0; c < id.length; c++) v = Math.imul(v ^ id.charCodeAt(c), 16777619); return v >>> 0; };',
+      '    return all.map(x => [h(x.p.id), x]).sort((a, b) => a[0] - b[0]).slice(0, this.WHEEL_MAX).map(([, x]) => x);',
+      '  }',
+    ].join('\n'),
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     find: 'this.P = [...this.P, ...this.LIB];',
@@ -141,14 +157,16 @@ export const patches = [
   {
     name: 'spin: ignore taps while the server is deciding',
     find: '    const s = this.state, list = this.wheelList(s);\n    if (s.spinning) return;',
-    replace: '    const s = this.state, list = this.wheelList(s);\n    if (s.spinning || this._pend) return;',
+    replace: '    const s = this.state;\n    let list = this.wheelList(s);\n    if (s.spinning || this._pend) return;',
   },
   {
     name: 'spin: ask the server for the winner, then animate to it',
     find: '    const n = list.length, k = Math.floor(Math.random() * n), per = 360 / n;\n',
     replace: [
+      // a respin deals a fresh set of slices first (see "wheel: at most 25 slices")
+      '    if (this._reshuffle) { this._reshuffle = false; const ws = (s.wheelSeed ?? this._seed0) + 1; this.setState({ wheelSeed: ws }); list = this.wheelList({ ...s, wheelSeed: ws }); }',
       '    this._pend = true;',
-      "    window.SpinIt.spin(list.map(x => x.p.id), s.mode).then(res => this._doSpin(list, res)).catch(e => { const kind = window.SpinIt.errKind(e); if (kind === 'out_of_spins') { const ms = this.refillMs(); this.setState({ spinsLeft: 0 }); this.say('Out of spins. Refill in ' + Math.floor(ms / 3600e3) + 'h ' + Math.floor(ms % 3600e3 / 60e3) + 'm, habibi.'); } else this.say(window.SpinIt.errText(e, 'spin')); }).finally(() => { this._pend = false; });",
+      "    window.SpinIt.spin(list.map(x => x.p.id), s.mode).then(res => this._doSpin(list, res)).catch(e => { const kind = window.SpinIt.errKind(e); if (kind === 'out_of_spins') { const ms = this.refillMs(); this.setState({ spinsLeft: 0 }); this.say('Out of spins. Refill in ' + Math.floor(ms / 3600e3) + 'h ' + Math.floor(ms % 3600e3 / 60e3) + 'm, habibi.'); } else { if (kind === 'none_open') this._reshuffle = true; this.say(window.SpinIt.errText(e, 'spin')); } }).finally(() => { this._pend = false; });",
       '  };',
       '  _doSpin = (list, res) => {',
       '    const s = this.state, n = list.length, k = Math.max(0, list.findIndex(x => x.p.id === res.place_id)), per = 360 / n;',
@@ -170,6 +188,7 @@ export const patches = [
     find: "  land(i) {\n    clearInterval(this._hi); clearTimeout(this._rv);",
     replace: [
       '  land(i, res) {',
+      '    if (res) this._reshuffle = true;',
       '    if (res) { window.SpinIt.native.bonusReminder(i, window.SpinIt.dealTitle(i), Date.now()); if (this._squadCode) { window.SpinIt.squad.finish(i).catch(() => {}); this._squadCode = null; } }',
       '    clearInterval(this._hi); clearTimeout(this._rv);',
     ].join('\n'),
