@@ -1,20 +1,29 @@
 {
   "expo": {
     "name": "Spin It",
-    "slug": "spinit-expo-go",
+    "slug": "spinit",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#0E0A12",
-    "splash": { "backgroundColor": "#0E0A12" },
+    "splash": {
+      "backgroundColor": "#0E0A12"
+    },
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Spin It uses your location to show how far each spot is."
-      }
+        "NSLocationWhenInUseUsageDescription": "Spin It uses your location to show how far each spot is.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "app.spinit.mobile"
     },
     "android": {
-      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
-    }
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ],
+      "package": "app.spinit.mobile"
+    },
+    "scheme": "spinit"
   }
 }

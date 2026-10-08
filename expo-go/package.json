@@ -4,7 +4,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "expo start"
+    "start": "expo start",
+    "web:dist": "node ../scripts/build-www.mjs --demo && rm -rf dist && cp -R ../www-demo dist"
   },
   "dependencies": {
     "expo": "~57.0.27",
