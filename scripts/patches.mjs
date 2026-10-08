@@ -36,10 +36,12 @@ export const patches = [
   },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
+    name: 'places: extra places join the library',
     find: 'this.P = [...this.P, ...this.LIB];',
     replace: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])];',
   },
   {
+    name: 'places: extra indoor places count for the cool-off filter',
     find: 'Object.fromEntries(this.LIB.filter(p => p.indoor)',
     replace: 'Object.fromEntries([...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])].filter(p => p.indoor)',
   },
@@ -409,10 +411,45 @@ export const patches = [
 ];
 
 /** Apply every patch; each `find` must occur exactly once. Returns the patched source. */
-export function applyPatches(src) {
+// Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
+// the design's own on-device storage, plus the extra places, photos and the 25-slice wheel.
+const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
+  'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
+export const demoPatches = [
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name)),
+  {
+    name: 'demo head: React and the extra places before the runtime',
+    find: '<script src="./support.js"></script>',
+    replace: '<script src="./places-extra.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
+  },
+  {
+    // the design builds its first wheel before the library joins this.P, so only 6 places start on;
+    // the real app gets the wheel from the server (all places on), the demo matches that here
+    name: 'demo wheel: every place starts on the wheel',
+    find: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])]; }',
+    replace: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])]; this.state = { ...this.state, wheel: Object.fromEntries(this.P.map(p => [p.id, true])) }; }',
+  },
+  {
+    name: 'demo spin: a respin deals a new 25 first',
+    find: '    const s = this.state, list = this.wheelList(s);\n    if (s.spinning) return;',
+    replace: [
+      '    let s = this.state;',
+      '    if (s.spinning) return;',
+      '    if (this._reshuffle && !(s.locked && s.locked.key === this.nightKey())) { this._reshuffle = false; const ws = (s.wheelSeed ?? this._seed0) + 1; this.setState({ wheelSeed: ws }); s = { ...s, wheelSeed: ws }; }',
+      '    const list = this.wheelList(s);',
+    ].join('\n'),
+  },
+  {
+    name: 'demo spin: landing arms the reshuffle',
+    find: '  land(i) {\n',
+    replace: '  land(i) {\n    this._reshuffle = true;\n',
+  },
+];
+
+export function applyPatches(src, list = patches) {
   let out = src;
   const problems = [];
-  for (const p of patches) {
+  for (const p of list) {
     const n = out.split(p.find).length - 1;
     if (n !== 1) { problems.push(`${p.name}: expected 1 match, found ${n}`); continue; }
     out = out.replace(p.find, () => p.replace);

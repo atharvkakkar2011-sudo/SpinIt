@@ -10,10 +10,12 @@ import { build } from 'esbuild';
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyPatches } from './patches.mjs';
+import { applyPatches, demoPatches } from './patches.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const out = join(root, 'www');
+// --demo: no backend; the design keeps its own on-device storage (www-demo/, used by `npm run phone`)
+const demo = process.argv.includes('--demo');
+const out = join(root, demo ? 'www-demo' : 'www');
 
 // tiny .env reader (no dependency)
 const env = { ...process.env };
@@ -28,7 +30,7 @@ if (existsSync(envFile)) {
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
-const html = applyPatches(readFileSync(join(root, 'design/SpinIt App v2.dc.html'), 'utf8'));
+const html = applyPatches(readFileSync(join(root, 'design/SpinIt App v2.dc.html'), 'utf8'), demo ? demoPatches : undefined);
 writeFileSync(join(out, 'index.html'), html);
 
 cpSync(join(root, 'design/img'), join(out, 'img'), { recursive: true });
@@ -48,6 +50,11 @@ writeFileSync(join(out, 'config.js'), `window.SPINIT_CONFIG = ${JSON.stringify(c
 // The design ships 6 + 28 places; anything after that in places.json is added on top.
 const places = JSON.parse(readFileSync(join(root, 'supabase/seed-src/places.json'), 'utf8'));
 writeFileSync(join(out, 'places-extra.js'), `window.SPINIT_EXTRA_PLACES = ${JSON.stringify(places.slice(34))};\n`);
+
+if (demo) {
+  console.log('www-demo/ ready (no backend: data stays on the device)');
+  process.exit(0);
+}
 
 await build({
   entryPoints: [join(root, 'app-src/bridge/index.js')],

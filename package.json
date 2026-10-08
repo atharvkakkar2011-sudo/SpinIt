@@ -10,7 +10,8 @@
     "test:db": "node scripts/test-db.mjs",
     "test:app": "node scripts/test-app.mjs",
     "test": "npm run test:db && npm run test:app",
-    "seed": "node scripts/gen-seed.mjs"
+    "seed": "node scripts/gen-seed.mjs",
+    "phone": "node scripts/phone.mjs"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.2",

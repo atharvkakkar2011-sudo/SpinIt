@@ -8,7 +8,7 @@ The Spin It prototype from Claude Design, shipped as an iOS and Android app with
 - **Backend:** Supabase, implementing everything in `docs/design/BACKEND.md`: accounts, server-side spin limit, opening hours, live squad spin, table bookings, signed QR bonuses, push notifications and the AI tab.
 - **Web pages for people without the app:** squad voting, venue booking confirmation, staff QR scanner, password reset, invite landing (`web/`).
 
-`expo-port/` is an earlier hand-built React Native version. It is superseded by this one and kept only for reference.
+`expo-go/` is a small Expo app for trying Spin It on your phone with Expo Go (see below). `expo-port/` is an earlier hand-built React Native version. It is superseded by this one and kept only for reference.
 
 ## How it fits together
 
@@ -52,5 +52,18 @@ npm run test:db        # every migration + 16 database tests (needs PostgreSQL 1
 npm run test:app       # the real UI end to end against a local backend (needs PostgREST + Playwright)
 node scripts/dev-backend.mjs   # local stand-in for Supabase on :54321 (needs PostgREST)
 ```
+
+## Try it on your phone (Expo Go)
+
+```bash
+npm install
+npm run phone          # builds the pages, serves them on your Wi-Fi, starts Expo
+```
+
+Scan the QR code with Expo Go (Android) or the Camera app (iPhone). Phone and computer must be on the same Wi-Fi; allow Node through the firewall if your computer asks.
+
+- Until `.env` points at a real Supabase project, this runs the **demo**: the design's own on-device saving, with all 154 places, photos and the 25-slice wheel. Accounts and spins stay on that phone, and the AI tab shows its retry message.
+- With `SPINIT_SUPABASE_URL` set to your `https://…supabase.co` project, the same command runs the **real app** against the backend.
+- Expo Go shows the exact same pages inside a web view. Location, share, copy and Maps/WhatsApp links go to the phone. Push notifications and the calendar file need the real app build (Capacitor), not Expo Go.
 
 Going live (Supabase project, Firebase, store builds, web pages): **[docs/SETUP.md](docs/SETUP.md)**.
