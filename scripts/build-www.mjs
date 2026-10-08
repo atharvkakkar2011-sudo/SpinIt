@@ -1,6 +1,7 @@
 // Builds www/ (what Capacitor ships) from the untouched design files:
 //   design/SpinIt App v2.dc.html  --patches-->  www/index.html
 //   design/img, sp-avatar.png     ------------>  www/
+//   app-src/place-photos          ------------>  www/img/s
 //   app-src/vendor (React + the design runtime), app-src/fonts  -->  www/
 //   app-src/bridge  --esbuild-->  www/spinit-bridge.js
 // Backend settings come from the environment (or a .env file):
@@ -31,6 +32,8 @@ const html = applyPatches(readFileSync(join(root, 'design/SpinIt App v2.dc.html'
 writeFileSync(join(out, 'index.html'), html);
 
 cpSync(join(root, 'design/img'), join(out, 'img'), { recursive: true });
+// photos of places added after the design (scripts/import_places.py); the design looks them up as img/s/<name>.jpg
+cpSync(join(root, 'app-src/place-photos'), join(out, 'img/s'), { recursive: true });
 cpSync(join(root, 'design/sp-avatar.png'), join(out, 'sp-avatar.png'));
 cpSync(join(root, 'app-src/vendor'), out, { recursive: true });
 cpSync(join(root, 'app-src/fonts'), join(out, 'fonts'), { recursive: true });

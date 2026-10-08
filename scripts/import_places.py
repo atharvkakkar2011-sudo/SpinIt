@@ -9,16 +9,23 @@ with the same rules the design used for its 28 spreadsheet places:
   bonus         "10% off with SpinIt", code = first 8 letters/digits of the id + "-10"
   budget tier   from budget_per_person_qar (<=60 -> 1, <=150 -> 2, else 3), else by category
   price/hours   spreadsheet text, else "Price varies" / "Check before you go"
+  photos        pictures pasted into a "Photos" sheet (one per row, any column) are resized and saved to
+                app-src/place-photos/<id>.jpg; that photo goes first, the image_url_* links follow.
+                This also runs for places that are already in, so a sheet with new photos can be re-imported.
 Then run `node scripts/gen-seed.mjs` and `npm run build:www`.
 """
+import io
 import json
+import os
 import re
 import sys
+import zipfile
 
 import openpyxl
 
 PLACES = 'supabase/seed-src/places.json'
 HOURS = 'supabase/seed-src/hours.json'
+PHOTO_DIR = 'app-src/place-photos'
 TIER_BY_CATEGORY = {'Restaurant': 3, 'Trip': 3, 'Spot': 2, 'Activity': 2, 'Café': 1, 'Dessert': 1}
 
 
@@ -85,12 +92,43 @@ def dessert(r, short):
     return items[:2]
 
 
+def embedded_photos(path, wb):
+    """{place id: image bytes} for pictures anchored in the Photos sheet's rows."""
+    if 'Photos' not in wb.sheetnames:
+        return {}
+    ids = [r[0] for r in wb['Photos'].iter_rows(values_only=True)]
+    z = zipfile.ZipFile(path)
+    sheet = 'xl/worksheets/sheet%d.xml' % (wb.sheetnames.index('Photos') + 1)
+    rels = z.read(sheet.replace('worksheets/', 'worksheets/_rels/') + '.rels').decode('utf-8-sig')
+    m = re.search(r'Target="/?(?:\.\./)?(?:xl/)?(drawings/[^"]+)"', rels)
+    if not m:
+        return {}
+    drawing = 'xl/' + m.group(1)
+    targets = {i: t for t, i in re.findall(r'Target="([^"]+)" Id="([^"]+)"',
+                                           z.read(drawing.replace('drawings/', 'drawings/_rels/') + '.rels').decode('utf-8-sig'))}
+    out = {}
+    for row, rid in re.findall(r'<xdr:from>.*?<xdr:row>(\d+)</xdr:row>.*?r:embed="([^"]+)"', z.read(drawing).decode('utf-8-sig'), re.S):
+        pid = ids[int(row)] if int(row) < len(ids) else None
+        if pid and pid != 'id' and pid not in out:
+            out[pid.strip()] = z.read('xl/' + targets[rid].lstrip('/').removeprefix('xl/').replace('../', ''))
+    return out
+
+
+def save_photo(pid, data):
+    from PIL import Image
+    os.makedirs(PHOTO_DIR, exist_ok=True)
+    im = Image.open(io.BytesIO(data)).convert('RGB')
+    im.thumbnail((1200, 1200))
+    im.save(os.path.join(PHOTO_DIR, pid + '.jpg'), 'JPEG', quality=82, optimize=True, progressive=True)
+
+
 def main(path):
     places = json.load(open(PLACES, encoding='utf8'))
     hours = json.load(open(HOURS, encoding='utf8'))
     known = {p['id'] for p in places}
     codes = {p['deal']['code'] for p in places}
-    ws = openpyxl.load_workbook(path, data_only=True)['Places']
+    wb = openpyxl.load_workbook(path, data_only=True)
+    ws = wb['Places']
     rows = list(ws.iter_rows(values_only=True))
     head = rows[0]
     added = 0
@@ -125,9 +163,14 @@ def main(path):
             hours[pid] = r['opening_hours']
         known.add(pid)
         added += 1
+    pics = embedded_photos(path, wb)
+    for p in places:
+        if p['id'] in pics:
+            save_photo(p['id'], pics[p['id']])
+            p['photos'] = [p['id']] + [u for u in p['photos'] if u != p['id']]
     json.dump(places, open(PLACES, 'w', encoding='utf8'), indent=1, ensure_ascii=False)
     json.dump(hours, open(HOURS, 'w', encoding='utf8'), indent=1, ensure_ascii=False)
-    print(f'added {added} places (now {len(places)})')
+    print(f'added {added} places (now {len(places)}), {len(pics)} photos saved to {PHOTO_DIR}')
 
 
 if __name__ == '__main__':

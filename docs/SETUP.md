@@ -99,7 +99,7 @@ Set `SPINIT_IOS_TEAM_ID` and `SPINIT_ANDROID_SHA256` before building so `/i/` an
 Put new rows in a spreadsheet laid out like `docs/design/Doha_120_New_Places.xlsx`, then:
 
 ```
-python3 -I scripts/import_places.py path/to/places.xlsx   # appends to supabase/seed-src/*.json
+python3 -I scripts/import_places.py path/to/places.xlsx   # appends to supabase/seed-src/*.json; photos pasted in a "Photos" sheet go to app-src/place-photos
 node scripts/gen-seed.mjs                                 # regenerates supabase/seed.sql
 npm run build                                             # app picks them up via www/places-extra.js
 ```
