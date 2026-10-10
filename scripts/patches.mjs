@@ -34,6 +34,12 @@ export const patches = [
       '  }',
     ].join('\n'),
   },
+  // Owner asked (preview comment, Oct 2026) to remove the "Tonight's main character" hero card from Explore.
+  {
+    name: 'explore: no "Tonight\u2019s main character" hero card',
+    find: "          <div onClick=\"{{ openHero }}\" style=\"position:relative;margin:16px 14px 0 14px;height:340px;border-radius:24px;overflow:hidden;clip-path:inset(0 round 24px);cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.08) 0%,rgba(255,255,255,0.02) 100%);box-shadow:inset 0 1px 1px rgba(255,255,255,0.45), inset 0 -1px 1px rgba(255,255,255,0.12), 0 8px 24px rgba(0,0,0,0.25);\">\n            <div style=\"position:fixed;left:0;top:0;width:402px;height:874px;background-image:url(./img/s/souq-2.jpg);background-size:cover;background-position:center;background-repeat:no-repeat;pointer-events:none\"></div>\n            <div style=\"position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(180deg,rgba(14,10,18,0) 0%,rgba(14,10,18,0.92) 100%)\"></div>\n            <div style=\"position:absolute;left:16px;top:16px;height:28px;padding:0 12px;border-radius:14px;background:{{ acc }};color:#0E0A12;font-family:'Space Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:1px;display:flex;align-items:center;box-shadow:0 0 18px {{ accGlow }}\">TONIGHT\u2019S MAIN CHARACTER</div>\n            <div style=\"position:absolute;left:20px;right:20px;bottom:20px;color:#FFFFFF\">\n              <div style=\"font-family:'Unbounded',sans-serif;font-size:32px;font-weight:800;line-height:1.05;letter-spacing:-1px\">Souq<br />after dark.</div>\n              <div style=\"font-size:14.5px;color:#D9CEDD;margin-top:8px\">Lanterns, spice and karak. Lowkey better after midnight.</div>\n            </div>\n          </div>\n",
+    replace: '',
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     name: 'places: extra places join the library',
@@ -413,7 +419,7 @@ export const patches = [
 /** Apply every patch; each `find` must occur exactly once. Returns the patched source. */
 // Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
 // the design's own on-device storage, plus the extra places, photos and the 25-slice wheel.
-const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
+const DEMO_KEEP = ['wheel: at most 25 slices', 'explore: no "Tonight\u2019s main character" hero card', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
   ...patches.filter((p) => DEMO_KEEP.includes(p.name)),
