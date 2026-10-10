@@ -11,6 +11,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } fr
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyPatches, demoPatches } from './patches.mjs';
+import { categoryMap } from './place-cats.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // --demo: no backend; the design keeps its own on-device storage (www-demo/, used by `npm run phone`)
@@ -49,7 +50,8 @@ writeFileSync(join(out, 'config.js'), `window.SPINIT_CONFIG = ${JSON.stringify(c
 
 // The design ships 6 + 28 places; anything after that in places.json is added on top.
 const places = JSON.parse(readFileSync(join(root, 'supabase/seed-src/places.json'), 'utf8'));
-writeFileSync(join(out, 'places-extra.js'), `window.SPINIT_EXTRA_PLACES = ${JSON.stringify(places.slice(34))};\n`);
+// plus every place's Explore categories (scripts/place-cats.mjs)
+writeFileSync(join(out, 'places-extra.js'), `window.SPINIT_EXTRA_PLACES = ${JSON.stringify(places.slice(34))};\nwindow.SPINIT_PLACE_CATS = ${JSON.stringify(categoryMap(places))};\n`);
 
 if (demo) {
   console.log('www-demo/ ready (no backend: data stays on the device)');

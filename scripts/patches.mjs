@@ -46,6 +46,28 @@ export const patches = [
     find: "<span style=\"font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#9C8FA4\">DOHA · {{ nowTime }}</span>",
     replace: '',
   },
+  // Owner's Explore categories (Oct 2026). Membership comes from scripts/place-cats.mjs via places-extra.js;
+  // seven chips don't fit in one row, so the row scrolls sideways and each chip sizes to its label.
+  {
+    name: 'explore: owner\u2019s categories',
+    find: "CHIPS = ['Food', 'Coffee', 'Culture', 'Outdoors'];",
+    replace: "CHIPS = ['Restaurants', 'Outdoor', 'Indoor', 'Coffee shops', 'Entertainment', 'Fitness', 'Culture'];",
+  },
+  {
+    name: 'explore: a category chip filters by the place\u2019s categories',
+    find: '(!s.chip || x.p.tags.includes(s.chip))',
+    replace: '(!s.chip || ((window.SPINIT_PLACE_CATS || {})[x.p.id] || []).includes(s.chip))',
+  },
+  {
+    name: 'explore: category row scrolls sideways',
+    find: '<div style="display:flex;gap:8px;padding:12px 14px 0 14px">',
+    replace: '<div style="display:flex;gap:8px;padding:12px 14px 0 14px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch">',
+  },
+  {
+    name: 'explore: category chips size to their label',
+    find: 'saturate(160%);flex:1;height:40px;border-radius:12px;',
+    replace: 'saturate(160%);flex:none;padding:0 16px;white-space:nowrap;height:40px;border-radius:12px;',
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     name: 'places: extra places join the library',
@@ -425,10 +447,10 @@ export const patches = [
 /** Apply every patch; each `find` must occur exactly once. Returns the patched source. */
 // Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
 // the design's own on-device storage, plus the extra places, photos and the 25-slice wheel.
-const DEMO_KEEP = ['wheel: at most 25 slices', 'explore: no "Tonight\u2019s main character" hero card', 'explore: no "DOHA · time" label', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
+const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name)),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
