@@ -106,3 +106,26 @@ npm run build                                             # app picks them up vi
 
 Existing ids are skipped, so re-running is safe. Missing fields are filled the way the design does it
 (placeholder food/dessert, a "10% off with SpinIt" deal, budget tier guessed from category).
+
+## Exact locations, prices and ratings (Google Places)
+
+Most places from the spreadsheet only have an area, so the app places them at the area's centre and
+shows distances as approximate ("~3 km away"). To fix that, and to get real price levels and ratings:
+
+1. Google Cloud console → enable **Places API (New)** → create an API key.
+2. Run, from the project folder:
+   ```bash
+   GOOGLE_PLACES_API_KEY=your-key npm run enrich -- --dry   # see what would change
+   GOOGLE_PLACES_API_KEY=your-key npm run enrich            # write it
+   node scripts/gen-seed.mjs && npm run build
+   ```
+   Matches far from where the spreadsheet says a place is are listed for you to check instead of being
+   saved. Budgets that came from the spreadsheet are never overwritten. Google photos are not copied.
+3. Re-run the seed on Supabase. Places with a Google id also get the weekly opening-hours refresh.
+
+## How a spin is decided
+
+The server picks among the slices on screen (supabase/migrations/…_smart_spin.sql). Every open slice
+can win, but the odds lean toward places near the user (half as likely 8 km away), places they rated
+4–5 (×2; 1–2 drops to ×0.25), a strong Google rating, and away from places they landed on tonight or
+this week. Closed places never win. The user's position is rounded to ~1 km and not stored.

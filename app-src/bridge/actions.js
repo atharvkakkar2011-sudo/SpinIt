@@ -6,8 +6,12 @@ import { PLACE_IDS, idOf, idxOf } from './ids.js';
 import { plannedArrival } from './time.js';
 
 // ---- spin: the server decides, the wheel animates to it ---------------------------------------
-export async function spin(candidateIds, mode) {
-  const r = await unwrap(supabase.rpc('spin', { p_mode: mode, p_candidates: candidateIds, p_arrive: plannedArrival() }));
+// `near` is the user's coarse position ([lat, lng]) when they allowed location; the server leans
+// toward closer places with it (supabase/migrations/…_smart_spin.sql) and doesn't store it.
+export async function spin(candidateIds, mode, near = null) {
+  const args = { p_mode: mode, p_candidates: candidateIds, p_arrive: plannedArrival() };
+  if (near) { args.p_lat = near[0]; args.p_lng = near[1]; }
+  const r = await unwrap(supabase.rpc('spin', args));
   store.patchServerFields({ spinsLeft: r.spins_left });
   return r; // { place_id, spin_id, at, spins_left }
 }

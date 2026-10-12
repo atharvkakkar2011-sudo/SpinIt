@@ -202,7 +202,7 @@ export const patches = [
       // a respin deals a fresh set of slices first (see "wheel: at most 25 slices")
       '    if (this._reshuffle) { this._reshuffle = false; const ws = (s.wheelSeed ?? this._seed0) + 1; this.setState({ wheelSeed: ws }); list = this.wheelList({ ...s, wheelSeed: ws }); }',
       '    this._pend = true;',
-      "    window.SpinIt.spin(list.map(x => x.p.id), s.mode).then(res => this._doSpin(list, res)).catch(e => { const kind = window.SpinIt.errKind(e); if (kind === 'out_of_spins') { const ms = this.refillMs(); this.setState({ spinsLeft: 0 }); this.say('Out of spins. Refill in ' + Math.floor(ms / 3600e3) + 'h ' + Math.floor(ms % 3600e3 / 60e3) + 'm, habibi.'); } else { if (kind === 'none_open') this._reshuffle = true; this.say(window.SpinIt.errText(e, 'spin')); } }).finally(() => { this._pend = false; });",
+      "    window.SpinIt.spin(list.map(x => x.p.id), s.mode, s.loc !== false ? window.SpinIt.native.lastPosition() : null).then(res => this._doSpin(list, res)).catch(e => { const kind = window.SpinIt.errKind(e); if (kind === 'out_of_spins') { const ms = this.refillMs(); this.setState({ spinsLeft: 0 }); this.say('Out of spins. Refill in ' + Math.floor(ms / 3600e3) + 'h ' + Math.floor(ms % 3600e3 / 60e3) + 'm, habibi.'); } else { if (kind === 'none_open') this._reshuffle = true; this.say(window.SpinIt.errText(e, 'spin')); } }).finally(() => { this._pend = false; });",
       '  };',
       '  _doSpin = (list, res) => {',
       '    const s = this.state, n = list.length, k = Math.max(0, list.findIndex(x => x.p.id === res.place_id)), per = 360 / n;',

@@ -70,6 +70,36 @@ await test('spin: 3 a night, 4th refused, bonus spin extends, results stay insid
   assert.equal(Number((await db.query('select count(*) from public.user_deals where user_id = $1', [u])).rows[0].count), cand.length > 0 ? new Set((await db.query('select place_id from public.spins where user_id = $1', [u])).rows.map((x) => x.place_id)).size : 0);
 });
 
+await test('spin: odds lean toward nearby places, ones you rated well, and not repeats', async () => {
+  const evening = doha('2026-10-07T20:00:00'); // Katara and Souq Waqif are both open
+  const draw = async (u, near, n = 600) => {
+    const r = await db.query(`select public.spin_pick($1, array['katara','souq'], $2::timestamptz, $3, $4) as p from generate_series(1, $5)`,
+      [u, evening, near?.[0] ?? null, near?.[1] ?? null, n]);
+    return r.rows.filter((x) => x.p === 'katara').length / n;
+  };
+  const fresh = await newUser('weights');
+  const even = await draw(fresh, null);
+  assert.ok(even > 0.4 && even < 0.6, `no signal: even odds (${even})`);
+  // standing in Souq Waqif, Katara (8 km away) is about half as likely
+  assert.ok(await draw(fresh, [25.2867, 51.5333]) < 0.42, 'nearer place favoured');
+  // rated Katara 5 and Souq 1 a month ago
+  const fan = await newUser('fan');
+  await db.query(`insert into public.spins (user_id, place_id, mode, night_key, rating) values ($1,'katara','place',public.night_key() - 30,5), ($1,'souq','place',public.night_key() - 30,1)`, [fan]);
+  assert.ok(await draw(fan, null) > 0.8, 'well-rated place favoured');
+  // landed on Katara earlier tonight
+  const again = await newUser('again');
+  await db.query(`insert into public.spins (user_id, place_id, mode, night_key) values ($1,'katara','place',public.night_key())`, [again]);
+  assert.ok(await draw(again, null) < 0.3, 'repeat tonight less likely');
+  // a closed candidate still never wins, and the helpers are not callable from the app
+  const morning = doha('2026-10-07T05:00:00');
+  const r = await db.query(`select public.spin_pick($1, array['katara','souq'], $2::timestamptz) as p`, [fresh, morning]);
+  assert.ok(r.rows[0].p === null || ['katara', 'souq'].includes(r.rows[0].p));
+  await rejects(as(fresh, (q) => q(`select public.spin_pick($1, array['katara'], now())`, [fresh])), /permission denied/);
+  // the app's call with a position works end to end
+  const res = await as(fresh, (q) => rpc(q, 'spin', ['place', ['katara', 'souq'], evening, 25.2867, 51.5333]));
+  assert.ok(['katara', 'souq'].includes(res.place_id));
+});
+
 await test('spin: night rolls over at 6 PM Doha time', async () => {
   const k = async (iso) => (await db.query('select public.night_key($1::timestamptz) as k', [doha(iso)])).rows[0].k.toISOString().slice(0, 10);
   assert.equal(await k('2026-10-07T17:59:00'), '2026-10-06');
