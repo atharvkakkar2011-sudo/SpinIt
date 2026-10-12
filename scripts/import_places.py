@@ -150,6 +150,7 @@ def main(path):
             'vibe': r['vibe'] or '', 'tags': tags(r, any(r[f'food_{k}_name'] for k in (1, 2))),
             'moods': [m.strip() for m in (r['moods'] or '').split(',') if m.strip()] or ['Chill'],
             'budget': tier(r),
+            **({'budgetSource': 'sheet'} if r['budget_per_person_qar'] not in (None, '') else {}),
             'photos': [r[k] for k in ('image_url_1', 'image_url_2', 'image_url_3') if r[k]],
             'about': r['about'] or '', 'hours': r['opening_hours'] or 'Check before you go',
             'price': r['price_label'] or ('Free to wander' if budget == 0 else 'Price varies'),

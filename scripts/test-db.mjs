@@ -217,8 +217,10 @@ await test('push: opt-out, quiet hours, dedupe, claim/finish, token handover', a
   assert.equal(await q('2026-10-07T00:30:00'), doha('2026-10-07T00:30:00'));
   assert.equal(await q('2026-10-07T10:00:00'), doha('2026-10-07T10:00:00'));
   assert.equal(await q('2026-10-07T20:00:00'), doha('2026-10-07T20:00:00'));
-  await q1(`select public.enqueue_push($1,'x','Hi','There','{}', now() - interval '1 minute', 'dup')`, [u]);
-  await q1(`select public.enqueue_push($1,'x','Hi','There','{}', now() - interval '1 minute', 'dup')`, [u]);
+  // a past evening (outside 1–10 AM quiet hours), so the test passes whatever time it runs
+  const due = doha('2026-10-07T20:00:00');
+  await q1(`select public.enqueue_push($1,'x','Hi','There','{}', $2::timestamptz, 'dup')`, [u, due]);
+  await q1(`select public.enqueue_push($1,'x','Hi','There','{}', $2::timestamptz, 'dup')`, [u, due]);
   assert.equal((await q1(`select 1 from public.notification_queue where dedupe_key = 'dup'`)).rowCount, 1);
   await as(u, (q) => rpc(q, 'register_push_token', ['tok-1', 'android']));
   const u2 = await newUser('pushy2');

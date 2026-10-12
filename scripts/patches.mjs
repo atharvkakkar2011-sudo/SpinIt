@@ -72,7 +72,7 @@ export const patches = [
   {
     name: 'places: extra places join the library',
     find: 'this.P = [...this.P, ...this.LIB];',
-    replace: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])];',
+    replace: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])].map(p => ({ ...p, ...((window.SPINIT_PLACE_OVERRIDES || {})[p.id] || {}) }));',
   },
   {
     name: 'places: extra indoor places count for the cool-off filter',
@@ -460,8 +460,8 @@ export const demoPatches = [
     // the design builds its first wheel before the library joins this.P, so only 6 places start on;
     // the real app gets the wheel from the server (all places on), the demo matches that here
     name: 'demo wheel: every place starts on the wheel',
-    find: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])]; }',
-    replace: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])]; this.state = { ...this.state, wheel: Object.fromEntries(this.P.map(p => [p.id, true])) }; }',
+    find: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])].map(p => ({ ...p, ...((window.SPINIT_PLACE_OVERRIDES || {})[p.id] || {}) })); }',
+    replace: 'this.P = [...this.P, ...this.LIB, ...(window.SPINIT_EXTRA_PLACES || [])].map(p => ({ ...p, ...((window.SPINIT_PLACE_OVERRIDES || {})[p.id] || {}) })); this.state = { ...this.state, wheel: Object.fromEntries(this.P.map(p => [p.id, true])) }; }',
   },
   {
     name: 'demo spin: a respin deals a new 25 first',

@@ -2183,7 +2183,8 @@
   "category": "Spot",
   "insta": "",
   "web": "https://westbay-beach.com",
-  "credit": "Qatar Tourism / Visit Qatar"
+  "credit": "Qatar Tourism / Visit Qatar",
+  "budgetSource": "sheet"
  },
  {
   "id": "nami-beach",
@@ -2556,7 +2557,8 @@
   "category": "Activity",
   "insta": "@kidzania.doha",
   "web": "https://doha.kidzania.com/",
-  "credit": "Qatar Tourism / Visit Qatar"
+  "credit": "Qatar Tourism / Visit Qatar",
+  "budgetSource": "sheet"
  },
  {
   "id": "al-safliya",
@@ -2868,7 +2870,8 @@
   "category": "Spot",
   "insta": "",
   "web": "https://hotelparkdoha.com/",
-  "credit": "Qatar Tourism / Visit Qatar"
+  "credit": "Qatar Tourism / Visit Qatar",
+  "budgetSource": "sheet"
  },
  {
   "id": "box-park",
@@ -3117,7 +3120,8 @@
   "category": "Spot",
   "insta": "",
   "web": "https://lawhwaqalam.org.qa/",
-  "credit": "Qatar Tourism / Visit Qatar"
+  "credit": "Qatar Tourism / Visit Qatar",
+  "budgetSource": "sheet"
  },
  {
   "id": "embrace-doha",
@@ -9447,6 +9451,7 @@
   "category": "Activity",
   "insta": "",
   "web": "https://www.qatarbowlingcenter.com/",
-  "credit": ""
+  "credit": "",
+  "budgetSource": "sheet"
  }
 ]

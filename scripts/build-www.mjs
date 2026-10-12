@@ -12,6 +12,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyPatches, demoPatches } from './patches.mjs';
 import { categoryMap } from './place-cats.mjs';
+import { overridesFor, planPlaces } from './plan-places.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // --demo: no backend; the design keeps its own on-device storage (www-demo/, used by `npm run phone`)
@@ -49,9 +50,15 @@ const config = {
 writeFileSync(join(out, 'config.js'), `window.SPINIT_CONFIG = ${JSON.stringify(config)};\n`);
 
 // The design ships 6 + 28 places; anything after that in places.json is added on top.
-const places = JSON.parse(readFileSync(join(root, 'supabase/seed-src/places.json'), 'utf8'));
+// planPlaces fills in locations and real dinner/dessert picks (scripts/plan-places.mjs)
+const places = planPlaces(JSON.parse(readFileSync(join(root, 'supabase/seed-src/places.json'), 'utf8')));
 // plus every place's Explore categories (scripts/place-cats.mjs)
-writeFileSync(join(out, 'places-extra.js'), `window.SPINIT_EXTRA_PLACES = ${JSON.stringify(places.slice(34))};\nwindow.SPINIT_PLACE_CATS = ${JSON.stringify(categoryMap(places))};\n`);
+// and the planned picks/locations for the 34 places the design itself ships
+writeFileSync(join(out, 'places-extra.js'), [
+  `window.SPINIT_EXTRA_PLACES = ${JSON.stringify(places.slice(34))};`,
+  `window.SPINIT_PLACE_CATS = ${JSON.stringify(categoryMap(places))};`,
+  `window.SPINIT_PLACE_OVERRIDES = ${JSON.stringify(overridesFor(places, places.slice(0, 34).map((p) => p.id)))};`,
+].join('\n') + '\n');
 
 if (demo) {
   console.log('www-demo/ ready (no backend: data stays on the device)');
