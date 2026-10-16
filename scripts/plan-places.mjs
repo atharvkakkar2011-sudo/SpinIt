@@ -56,6 +56,8 @@ function pick(place, target, isSelf) {
   // a tier price only when the budget is real (from the sheet or Google), never a category guess
   const price = target.price && target.price !== 'Price varies' ? target.price : (target.budgetSource && TIER_PRICE[target.budget]) || 'Price varies';
   return {
+    // where it is, so directions can route through it (app-src/maps.js)
+    lat: target.lat, lng: target.lng, ...(target.geo ? { geo: target.geo } : {}), ...(target.google_place_id ? { google_place_id: target.google_place_id } : {}),
     tag: target.short,
     name: target.name,
     note: isSelf ? blurb(target) || 'Right here.' : [distanceLabel(place, target), blurb(target)].filter(Boolean).join(' · '),
@@ -110,5 +112,5 @@ function fill(place, list, placeholders, selfFirst, pool, farAway) {
 // What the app needs to change on places it already ships inside the design (the first 34).
 export function overridesFor(planned, ids) {
   const keep = new Set(ids);
-  return Object.fromEntries(planned.filter((p) => keep.has(p.id)).map((p) => [p.id, { lat: p.lat, lng: p.lng, food: p.food, dessert: p.dessert }]));
+  return Object.fromEntries(planned.filter((p) => keep.has(p.id)).map((p) => [p.id, { lat: p.lat, lng: p.lng, geo: p.geo, food: p.food, dessert: p.dessert }]));
 }

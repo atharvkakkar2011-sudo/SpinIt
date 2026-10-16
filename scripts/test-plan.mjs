@@ -90,3 +90,27 @@ test('the Google request asks for the right place and fields', async () => {
   assert.match(sent.init.headers['X-Goog-FieldMask'], /places.location/);
   assert.equal(JSON.parse(sent.init.body).textQuery, 'Zorba, The Pearl, Qatar');
 });
+
+// ---- directions (app-src/maps.js is a plain browser script) ----------------------------------------
+import { runInNewContext } from 'node:vm';
+const mapsCtx = { window: {} };
+runInNewContext(readFileSync(new URL('../app-src/maps.js', import.meta.url), 'utf8'), mapsCtx);
+const maps = mapsCtx.window.SpinItMaps;
+
+test('directions: the whole night goes to Google Maps as one route, Apple Maps gets the first stop', () => {
+  const kz = byId.kidzania;
+  const l = maps.links([kz, kz.food[0], kz.dessert[0]]);
+  const g = new URL(l.google), a = new URL(l.apple);
+  assert.equal(l.stops, 3);
+  assert.equal(g.searchParams.get('waypoints').split('|').length, 2);
+  assert.equal(g.searchParams.get('destination'), `${kz.dessert[0].name}, Qatar`); // approximate location → by name
+  assert.equal(a.searchParams.get('q'), kz.name);
+});
+
+test('directions: exact locations go by coordinates, hand-written picks are skipped', () => {
+  const k = byId.katara; // real coordinates, design's own "Seaside mezze" pick isn't a place
+  const l = maps.links([k, k.food[0], k.dessert[0]]);
+  assert.equal(l.stops, 1);
+  assert.equal(new URL(l.google).searchParams.get('destination'), `${k.lat},${k.lng}`);
+  assert.equal(new URL(l.apple).searchParams.get('daddr'), `${k.lat},${k.lng}`);
+});

@@ -1,9 +1,9 @@
 // Spin It in Expo Go: the same pages the Capacitor app ships (www-demo/ or www/), shown full screen.
 // `npm run phone` (repo root) builds and serves them from your computer; this app finds that computer
 // through the Expo dev server address. The design's share / copy / maps / WhatsApp / location calls
-// are passed to the phone through a small injected script.
+// are passed to the phone through a small injected script; directions go to Apple Maps or Google Maps.
 import { useCallback, useRef, useState } from 'react';
-import { Linking, Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { ActionSheetIOS, Linking, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
@@ -58,6 +58,14 @@ export default function App() {
         reply(id, true);
       } else if (type === 'open') {
         await Linking.openURL(payload.url);
+      } else if (type === 'maps') {
+        // directions (app-src/maps.js): iPhone picks Apple Maps or Google Maps, Android opens Google Maps
+        if (Platform.OS !== 'ios') { await Linking.openURL(payload.google); return; }
+        const google = payload.stops > 1 ? 'Google Maps (whole night)' : 'Google Maps';
+        ActionSheetIOS.showActionSheetWithOptions(
+          { title: 'Open directions in', options: ['Apple Maps', google, 'Cancel'], cancelButtonIndex: 2 },
+          (i) => { if (i === 0) Linking.openURL(payload.apple); else if (i === 1) Linking.openURL(payload.google); },
+        );
       } else if (type === 'geo') {
         const perm = await Location.requestForegroundPermissionsAsync();
         if (perm.status !== 'granted') throw new Error('Location permission denied');

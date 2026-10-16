@@ -2,6 +2,7 @@
 // external links, calendar-file sharing, status bar and splash. Every function degrades to a
 // browser behaviour so the same bundle runs in a plain browser for development.
 import { App } from '@capacitor/app';
+import { ActionSheet, ActionSheetButtonStyle } from '@capacitor/action-sheet';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { Browser } from '@capacitor/browser';
 import { Capacitor } from '@capacitor/core';
@@ -37,6 +38,7 @@ export const native = {
     onRoute = route || onRoute; onResume = resume || onResume; onOnline = online || onOnline;
     patchBrowserAPIs();
     if (!isNative) return;
+    if (window.SpinItMaps) window.SpinItMaps.native = (links) => native.openMaps(links);
     try { await StatusBar.setStyle({ style: Style.Dark }); if (platform === 'android') { await StatusBar.setOverlaysWebView({ overlay: true }); await StatusBar.setBackgroundColor({ color: '#00000000' }); } } catch { /* optional */ }
     try { await Keyboard.setResizeMode({ mode: 'none' }); } catch { /* optional */ }
     App.addListener('appUrlOpen', ({ url }) => handleLink(url));
@@ -119,6 +121,20 @@ export const native = {
   },
   async copy(text) {
     try { await Clipboard.write({ string: text }); return true; } catch { try { await navigator.clipboard.writeText(text); return true; } catch { return false; } }
+  },
+  /** Directions (links from app-src/maps.js): iPhone asks Apple Maps or Google Maps, Android opens Google Maps. */
+  async openMaps({ google, apple, stops }) {
+    let url = google;
+    if (platform === 'ios') {
+      const options = [{ title: 'Apple Maps' }, { title: stops > 1 ? 'Google Maps (whole night)' : 'Google Maps' }, { title: 'Cancel', style: ActionSheetButtonStyle.Cancel }];
+      try {
+        const { index } = await ActionSheet.showActions({ title: 'Open directions in', options });
+        if (index === 2 || index < 0) return;
+        url = index === 0 ? apple : google;
+      } catch { url = apple; }
+    }
+    // the maps app itself, not the in-app browser
+    try { await AppLauncher.openUrl({ url }); } catch { window.open(url, '_blank', 'noopener'); }
   },
   async openUrl(url) {
     try {

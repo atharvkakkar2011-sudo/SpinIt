@@ -68,6 +68,17 @@ export const patches = [
     find: 'saturate(160%);flex:1;height:40px;border-radius:12px;',
     replace: 'saturate(160%);flex:none;padding:0 16px;white-space:nowrap;height:40px;border-radius:12px;',
   },
+  // Directions open the phone's maps app (app-src/maps.js): the night plan routes place → dinner → dessert.
+  {
+    name: 'explore: directions open Apple Maps or Google Maps',
+    find: "directions: () => window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent((s.screen === 'detail' ? d.name : r.name) + ', Doha, Qatar'), '_blank'),",
+    replace: "directions: () => window.SpinItMaps.go(s.screen === 'detail' ? [d] : s.screen === 'evening' ? [r, food, des] : [r]),",
+  },
+  {
+    name: 'explore: mystery drive opens Apple Maps or Google Maps',
+    find: "window.open('https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(r.name + ', Doha'), '_blank');",
+    replace: 'window.SpinItMaps.go([r]);',
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     name: 'places: extra places join the library',
@@ -82,7 +93,7 @@ export const patches = [
   {
     name: 'head: load config, React, bridge before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
   },
   {
     name: 'head: full-bleed viewport for notches',
@@ -454,7 +465,7 @@ export const demoPatches = [
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./places-extra.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
   },
   {
     // the design builds its first wheel before the library joins this.P, so only 6 places start on;
