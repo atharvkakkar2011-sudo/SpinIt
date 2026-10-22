@@ -45,6 +45,7 @@ cpSync(join(root, 'app-src/fonts'), join(out, 'fonts'), { recursive: true });
 cpSync(join(root, 'app-src/maps.js'), join(out, 'maps.js'));
 cpSync(join(root, 'app-src/wheel-fx.js'), join(out, 'wheel-fx.js'));
 cpSync(join(root, 'app-src/plan-map.js'), join(out, 'plan-map.js'));
+cpSync(join(root, 'app-src/layout-fit.js'), join(out, 'layout-fit.js'));
 for (const f of ['leaflet.js', 'leaflet.css', 'images']) cpSync(join(root, 'node_modules/leaflet/dist', f), join(out, 'vendor/leaflet', f), { recursive: true });
 
 const config = {

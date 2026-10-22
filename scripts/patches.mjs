@@ -194,6 +194,18 @@ export const patches = [
     find: "pills: [s.mood || 'Any vibe', budgetLabel, s.who].map((l, k) => { const on = (k === 0 && s.mood) || (k === 1 && budgetOn);",
     replace: "pills: [s.mood || 'Any vibe', budgetLabel, (s.kinds || []).length ? s.kinds[0] + (s.kinds.length > 1 ? ' +' + (s.kinds.length - 1) : '') : s.setting && s.setting !== 'Both' ? s.setting : s.who].map((l, k) => { const on = (k === 0 && s.mood) || (k === 1 && budgetOn) || (k === 2 && ((s.kinds || []).length || (s.setting && s.setting !== 'Both')));",
   },
+  // Short phones: the wheel shrinks so YALLA SPIN stays above the tab bar (app-src/layout-fit.js), and the
+  // vibe sheet scrolls instead of running off the top of the screen.
+  {
+    name: 'fit: the wheel box can shrink on short screens',
+    find: '<div style="position:relative;width:322px;height:322px;margin-top:26px;flex:none">',
+    replace: '<div id="spinit-wheelbox" style="position:relative;width:322px;height:322px;margin-top:26px;flex:none">',
+  },
+  {
+    name: 'fit: the vibe sheet scrolls when the screen is short',
+    find: '<sc-if value="{{ isMoodSheet }}" hint-placeholder-val="{{ false }}">\n        <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(0,0,0,0.6);z-index:40;animation:fadeIn .2s ease">\n          <div onClick="{{ stopProp }}" style="position:absolute;left:0;bottom:0;',
+    replace: '<sc-if value="{{ isMoodSheet }}" hint-placeholder-val="{{ false }}">\n        <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(0,0,0,0.6);z-index:40;animation:fadeIn .2s ease">\n          <div id="spinit-vibe-sheet" onClick="{{ stopProp }}" style="max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;box-sizing:border-box;position:absolute;left:0;bottom:0;',
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     name: 'places: extra places join the library',
@@ -208,7 +220,7 @@ export const patches = [
   {
     name: 'head: load config, React, bridge before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./layout-fit.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
   },
   {
     name: 'head: full-bleed viewport for notches',
@@ -579,7 +591,14 @@ export const patches = [
   {
     name: 'vibe: go() takes a quiet flag',
     find: '  go(screen) {',
-    replace: '  go(screen, quiet) {',
+    replace: '  go(screen, quiet) { this._navAt = Date.now();',
+  },
+  {
+    // a phone fires a click right after the tab bar's pointer-up switched screens; it would land on the
+    // newly opened sheet's backdrop and close it again
+    name: 'vibe: the tap that opened the Spin page does not close its sheet',
+    find: 'closeSheet: () => this.setState({ sheet: null }),',
+    replace: 'closeSheet: () => { if (Date.now() - (this._navAt || 0) < 500) return; this.setState({ sheet: null }); },',
   },
   {
     name: 'vibe: arriving on Spin opens the vibe sheet',
@@ -608,11 +627,11 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./layout-fit.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
   },
   {
     // the design builds its first wheel before the library joins this.P, so only 6 places start on;
