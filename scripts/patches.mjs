@@ -166,6 +166,34 @@ export const patches = [
     find: "I = n => /^https?:/.test(n) ? 'url(\"' + n + '\")' : 'url(./img/s/' + n + '.jpg)';",
     replace: "I = n => (!n ? '' : (/^(https?:|data:)/.test(n) ? 'url(\"' + n + '\")' : 'url(./img/s/' + n + '.jpg)') + ', ') + 'radial-gradient(circle at 30% 20%, #3A2350 0%, #1C1424 55%, #0E0A12 100%)';",
   },
+  // Owner's pre-spin filters (vibe sheet): WHERE (Indoor / Outdoor / Both) and WHAT KIND OF PLACE
+  // (Café, Restaurants, Entertainment, Fitness, Culture; several allowed, none = everything). Kinds use the
+  // same categories as the Explore chips (scripts/place-cats.mjs); indoor uses the design's INDOOR list.
+  {
+    name: 'filters: the wheel honours where and what kind',
+    find: 'matches(p, s) { if (s.mood && !p.moods.includes(s.mood)) return false;',
+    replace: "KINDS = ['Café', 'Restaurants', 'Entertainment', 'Fitness', 'Culture'];\n  matches(p, s) { if (s.mood && !p.moods.includes(s.mood)) return false; if (s.setting === 'Indoor' && !this.INDOOR[p.id]) return false; if (s.setting === 'Outdoor' && this.INDOOR[p.id]) return false; if ((s.kinds || []).length) { const c = (window.SPINIT_PLACE_CATS || {})[p.id] || []; if (!s.kinds.some(k => c.includes(k === 'Café' ? 'Coffee shops' : k))) return false; }",
+  },
+  {
+    name: 'filters: where and what-kind choices in the vibe sheet',
+    find: "{ label: 'VIBE', opts: this.MOODS.map(m => ({ label: m, on: s.mood === m, pick: () => this.setState({ mood: s.mood === m ? null : m }) })) }",
+    replace: "{ label: 'VIBE', opts: this.MOODS.map(m => ({ label: m, on: s.mood === m, pick: () => this.setState({ mood: s.mood === m ? null : m }) })) },\n        { label: 'WHERE', opts: ['Indoor', 'Outdoor', 'Both'].map(w => ({ label: w, on: (s.setting || 'Both') === w, pick: () => this.setState({ setting: w }) })) },\n        { label: 'WHAT KIND OF PLACE', opts: this.KINDS.map(k => { const on = (s.kinds || []).includes(k); return { label: k, on, pick: () => this.setState(st => ({ kinds: on ? (st.kinds || []).filter(x => x !== k) : [...(st.kinds || []), k] })) }; }) }",
+  },
+  {
+    name: 'filters: reset clears where and what kind',
+    find: 'resetFilters: () => { this.setState({ mood: null, budget: null, bMin: 0, bMax: 400 });',
+    replace: "resetFilters: () => { this.setState({ mood: null, budget: null, bMin: 0, bMax: 400, setting: 'Both', kinds: [] });",
+  },
+  {
+    name: 'filters: the filter count includes where and what kind',
+    find: 'const filterCount = (s.mood ? 1 : 0) + (budgetOn ? 1 : 0);',
+    replace: "const filterCount = (s.mood ? 1 : 0) + (budgetOn ? 1 : 0) + (s.setting && s.setting !== 'Both' ? 1 : 0) + ((s.kinds || []).length ? 1 : 0);",
+  },
+  {
+    name: 'filters: the pills under the wheel show what kind / where when chosen',
+    find: "pills: [s.mood || 'Any vibe', budgetLabel, s.who].map((l, k) => { const on = (k === 0 && s.mood) || (k === 1 && budgetOn);",
+    replace: "pills: [s.mood || 'Any vibe', budgetLabel, (s.kinds || []).length ? s.kinds[0] + (s.kinds.length > 1 ? ' +' + (s.kinds.length - 1) : '') : s.setting && s.setting !== 'Both' ? s.setting : s.who].map((l, k) => { const on = (k === 0 && s.mood) || (k === 1 && budgetOn) || (k === 2 && ((s.kinds || []).length || (s.setting && s.setting !== 'Both')));",
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     name: 'places: extra places join the library',
@@ -553,7 +581,7 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
