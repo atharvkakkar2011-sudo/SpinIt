@@ -574,6 +574,33 @@ export const patches = [
     find: 'list[k].i, res), 4400);',
     replace: 'list[k].i, res), 6000);',
   },
+  // Opening the Spin page from another screen pops "What's the vibe?" straight away (owner's request).
+  // The app's own jumps to Spin to start a spin (respin, squad spin) pass quiet, so it never covers a turning wheel.
+  {
+    name: 'vibe: go() takes a quiet flag',
+    find: '  go(screen) {',
+    replace: '  go(screen, quiet) {',
+  },
+  {
+    name: 'vibe: arriving on Spin opens the vibe sheet',
+    find: 'prev: s.screen === screen ? s.prev : s.screen, sheet: null,',
+    replace: "prev: s.screen === screen ? s.prev : s.screen, sheet: screen === 'spin' && s.screen !== 'spin' && !quiet && !s.spinning ? 'mood' : null,",
+  },
+  {
+    name: 'vibe: not when a spin starts from another screen',
+    find: "if (s.screen !== 'spin') this.go('spin');",
+    replace: "if (s.screen !== 'spin') this.go('spin', true);",
+  },
+  {
+    name: 'vibe: not on "spin again"',
+    find: 'this.setState({ reveal: false }); this.go(\'spin\'); setTimeout(this.spin, 350);',
+    replace: 'this.setState({ reveal: false }); this.go(\'spin\', true); setTimeout(this.spin, 350);',
+  },
+  {
+    name: 'spin: squad spin goes straight to the wheel (no vibe sheet)',
+    find: "this._squadCode = window.SpinIt.squad.code(); this.go('spin');",
+    replace: "this._squadCode = window.SpinIt.squad.code(); this.go('spin', true);",
+  },
 ];
 
 // Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
@@ -581,7 +608,7 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
@@ -613,6 +640,11 @@ export const demoPatches = [
     name: 'demo spin: land when the longer spin stops',
     find: 'list[k].i), 4400);',
     replace: 'list[k].i), 6000);',
+  },
+  {
+    name: 'demo vibe: squad spin goes straight to the wheel',
+    find: "squadUsed: true }); this.go('spin'); setTimeout(this.spin, 400);",
+    replace: "squadUsed: true }); this.go('spin', true); setTimeout(this.spin, 400);",
   },
 ];
 

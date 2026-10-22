@@ -70,6 +70,10 @@ try {
   // loosen the filters so far more than 25 places match; the wheel still shows 25
   await a.p.evaluate(() => window.SpinIt.app.setState({ mood: null, bMin: 0, bMax: 400 }));
   await a.click('Spin'); await a.p.waitForTimeout(300);
+  // arriving on Spin opens "What's the vibe?" first; apply it to get to the wheel
+  assert.equal(await a.st('sheet'), 'mood', 'vibe sheet pops up on the Spin page');
+  await a.p.getByText(/^Yalla, show me \d+ spots$/).first().click(); await a.p.waitForTimeout(300);
+  assert.equal(await a.st('sheet'), null);
   const shown = await a.p.evaluate(() => window.SpinIt.app.wheelList(window.SpinIt.app.state).map(x => x.p.id));
   assert.equal(shown.length, 25);
   await a.click('YALLA SPIN'); await a.p.waitForTimeout(7800);
@@ -88,6 +92,7 @@ try {
   await a.click('Lock it in 🔒'); await a.p.waitForTimeout(1000);
   assert.equal(sql(`select place_id from public.night_locks where user_id='${uid}'`), placeId);
   await a.p.evaluate(() => window.SpinIt.app.go('spin')); await a.p.waitForTimeout(300);
+  await a.p.evaluate(() => window.SpinIt.app.setState({ sheet: null })); await a.p.waitForTimeout(200); // past the vibe sheet
   await a.click('YALLA SPIN'); await a.p.waitForTimeout(600);
   assert.match(await a.st('toast'), /locked/i);
   assert.equal(sql(`select count(*) from public.spins where user_id='${uid}'`), '1');
