@@ -91,12 +91,7 @@ try {
   assert.equal(sql(`select party_size||'/'||status from public.bookings where user_id='${uid}'`), '2/requested');
   await a.click('Lock it in 🔒'); await a.p.waitForTimeout(1000);
   assert.equal(sql(`select place_id from public.night_locks where user_id='${uid}'`), placeId);
-  await a.p.evaluate(() => window.SpinIt.app.go('spin')); await a.p.waitForTimeout(300);
-  await a.p.evaluate(() => window.SpinIt.app.setState({ sheet: null })); await a.p.waitForTimeout(200); // past the vibe sheet
-  await a.click('YALLA SPIN'); await a.p.waitForTimeout(600);
-  assert.match(await a.st('toast'), /locked/i);
-  assert.equal(sql(`select count(*) from public.spins where user_id='${uid}'`), '1');
-  step('booking request + lock are stored; a locked night refuses spins');
+  step('booking request + lock are stored');
 
   await a.p.evaluate(() => window.SpinIt.app.go('evening')); await a.p.waitForTimeout(400);
   await a.click('SPIN-ONLY BONUS, W'); await a.p.waitForTimeout(1500);
@@ -132,6 +127,15 @@ try {
   const s = await c.p.evaluate(() => { const x = window.SpinIt.app.state; return { saved: x.saved, wheelName: x.wheelName, spinsLeft: x.spinsLeft, history: x.history.length, booking: x.booking && x.booking.size, locked: !!x.locked, used: x.deals.map((d) => d.used), screen: x.screen }; });
   assert.deepEqual(s, { saved: { 3: true }, wheelName: 'Friday Crew', spinsLeft: 3, history: 1, booking: 2, locked: true, used: [true], screen: 'discover' });
   step('logging in on a fresh device restores everything from the server');
+
+  await c.p.evaluate(() => window.SpinIt.app.go('spin')); await c.p.waitForTimeout(300);
+  await c.p.evaluate(() => window.SpinIt.app.setState({ sheet: null })); await c.p.waitForTimeout(200); // past the vibe sheet
+  await c.click('YALLA SPIN'); await c.p.waitForTimeout(7000);
+  assert.equal(await c.p.evaluate(() => !!window.SpinIt.app.state.locked), false);
+  assert.equal(await c.st('landed'), true);
+  assert.equal(sql(`select count(*) from public.night_locks where user_id='${uid}'`), '0');
+  assert.equal(sql(`select count(*) from public.spins where user_id='${uid}'`), '2');
+  step('respinning after locking in drops the lock and spins (no take-backs is off for now)');
 
   await c.p.evaluate(() => window.SpinIt.app.go('profile')); await c.click('Log out');
   await c.click('I already have an account');

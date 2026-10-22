@@ -626,6 +626,43 @@ export const patches = [
     find: "this._squadCode = window.SpinIt.squad.code(); this.go('spin');",
     replace: "this._squadCode = window.SpinIt.squad.code(); this.go('spin', true);",
   },
+  // Respins after locking in (for now): spinning again just drops tonight's lock (the server does the
+  // same, supabase/migrations/20261022000009_respin_after_lock.sql). Remove these to bring "no take-backs" back.
+  {
+    name: 'respin: spinning again clears tonight\u2019s lock',
+    find: "if (s.locked && s.locked.key === this.nightKey()) { this.say('Tonight’s locked. No take-backs, habibi 🔒'); return; }",
+    replace: "if (s.locked && s.locked.key === this.nightKey()) { this.setState({ locked: null }); try { if (window.SpinIt) window.SpinIt.native.cancel('night'); } catch (e) { /* no reminder */ } }",
+  },
+  {
+    name: 'respin: lock card copy',
+    find: 'color:{{ acc }}">NO TAKE-BACKS</div>',
+    replace: 'color:{{ acc }}">LOCK IT IN</div>',
+  },
+  {
+    name: 'respin: lock card says you can still spin',
+    find: 'tells the group. No more spins tonight.</div>',
+    replace: 'tells the group. Change of plans? Just spin again.</div>',
+  },
+  {
+    name: 'respin: locked checklist',
+    find: "{ t: 'Spins frozen till tomorrow' }",
+    replace: "{ t: 'Still free to respin' }",
+  },
+  {
+    name: 'respin: lock toast',
+    find: "this.say('Locked in. No take-backs 🔒');",
+    replace: "this.say('Locked in 🔒');",
+  },
+  {
+    name: 'respin: share text',
+    find: "'\\nNo take-backs. Spun on SpinIt",
+    replace: "'\\nSpun on SpinIt",
+  },
+  {
+    name: 'respin: calendar note',
+    find: "' + d.name + '. No take-backs.',",
+    replace: "' + d.name + '.',",
+  },
 ];
 
 // Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
@@ -633,7 +670,7 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:') || p.name.startsWith('respin:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',

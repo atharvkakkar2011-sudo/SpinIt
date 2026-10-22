@@ -113,13 +113,15 @@ await test('spin: night rolls over at 6 PM Doha time', async () => {
   assert.equal(await k('2026-10-08T02:00:00'), '2026-10-07');
 });
 
-await test('spin: locked night refuses, unlock restores; unsigned callers refused', async () => {
+await test('spin: respinning a locked night drops the lock (for now); unlock works; unsigned callers refused', async () => {
   const u = await newUser('locker');
   await as(u, (q) => rpc(q, 'lock_night', ['souq']));
-  await rejects(as(u, (q) => rpc(q, 'spin', ['place', ['katara', 'souq']])), /locked/);
   assert.equal((await as(u, (q) => rpc(q, 'my_night'))).locked.place_id, 'souq');
-  await as(u, (q) => rpc(q, 'unlock_night'));
   await as(u, (q) => rpc(q, 'spin', ['place', ['katara', 'souq']]));
+  assert.equal((await as(u, (q) => rpc(q, 'my_night'))).locked, null);
+  await as(u, (q) => rpc(q, 'lock_night', ['katara']));
+  await as(u, (q) => rpc(q, 'unlock_night'));
+  assert.equal((await as(u, (q) => rpc(q, 'my_night'))).locked, null);
   await rejects(as(null, (q) => rpc(q, 'spin', ['place', ['katara']]), 'anon'), /permission denied/);
 });
 

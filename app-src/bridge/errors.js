@@ -17,6 +17,6 @@ export function errKind(e) {
 const TEXT = {
   signup: { exists: 'That email already has an account. Try logging in?', weak_password: '6+ characters, bestie. Security is hot.', confirm_email: 'Check your inbox to confirm your email, then log in.', rate_limit: 'Slow down a sec, then try again.', offline: 'No connection. Try again when you’re back online.', other: 'Couldn’t sign you up. Try again?' },
   login: { bad_login: 'Wrong combo? Check your email and password.', confirm_email: 'Confirm your email first, then log in.', rate_limit: 'Too many tries. Give it a minute.', offline: 'No connection. Try again when you’re back online.', other: 'Couldn’t log you in. Try again?' },
-  spin: { offline: 'Spins need a connection. Get back online and go again.', locked: 'Tonight’s locked. No take-backs 🔒', none_open: 'Everything on your wheel is closed right now. Loosen the filters?', not_signed_in: 'Log in again to spin.', auth: 'Log in again to spin.', other: 'The wheel hiccuped. Try again?' },
+  spin: { offline: 'Spins need a connection. Get back online and go again.', locked: 'Tonight’s locked. Unlock it to spin again.', none_open: 'Everything on your wheel is closed right now. Loosen the filters?', not_signed_in: 'Log in again to spin.', auth: 'Log in again to spin.', other: 'The wheel hiccuped. Try again?' },
 };
 export const errText = (e, ctx) => (TEXT[ctx] || {})[errKind(e)] || (TEXT[ctx] || {}).other || 'Something went wrong. Try again?';
