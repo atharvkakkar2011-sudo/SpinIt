@@ -10,7 +10,7 @@
     if (p.lat != null && p.lng != null && p.geo !== 'area') return p.lat + ',' + p.lng;
     return p.name + ', Qatar';
   }
-  function isReal(p, i) { return p && p.name && (i === 0 || p.lat != null); } // hand-written picks aren't on a map
+  function isReal(p, i) { return p && p.name && (i === 0 || (p.lat != null && !p.onsite)); } // hand-written and on-site picks: the place itself is the stop
 
   function links(stops) {
     var seen = {}, list = [];

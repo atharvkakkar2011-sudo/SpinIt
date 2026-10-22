@@ -53,6 +53,8 @@ const config = {
   webBase: env.SPINIT_WEB_BASE || 'https://spinit.app',
   // map tiles for the night plan (app-src/plan-map.js); empty = CARTO's dark basemap
   ...(env.SPINIT_MAP_TILES ? { mapTiles: env.SPINIT_MAP_TILES, mapAttribution: env.SPINIT_MAP_ATTRIBUTION || '' } : {}),
+  // road routes on that map: an OSRM-compatible /route/v1/driving/ URL; empty = the public OSRM demo server
+  ...(env.SPINIT_ROUTE_URL ? { routeUrl: env.SPINIT_ROUTE_URL } : {}),
 };
 writeFileSync(join(out, 'config.js'), `window.SPINIT_CONFIG = ${JSON.stringify(config)};\n`);
 

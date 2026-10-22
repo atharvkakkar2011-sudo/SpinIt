@@ -84,13 +84,23 @@ export function planPlaces(input) {
   const restaurants = places.filter((p) => p.category === 'Restaurant');
   const sweets = places.filter((p) => p.category === 'Dessert' || p.category === 'Café');
 
-  return places.map((p) => ({
+  return places.map((p) => onSite({
     ...p,
     // the spreadsheet's filler subtitles ("Dinner plans just got an upgrade") become the place's own line
     vibe: blurb(p) || p.vibe,
     food: fill(p, p.food, FOOD_PLACEHOLDERS, p.category === 'Restaurant', restaurants, FAR_FOOD),
     dessert: fill(p, p.dessert, SWEET_PLACEHOLDERS, p.category === 'Dessert' || p.category === 'Café', sweets, FAR_SWEET),
   }));
+}
+
+// Picks the spreadsheet named for a place ("Nando's", "Shake Shack" – on-site or right nearby) have no
+// location of their own: put them at the place, marked onsite so directions don't search for them by name.
+// The design's own six places keep their hand-written picks without a location.
+const DESIGN_ORIGINALS = new Set(['katara', 'msheireb', 'lusail', 'souq', 'pearl', 'corniche']);
+function onSite(p) {
+  if (DESIGN_ORIGINALS.has(p.id)) return p;
+  const at = (f) => (f.lat != null || f.name === FAR_FOOD.name || f.name === FAR_SWEET.name ? f : { ...f, lat: p.lat, lng: p.lng, ...(p.geo ? { geo: p.geo } : {}), onsite: true });
+  return { ...p, food: p.food.map(at), dessert: p.dessert.map(at) };
 }
 
 // Swap placeholder picks for real ones: the place itself first when it is that kind of place, then the
