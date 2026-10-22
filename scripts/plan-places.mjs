@@ -86,6 +86,8 @@ export function planPlaces(input) {
 
   return places.map((p) => ({
     ...p,
+    // the spreadsheet's filler subtitles ("Dinner plans just got an upgrade") become the place's own line
+    vibe: blurb(p) || p.vibe,
     food: fill(p, p.food, FOOD_PLACEHOLDERS, p.category === 'Restaurant', restaurants, FAR_FOOD),
     dessert: fill(p, p.dessert, SWEET_PLACEHOLDERS, p.category === 'Dessert' || p.category === 'Café', sweets, FAR_SWEET),
   }));
@@ -112,5 +114,5 @@ function fill(place, list, placeholders, selfFirst, pool, farAway) {
 // What the app needs to change on places it already ships inside the design (the first 34).
 export function overridesFor(planned, ids) {
   const keep = new Set(ids);
-  return Object.fromEntries(planned.filter((p) => keep.has(p.id)).map((p) => [p.id, { lat: p.lat, lng: p.lng, geo: p.geo, food: p.food, dessert: p.dessert }]));
+  return Object.fromEntries(planned.filter((p) => keep.has(p.id)).map((p) => [p.id, { lat: p.lat, lng: p.lng, geo: p.geo, vibe: p.vibe, photos: p.photos, food: p.food, dessert: p.dessert }]));
 }

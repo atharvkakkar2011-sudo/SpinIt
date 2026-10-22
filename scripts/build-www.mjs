@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { applyPatches, demoPatches } from './patches.mjs';
 import { categoryMap } from './place-cats.mjs';
 import { overridesFor, planPlaces } from './plan-places.mjs';
+import { withPhotos } from './photo-fallback.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // --demo: no backend; the design keeps its own on-device storage (www-demo/, used by `npm run phone`)
@@ -43,17 +44,22 @@ cpSync(join(root, 'app-src/vendor'), out, { recursive: true });
 cpSync(join(root, 'app-src/fonts'), join(out, 'fonts'), { recursive: true });
 cpSync(join(root, 'app-src/maps.js'), join(out, 'maps.js'));
 cpSync(join(root, 'app-src/wheel-fx.js'), join(out, 'wheel-fx.js'));
+cpSync(join(root, 'app-src/plan-map.js'), join(out, 'plan-map.js'));
+for (const f of ['leaflet.js', 'leaflet.css', 'images']) cpSync(join(root, 'node_modules/leaflet/dist', f), join(out, 'vendor/leaflet', f), { recursive: true });
 
 const config = {
   supabaseUrl: env.SPINIT_SUPABASE_URL || 'http://127.0.0.1:54321',
   supabaseAnonKey: env.SPINIT_SUPABASE_ANON_KEY || 'dev-anon-key',
   webBase: env.SPINIT_WEB_BASE || 'https://spinit.app',
+  // map tiles for the night plan (app-src/plan-map.js); empty = CARTO's dark basemap
+  ...(env.SPINIT_MAP_TILES ? { mapTiles: env.SPINIT_MAP_TILES, mapAttribution: env.SPINIT_MAP_ATTRIBUTION || '' } : {}),
 };
 writeFileSync(join(out, 'config.js'), `window.SPINIT_CONFIG = ${JSON.stringify(config)};\n`);
 
 // The design ships 6 + 28 places; anything after that in places.json is added on top.
 // planPlaces fills in locations and real dinner/dessert picks (scripts/plan-places.mjs)
-const places = planPlaces(JSON.parse(readFileSync(join(root, 'supabase/seed-src/places.json'), 'utf8')));
+// …and places without a photo get a designed stand-in (scripts/photo-fallback.mjs)
+const places = withPhotos(planPlaces(JSON.parse(readFileSync(join(root, 'supabase/seed-src/places.json'), 'utf8'))));
 // plus every place's Explore categories (scripts/place-cats.mjs)
 // and the planned picks/locations for the 34 places the design itself ships
 writeFileSync(join(out, 'places-extra.js'), [

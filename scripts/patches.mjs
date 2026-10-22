@@ -127,6 +127,45 @@ export const patches = [
     find: 'this._hi = setInterval(() => this.setState(st => ({ hue:',
     replace: 'if (window.SpinItWheelFx) window.SpinItWheelFx.start({ calm: this.state.calm });\n    this._hi = setInterval(() => this.setState(st => ({ hue:',
   },
+  // A real map on the night plan (Leaflet, app-src/plan-map.js) over the design's drawn one, with the real
+  // positions of the place, dinner and dessert; walk/drive times use the same real positions.
+  {
+    name: 'map: real positions for dinner and dessert',
+    find: 'const g0 = GEO[r.id] || [25.2867, 51.526], o = OFF[s.result % 6];\n        const pts = [g0, [g0[0] + o[0], g0[1] + o[1]], [g0[0] + o[2], g0[1] + o[3]]];',
+    replace: 'const g0 = r.lat != null ? [r.lat, r.lng] : GEO[r.id] || [25.2867, 51.526], o = OFF[s.result % 6];\n        const fd = r.food[s.foodAlt] || {}, ds = r.dessert[s.dessertAlt] || {};\n        const pts = [g0, fd.lat != null ? [fd.lat, fd.lng] : [g0[0] + o[0], g0[1] + o[1]], ds.lat != null ? [ds.lat, ds.lng] : [g0[0] + o[2], g0[1] + o[3]]];',
+  },
+  {
+    name: 'map: stop-list travel times use the real positions too',
+    find: 'const p1 = [g[0] + O[0], g[1] + O[1]], p2 = [g[0] + O[2], g[1] + O[3]];',
+    replace: 'const p1 = food && food.lat != null ? [food.lat, food.lng] : [g[0] + O[0], g[1] + O[1]], p2 = des && des.lat != null ? [des.lat, des.lng] : [g[0] + O[2], g[1] + O[3]];',
+  },
+  {
+    name: 'map: stops in the same spot read "nearby", not "0 m"',
+    find: "(km < 1 ? Math.round(km * 100) * 10 + ' m' : km.toFixed(1) + ' km')",
+    replace: "(km < 0.05 ? 'nearby' : km < 1 ? Math.round(km * 100) * 10 + ' m' : km.toFixed(1) + ' km')",
+  },
+  {
+    name: 'map: stops in the same spot read "nearby", not "0 m" (map chips)',
+    find: "const fmt = km => km < 1 ? Math.round(km * 1000 / 10) * 10 + ' m' : km.toFixed(1) + ' km';",
+    replace: "const fmt = km => km < 0.05 ? 'nearby' : km < 1 ? Math.round(km * 1000 / 10) * 10 + ' m' : km.toFixed(1) + ' km';",
+  },
+  {
+    name: 'map: draw the plan on a real map',
+    find: 'routePts: P3.map(',
+    replace: "planMap: (s.screen === 'evening' && window.SpinItPlanMap && setTimeout(() => window.SpinItPlanMap.sync([{ lat: g0[0], lng: g0[1], name: r.name, label: r.short, approx: r.geo === 'area', geo: r.geo }, fd.lat != null && { lat: fd.lat, lng: fd.lng, name: fd.name, label: fd.tag, approx: fd.geo === 'area', geo: fd.geo }, ds.lat != null && { lat: ds.lat, lng: ds.lng, name: ds.name, label: ds.tag, approx: ds.geo === 'area', geo: ds.geo }], A), 0), ''),\n          routePts: P3.map(",
+  },
+  {
+    name: 'map: map box under the travel chips',
+    find: '<div style="position:absolute;left:12px;bottom:10px;display:flex;gap:6px">',
+    replace: '<div id="spinit-map" style="position:absolute;inset:0;z-index:1;background:#0E0A12"></div>\n              <div style="position:absolute;left:12px;bottom:10px;display:flex;gap:6px;z-index:2;pointer-events:none">',
+  },
+  // Photos never leave a blank card: a backdrop sits under every photo (shows if a web photo fails to
+  // load), and built-in stand-ins (data: URLs from scripts/photo-fallback.mjs) are used as they are.
+  {
+    name: 'explore: photos always show something',
+    find: "I = n => /^https?:/.test(n) ? 'url(\"' + n + '\")' : 'url(./img/s/' + n + '.jpg)';",
+    replace: "I = n => (!n ? '' : (/^(https?:|data:)/.test(n) ? 'url(\"' + n + '\")' : 'url(./img/s/' + n + '.jpg)') + ', ') + 'radial-gradient(circle at 30% 20%, #3A2350 0%, #1C1424 55%, #0E0A12 100%)';",
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     name: 'places: extra places join the library',
@@ -141,7 +180,7 @@ export const patches = [
   {
     name: 'head: load config, React, bridge before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
   },
   {
     name: 'head: full-bleed viewport for notches',
@@ -514,11 +553,11 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
   },
   {
     // the design builds its first wheel before the library joins this.P, so only 6 places start on;

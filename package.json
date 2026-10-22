@@ -13,7 +13,8 @@
     "seed": "node scripts/gen-seed.mjs",
     "phone": "node scripts/phone.mjs",
     "test:plan": "node --test scripts/test-plan.mjs",
-    "enrich": "node scripts/enrich-places.mjs"
+    "enrich": "node scripts/enrich-places.mjs",
+    "photos": "node scripts/fetch-photos.mjs"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.2",
@@ -44,6 +45,7 @@
     "@capacitor/status-bar": "^8.0.4",
     "@supabase/supabase-js": "^2.117.2",
     "firebase": "^12.19.0",
+    "leaflet": "^1.9.4",
     "qrcode": "^1.5.4"
   }
 }

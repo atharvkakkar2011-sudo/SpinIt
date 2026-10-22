@@ -3,7 +3,7 @@
 // plus a stronger haptic when it lands. It reads the wheel's real rotation every frame, so the ticks
 // follow the actual easing: fast at first, then tick… tick… tick as it crawls to a stop.
 //   window.SpinItWheelFx.start({ calm })   – called by the design when a spin starts
-// Haptics: window.SpinItWheelFx.haptic(kind) is replaced by the Capacitor bridge (native) or uses the
+// Haptics (one per peg): window.SpinItWheelFx.haptic(kind) is replaced by the Capacitor bridge (native) or uses the
 // Expo app's bridge / navigator.vibrate. "Calm mode" (the design's reduced-motion setting) is silent.
 (function () {
   var ctx = null, running = false;
@@ -46,7 +46,7 @@
 
   function haptic(kind) {
     if (window.ReactNativeWebView) { window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'haptic', payload: { kind: kind } })); return; }
-    if (navigator.vibrate) navigator.vibrate(kind === 'win' ? [20, 40, 30] : 4);
+    if (navigator.vibrate) navigator.vibrate(kind === 'win' ? [30, 50, 60] : 10);
   }
 
   function angleOf(el) {
@@ -84,7 +84,8 @@
       if (peg !== lastPeg) {
         lastPeg = peg;
         if (now - lastTick > 28) { if (!opts.calm) tick(speed); flick(pointer); lastTick = now; }
-        if (now - lastHaptic > 55 && !opts.calm) { api.haptic('tick'); lastHaptic = now; }
+        // a buzz for every peg; only while it's spinning very fast do some merge (phones can't buzz faster)
+        if (now - lastHaptic > 22 && !opts.calm) { api.haptic('tick'); lastHaptic = now; }
       }
       still = speed < 0.01 ? still + 1 : 0;
       // stopped (after it got going) → the win moment; give up after 10 s whatever happens
