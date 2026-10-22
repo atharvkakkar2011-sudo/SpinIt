@@ -34,7 +34,7 @@ await test('seed: places, deals, venues, hours, events', async () => {
 await test('sign-up creates a profile and wheel from metadata', async () => {
   const id = await newUser('noor', { name: 'Noor', g: 'habibti' });
   const r = await db.query('select p.name, p.g, p.limit_on, w.name as wheel from public.profiles p join public.wheels w on w.user_id = p.id where p.id = $1', [id]);
-  assert.deepEqual(r.rows[0], { name: 'Noor', g: 'habibti', limit_on: true, wheel: 'Night Shift' });
+  assert.deepEqual(r.rows[0], { name: 'Noor', g: 'habibti', limit_on: false, wheel: 'Night Shift' });
 });
 
 await test('row-level security: users only see and change their own rows', async () => {
@@ -51,6 +51,7 @@ await test('row-level security: users only see and change their own rows', async
 
 await test('spin: 3 a night, 4th refused, bonus spin extends, results stay inside the candidates', async () => {
   const u = await newUser('spinner');
+  await db.query('update public.profiles set limit_on = true where id = $1', [u]); // the limit is off by default for now
   const cand = ['katara', 'souq', 'corniche'];
   for (let i = 0; i < 3; i++) {
     const r = await as(u, (q) => rpc(q, 'spin', ['place', cand]));
@@ -98,6 +99,11 @@ await test('spin: odds lean toward nearby places, ones you rated well, and not r
   // the app's call with a position works end to end
   const res = await as(fresh, (q) => rpc(q, 'spin', ['place', ['katara', 'souq'], evening, 25.2867, 51.5333]));
   assert.ok(['katara', 'souq'].includes(res.place_id));
+});
+
+await test('spin: unlimited by default for now', async () => {
+  const u = await newUser('unlimited');
+  for (let i = 0; i < 5; i++) assert.equal((await as(u, (q) => rpc(q, 'spin', ['place', ['katara', 'souq', 'corniche']]))).spins_left, 3);
 });
 
 await test('spin: night rolls over at 6 PM Doha time', async () => {

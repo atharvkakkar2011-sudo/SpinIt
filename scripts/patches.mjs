@@ -237,9 +237,10 @@ export const patches = [
     replace: '<link href="./fonts/fonts.css" rel="stylesheet" />',
   },
   {
-    name: 'props: the 3-spin limit is real in the app, the demo screen list is off',
+    name: 'props: spin limit default (unlimited for now; the server decides per profile)',
     find: '&quot;unlimitedSpins&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true',
-    replace: '&quot;unlimitedSpins&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false',
+    // unlimited for now (supabase/migrations/…_unlimited_spins_for_now.sql); set this to false with the limit
+    replace: '&quot;unlimitedSpins&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true',
   },
   {
     name: 'props: hide the demo screen list',
@@ -588,6 +589,11 @@ export const patches = [
   },
   // Opening the Spin page from another screen pops "What's the vibe?" straight away (owner's request).
   // The app's own jumps to Spin to start a spin (respin, squad spin) pass quiet, so it never covers a turning wheel.
+  {
+    name: 'vibe: reroll label has no countdown while spins are unlimited',
+    find: "`Not the vibe? Reroll (${s.spinsLeft} left)`",
+    replace: "(this.unl() ? 'Not the vibe? Reroll' : `Not the vibe? Reroll (${s.spinsLeft} left)`)",
+  },
   {
     name: 'vibe: go() takes a quiet flag',
     find: '  go(screen) {',

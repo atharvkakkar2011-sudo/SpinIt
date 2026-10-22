@@ -83,7 +83,7 @@ try {
   const next = await a.p.evaluate(() => { const x = window.SpinIt.app; return x._reshuffle && x.wheelList({ ...x.state, wheelSeed: (x.state.wheelSeed ?? x._seed0) + 1 }).map(y => y.p.id); });
   assert.ok(next && next.length === 25 && next.some((id) => !shown.includes(id)), 'a respin changes the 25');
   assert.equal(await a.p.evaluate((i) => window.SpinIt.app.P[i].id, await a.st('result')), placeId);
-  assert.equal(await a.st('spinsLeft'), 2);
+  assert.equal(await a.st('spinsLeft'), 3); // unlimited for now: the count never goes down
   step(`wheel shows 25 of the matching places; the server picks one of them (${placeId}); a respin deals a new 25`);
 
   await a.click('Yalla, show me the plan');
@@ -130,7 +130,7 @@ try {
   await c.p.getByPlaceholder('you@whatever.com').fill(email); await c.p.getByPlaceholder('The secret one').fill('hunter22!');
   await c.click('Let me in'); await c.p.waitForTimeout(2500);
   const s = await c.p.evaluate(() => { const x = window.SpinIt.app.state; return { saved: x.saved, wheelName: x.wheelName, spinsLeft: x.spinsLeft, history: x.history.length, booking: x.booking && x.booking.size, locked: !!x.locked, used: x.deals.map((d) => d.used), screen: x.screen }; });
-  assert.deepEqual(s, { saved: { 3: true }, wheelName: 'Friday Crew', spinsLeft: 2, history: 1, booking: 2, locked: true, used: [true], screen: 'discover' });
+  assert.deepEqual(s, { saved: { 3: true }, wheelName: 'Friday Crew', spinsLeft: 3, history: 1, booking: 2, locked: true, used: [true], screen: 'discover' });
   step('logging in on a fresh device restores everything from the server');
 
   await c.p.evaluate(() => window.SpinIt.app.go('profile')); await c.click('Log out');
