@@ -42,6 +42,7 @@ cpSync(join(root, 'design/sp-avatar.png'), join(out, 'sp-avatar.png'));
 cpSync(join(root, 'app-src/vendor'), out, { recursive: true });
 cpSync(join(root, 'app-src/fonts'), join(out, 'fonts'), { recursive: true });
 cpSync(join(root, 'app-src/maps.js'), join(out, 'maps.js'));
+cpSync(join(root, 'app-src/wheel-fx.js'), join(out, 'wheel-fx.js'));
 
 const config = {
   supabaseUrl: env.SPINIT_SUPABASE_URL || 'http://127.0.0.1:54321',

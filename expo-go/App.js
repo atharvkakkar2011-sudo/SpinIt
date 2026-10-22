@@ -8,6 +8,7 @@ import { WebView } from 'react-native-webview';
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
 import * as Clipboard from 'expo-clipboard';
+import * as Haptics from 'expo-haptics';
 import * as Location from 'expo-location';
 
 const BG = '#0E0A12';
@@ -58,6 +59,10 @@ export default function App() {
         reply(id, true);
       } else if (type === 'open') {
         await Linking.openURL(payload.url);
+      } else if (type === 'haptic') {
+        // wheel ticks and the win buzz (app-src/wheel-fx.js)
+        if (payload.kind === 'win') Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        else Haptics.selectionAsync();
       } else if (type === 'maps') {
         // directions (app-src/maps.js): iPhone picks Apple Maps or Google Maps, Android opens Google Maps
         if (Platform.OS !== 'ios') { await Linking.openURL(payload.google); return; }

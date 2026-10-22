@@ -79,6 +79,54 @@ export const patches = [
     find: "window.open('https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(r.name + ', Doha'), '_blank');",
     replace: 'window.SpinItMaps.go([r]);',
   },
+  // A more satisfying wheel (app-src/wheel-fx.js): rainbow slices over the photos, white pegs on the
+  // rim, a pointer that flicks on every peg with a tick sound and haptic, and a longer spin with a slow,
+  // suspenseful finish.
+  {
+    name: 'wheel: rainbow slices',
+    find: "shade: k % 2 ? 'rgba(14,10,18,0.42)' : 'rgba(14,10,18,0.28)'",
+    replace: "shade: 'hsla(' + Math.round(k * 360 / n) + ',92%,56%,0.8)'",
+  },
+  {
+    name: 'wheel: white slice dividers and rim pegs',
+    find: 'background:#0E0A12;transform-origin:50% 100%;transform:{{ d.tf }}"></div>\n                    </sc-for>',
+    replace: 'background:rgba(255,255,255,0.85);transform-origin:50% 100%;transform:{{ d.tf }}"></div>\n                    </sc-for>\n                    <sc-for list="{{ pegs }}" as="g" hint-placeholder-count="6">\n                      <div data-spinit-peg="1" style="position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 3px rgba(0,0,0,0.7);transform:{{ g.tf }}"></div>\n                    </sc-for>',
+  },
+  {
+    name: 'wheel: pegs on the rim',
+    find: 'rot: s.rot, wheelBg, wedges, dividers, segs,',
+    replace: "rot: s.rot, wheelBg, wedges, dividers, segs, pegs: dividers.map(d => ({ tf: d.tf + ' translateY(-147px)' })),",
+  },
+  {
+    name: 'wheel: longer spin with a slow finish',
+    find: '<div style="position:absolute;inset:0;transform:rotate({{ rot }}deg);transition:transform 4.2s cubic-bezier(0.12,0.72,0.14,1)">',
+    replace: '<div id="spinit-rotor" style="position:absolute;inset:0;transform:rotate({{ rot }}deg);transition:transform 5.8s cubic-bezier(0.12,0.7,0.08,1)">',
+  },
+  {
+    name: 'wheel: more turns',
+    find: 'cur + 360 * 5 + delta',
+    replace: 'cur + 360 * 8 + delta',
+  },
+  {
+    name: 'wheel: background effects last the whole spin',
+    find: 'tripSpin 4.4s',
+    replace: 'tripSpin 6s',
+  },
+  {
+    name: 'wheel: background effects last the whole spin (2)',
+    find: 'tripRev 4.4s',
+    replace: 'tripRev 6s',
+  },
+  {
+    name: 'wheel: pointer flicks on each peg',
+    find: '<div style="position:absolute;left:147px;top:-16px;width:28px;height:34px;',
+    replace: '<div id="spinit-pointer" style="position:absolute;left:147px;top:-16px;width:28px;height:34px;transform-origin:50% 0;',
+  },
+  {
+    name: 'wheel: ticks, haptics and chime start with the spin',
+    find: 'this._hi = setInterval(() => this.setState(st => ({ hue:',
+    replace: 'if (window.SpinItWheelFx) window.SpinItWheelFx.start({ calm: this.state.calm });\n    this._hi = setInterval(() => this.setState(st => ({ hue:',
+  },
   // Places added after the design (docs/design/Doha_120_New_Places.xlsx) join the library.
   {
     name: 'places: extra places join the library',
@@ -93,7 +141,7 @@ export const patches = [
   {
     name: 'head: load config, React, bridge before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
   },
   {
     name: 'head: full-bleed viewport for notches',
@@ -453,19 +501,24 @@ export const patches = [
     find: "const LO = [['@noor.eats',",
     replace: "const LO = window.SpinIt.content.locals() || [['@noor.eats',",
   },
+  // after 'spin: land with the server record', which rewrites this line
+  {
+    name: 'spin: land when the longer spin stops',
+    find: 'list[k].i, res), 4400);',
+    replace: 'list[k].i, res), 6000);',
+  },
 ];
 
-/** Apply every patch; each `find` must occur exactly once. Returns the patched source. */
 // Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
 // the design's own on-device storage, plus the extra places, photos and the 25-slice wheel.
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
   },
   {
     // the design builds its first wheel before the library joins this.P, so only 6 places start on;
@@ -489,8 +542,14 @@ export const demoPatches = [
     find: '  land(i) {\n',
     replace: '  land(i) {\n    this._reshuffle = true;\n',
   },
+  {
+    name: 'demo spin: land when the longer spin stops',
+    find: 'list[k].i), 4400);',
+    replace: 'list[k].i), 6000);',
+  },
 ];
 
+/** Apply every patch; each `find` must occur exactly once. Returns the patched source. */
 export function applyPatches(src, list = patches) {
   let out = src;
   const problems = [];

@@ -10,6 +10,7 @@ import { Clipboard } from '@capacitor/clipboard';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { Geolocation } from '@capacitor/geolocation';
+import { Haptics, NotificationType } from '@capacitor/haptics';
 import { Keyboard } from '@capacitor/keyboard';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Network } from '@capacitor/network';
@@ -39,6 +40,8 @@ export const native = {
     patchBrowserAPIs();
     if (!isNative) return;
     if (window.SpinItMaps) window.SpinItMaps.native = (links) => native.openMaps(links);
+    // wheel ticks and the win buzz (app-src/wheel-fx.js)
+    if (window.SpinItWheelFx) window.SpinItWheelFx.haptic = (kind) => (kind === 'win' ? Haptics.notification({ type: NotificationType.Success }) : Haptics.selectionChanged()).catch(() => {});
     try { await StatusBar.setStyle({ style: Style.Dark }); if (platform === 'android') { await StatusBar.setOverlaysWebView({ overlay: true }); await StatusBar.setBackgroundColor({ color: '#00000000' }); } } catch { /* optional */ }
     try { await Keyboard.setResizeMode({ mode: 'none' }); } catch { /* optional */ }
     App.addListener('appUrlOpen', ({ url }) => handleLink(url));
