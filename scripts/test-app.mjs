@@ -137,6 +137,14 @@ try {
   assert.equal(sql(`select count(*) from public.spins where user_id='${uid}'`), '2');
   step('respinning after locking in drops the lock and spins (no take-backs is off for now)');
 
+  const tables = sql(`select count(*) from public.bookings where user_id='${uid}'`);
+  await c.p.evaluate(() => window.SpinIt.app.setState({ eat: false }));
+  await c.click('Yalla, show me the plan'); await c.p.waitForTimeout(500);
+  await c.click('Lock it in 🔒'); await c.p.waitForTimeout(1000);
+  assert.equal(sql(`select coalesce(booking_id::text, 'none') from public.night_locks where user_id='${uid}'`), 'none');
+  assert.equal(sql(`select count(*) from public.bookings where user_id='${uid}'`), tables);
+  step('a place-only night locks in without booking a table');
+
   await c.p.evaluate(() => window.SpinIt.app.go('profile')); await c.click('Log out');
   await c.click('I already have an account');
   await c.p.getByPlaceholder('you@whatever.com').fill(email); await c.p.getByPlaceholder('The secret one').fill('wrong-pass');

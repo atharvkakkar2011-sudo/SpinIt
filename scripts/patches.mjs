@@ -536,10 +536,10 @@ export const patches = [
     find: "lockIn: () => { this.setState({ locked: { i: s.result, key: this.nightKey() }, booking: bk || { i: s.result, fa: s.foodAlt, size: 2, time: '8:00 PM' } }); ics(); this.say('Locked in. No take-backs 🔒'); },",
     replace: [
       "lockIn: () => {",
-      "            const nb = bk || { i: s.result, fa: s.foodAlt, size: 2, time: '8:00 PM' };",
-      "            const withId = nb.id ? Promise.resolve(nb.id) : window.SpinIt.booking.request(nb);",
+      "            const nb = bk || (s.eat === false ? null : { i: s.result, fa: s.foodAlt, size: 2, time: '8:00 PM' }); // place only: no table",
+      "            const withId = !nb ? Promise.resolve(null) : nb.id ? Promise.resolve(nb.id) : window.SpinIt.booking.request(nb);",
       "            withId.then(id => window.SpinIt.night.lock(s.result, id).then(() => {",
-      "              this.setState({ locked: { i: s.result, key: this.nightKey() }, booking: { ...nb, id } }); ics();",
+      "              this.setState({ locked: { i: s.result, key: this.nightKey() }, booking: nb ? { ...nb, id } : null }); ics();",
       "              const at = new Date(); at.setUTCHours(15, 30, 0, 0); window.SpinIt.native.nightReminder(s.result, at.getTime() > Date.now() ? at.getTime() : Date.now() + 3600e3 * 2);",
       "              this.say('Locked in. No take-backs 🔒');",
       "            })).catch(e => this.say(window.SpinIt.errKind(e) === 'slot_full' ? 'That table filled up. Pick another time first.' : 'Couldn’t lock it in. Try again?'));",
@@ -791,6 +791,92 @@ export const patches = [
     find: 'const on = (k === 0 && s.mood)',
     replace: 'const on = (k === 0 && (s.mood || s.vibeLabel))',
   },
+  // ---- eat: START is the place; dinner and dessert come with it unless switched off ("Place only")
+  {
+    name: 'eat: START shows Place plus a dinner & dessert switch',
+    find: "<div onPointerDown=\"{{ modeDown }}\" onPointerMove=\"{{ modeMove }}\" onPointerUp=\"{{ modeUp }}\" onPointerCancel=\"{{ modeUp }}\" style=\"position:relative;display:flex;width:240px;height:34px;touch-action:none;user-select:none;cursor:pointer\">\n              <div style=\"position:absolute;left:-2px;top:-3px;width:84px;height:40px;border-radius:20px;background:radial-gradient(120% 90% at 50% 0%,{{ acc }}38 0%,{{ acc }}59 70%,{{ acc }}73 100%);box-shadow:inset 1.5px 1.5px 0 rgba(255,255,255,0.85), inset -1px -1px 0 rgba(255,255,255,0.45), inset 0 0 10px rgba(255,255,255,0.28), inset 0 -8px 12px -8px {{ acc }}, 0 6px 18px rgba(0,0,0,0.3), 0 0 14px {{ accSoft }};backdrop-filter:url(#lgRefract) blur(0.6px) saturate(200%) brightness(1.12);-webkit-backdrop-filter:blur(1px) saturate(200%) brightness(1.12);transform-origin:center;pointer-events:none;transform:{{ modeTf }};transition:{{ modeTr }}\"></div>\n              <sc-for list=\"{{ modes }}\" as=\"m\" hint-placeholder-count=\"3\">\n                <div style=\"position:relative;z-index:1;width:80px;height:34px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:600;color:{{ m.fg }};text-shadow:0 1px 4px rgba(0,0,0,0.6);transition:color .2s\">{{ m.label }}</div>\n              </sc-for>\n            </div>",
+    replace: "<div style=\"display:flex;align-items:center;gap:6px;height:34px\">\n              <div style=\"height:34px;padding:0 16px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:600;color:#FFFFFF;text-shadow:0 1px 4px rgba(0,0,0,0.6);background:radial-gradient(120% 90% at 50% 0%,{{ acc }}38 0%,{{ acc }}59 70%,{{ acc }}73 100%);box-shadow:inset 1.5px 1.5px 0 rgba(255,255,255,0.85), inset -1px -1px 0 rgba(255,255,255,0.45)\">Place</div>\n              <div onClick=\"{{ toggleEat }}\" style=\"height:34px;padding:0 14px;border-radius:17px;display:flex;align-items:center;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .15s;color:{{ eatFg }};border:1.5px solid {{ eatBd }};background:{{ eatBg }}\">{{ eatLabel }}</div>\n            </div>",
+  },
+  {
+    name: 'eat: switch bindings',
+    find: "      modes: [['place', 'Place'], ['food', 'Food'], ['dessert', 'Dessert']]",
+    replace: "      toggleEat: () => { const eat = s.eat === false; this.setState({ eat, mode: 'place' }); this.say(eat ? 'Dinner and dessert are back in the plan.' : 'Place only tonight. No food stops.'); },\n      eatLabel: s.eat === false ? '+ Dinner & dessert' : '\u2713 Dinner & dessert', eatFg: s.eat === false ? '#9C8FA4' : '#FFFFFF', eatBd: s.eat === false ? 'rgba(255,255,255,0.18)' : A, eatBg: s.eat === false ? 'transparent' : 'rgba(255,255,255,0.06)',\n      modes: [['place', 'Place'], ['food', 'Food'], ['dessert', 'Dessert']]",
+  },
+  {
+    name: 'eat: lock card copy fits a place-only night',
+    find: 'Books the table, drops it in your calendar, tells the group. Change of plans? Just spin again.',
+    replace: '{{ lockCardSub }}',
+  },
+  {
+    name: 'eat: lock card copy binding',
+    find: "      eatLabel: s.eat === false",
+    replace: "      lockCardSub: (s.eat === false ? 'Drops it in your calendar' : 'Books the table, drops it in your calendar') + ', tells the group. Change of plans? Just spin again.',\n      eatLabel: s.eat === false",
+  },
+  {
+    name: 'eat: the line under the wheel says what the night includes',
+    find: "STARTS WITH ${modeName.replace('a ', '').toUpperCase()}",
+    replace: "${s.eat === false ? 'PLACE ONLY' : 'PLACE + DINNER + DESSERT'}",
+  },
+  {
+    name: 'eat: plan stops (place only drops dinner and dessert)',
+    find: '      stops: [',
+    replace: '      stops: (eat => [',
+  },
+  {
+    name: 'eat: plan stops end',
+    find: '      ],\n      evSavedFill:',
+    replace: "      ].filter((x, k) => eat || k === 0).map(x => eat ? x : { ...x, hasTravel: false, lineOp: 0 }))(s.eat !== false),\n      evSavedFill:",
+  },
+  {
+    name: 'eat: reveal rows',
+    find: '      revealRows: [',
+    replace: '      revealRows: (eat => [',
+  },
+  {
+    name: 'eat: reveal rows end',
+    find: '      ],\n      rerollLabel,',
+    replace: '      ].filter((x, k) => eat || k === 0))(s.eat !== false),\n      rerollLabel,',
+  },
+  {
+    name: 'eat: directions go to the place only',
+    find: "s.screen === 'evening' ? [r, food, des] : [r]",
+    replace: "s.screen === 'evening' && s.eat !== false ? [r, food, des] : [r]",
+  },
+  {
+    name: 'eat: map shows the place only',
+    find: 'fd.lat != null && { lat: fd.lat',
+    replace: 's.eat !== false && fd.lat != null && { lat: fd.lat',
+  },
+  {
+    name: 'eat: map shows the place only (dessert)',
+    find: 'ds.lat != null && { lat: ds.lat',
+    replace: 's.eat !== false && ds.lat != null && { lat: ds.lat',
+  },
+  {
+    name: 'eat: share line',
+    find: '`${r.short} → ${food.name} → ${des.name}`',
+    replace: "(s.eat === false ? r.short : `${r.short} → ${food.name} → ${des.name}`)",
+  },
+  {
+    name: 'eat: WhatsApp plan text',
+    find: "'\\n' + (bk ? bk.time : '8:00 PM') + ' · ' + f.name + '\\n9:30 PM · ' + d.name + '\\nSpun on SpinIt",
+    replace: "(s.eat === false ? '' : '\\n' + (bk ? bk.time : '8:00 PM') + ' · ' + f.name + '\\n9:30 PM · ' + d.name) + '\\nSpun on SpinIt",
+  },
+  {
+    name: 'eat: calendar note',
+    find: "'DESCRIPTION:' + f.name + ' then ' + d.name + '.',",
+    replace: "'DESCRIPTION:' + (s.eat === false ? r.name : f.name + ' then ' + d.name) + '.',",
+  },
+  {
+    name: 'eat: locked checklist only lists a table when there is one',
+    find: "{ t: 'Table booked · ' + (bk ? bk.size + ' ppl at ' + bk.time : '2 ppl at 8:00 PM') }, ",
+    replace: "...(s.eat === false && !bk ? [] : [{ t: 'Table booked · ' + (bk ? bk.size + ' ppl at ' + bk.time : '2 ppl at 8:00 PM') }]), ",
+  },
+  {
+    name: 'eat live: share text',
+    find: "r.short + ' → ' + food.name + ' → ' + des.name + ' · Spun on SpinIt'",
+    replace: "(s.eat === false ? r.short : r.short + ' → ' + food.name + ' → ' + des.name) + ' · Spun on SpinIt'",
+  },
 ];
 
 // Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
@@ -798,7 +884,12 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:') || p.name.startsWith('respin:') || p.name.startsWith('colour:') || p.name.startsWith('start:') || p.name.startsWith('profile:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:') || p.name.startsWith('respin:') || p.name.startsWith('colour:') || p.name.startsWith('start:') || p.name.startsWith('profile:') || p.name.startsWith('eat:')),
+  {
+    name: 'demo eat: locking in a place-only night books no table',
+    find: "booking: bk || { i: s.result, fa: s.foodAlt, size: 2, time: '8:00 PM' } }); ics();",
+    replace: "booking: bk || (s.eat === false ? null : { i: s.result, fa: s.foodAlt, size: 2, time: '8:00 PM' }) }); ics();",
+  },
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
