@@ -229,7 +229,7 @@ export const patches = [
   {
     name: 'head: load config, React, bridge before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./layout-fit.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./config.js"></script>\n<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./layout-fit.js"></script>\n<script src="./vibe-ai.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./spinit-bridge.js"></script>\n<script src="./support.js"></script>',
   },
   {
     name: 'head: full-bleed viewport for notches',
@@ -718,6 +718,78 @@ export const patches = [
     find: "' + d.name + '. No take-backs.',",
     replace: "' + d.name + '.',",
   },
+  // ---- vibe: "Other" – type any vibe; the AI picks the places that fit (app-src/vibe-ai.js), or, when it
+  // can't (nonsense, nothing on the list fits), falls back to the closest of the sheet's own options
+  {
+    name: 'vibe: the wheel can be narrowed to the places a typed vibe fits',
+    find: 'matches(p, s) { ',
+    replace: 'matches(p, s) { if (s.vibeIds && s.vibeIds.length && !s.vibeIds.includes(p.id)) return false; ',
+  },
+  {
+    name: 'vibe: Other chip after the four vibes',
+    find: "{ label: 'VIBE', opts: this.MOODS.map(m => ({ label: m, on: s.mood === m, pick: () => this.setState({ mood: s.mood === m ? null : m }) })) }",
+    replace: "{ label: 'VIBE', opts: [...this.MOODS.map(m => ({ label: m, on: s.mood === m, pick: () => this.setState({ mood: s.mood === m ? null : m, vibeIds: null, vibeLabel: null, otherOpen: false, vibeNote: '' }) })), { label: s.vibeLabel ? '\u2728 ' + s.vibeLabel : 'Other \u270D\uFE0F', on: !!(s.otherOpen || s.vibeLabel), pick: () => { this.setState({ otherOpen: !s.otherOpen }); if (!s.otherOpen) setTimeout(() => { const el = document.getElementById('spinit-vibe-input'); if (el) el.focus(); }, 60); } }] }",
+  },
+  {
+    name: 'vibe: the Other text box in the sheet',
+    find: "            </sc-for>\n            <div style=\"margin-top:18px\">\n              <div style=\"display:flex;align-items:baseline;justify-content:space-between\">\n                <div style=\"font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9C8FA4\">BUDGET / PERSON</div>",
+    replace: "            </sc-for>\n            <sc-if value=\"{{ otherOpen }}\" hint-placeholder-val=\"{{ false }}\">\n              <div style=\"margin-top:12px;padding:12px;border-radius:18px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06)\">\n                <div style=\"font-size:13px;color:#D9CEDD;line-height:1.35\">Describe your night in your own words. The AI picks the spots that fit.</div>\n                <div style=\"display:flex;gap:8px;margin-top:10px\">\n                  <input id=\"spinit-vibe-input\" value=\"{{ vibeDraft }}\" onChange=\"{{ onVibeDraft }}\" onKeyDown=\"{{ vibeKey }}\" placeholder=\"e.g. rooftop shisha, rainy day with kids\" maxLength=\"200\" enterkeyhint=\"go\" style=\"flex:1;min-width:0;height:46px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0.08);padding:0 14px;color:#FFFFFF;font-family:'Instrument Sans',sans-serif;font-size:16px;outline:none;box-sizing:border-box\" />\n                  <div onClick=\"{{ vibeAsk }}\" style=\"flex:none;height:46px;padding:0 16px;border-radius:14px;background:{{ acc }};color:#0E0A12;display:flex;align-items:center;font-size:14px;font-weight:700;cursor:pointer;opacity:{{ vibeAskOpacity }}\">{{ vibeAskLabel }}</div>\n                </div>\n                <sc-if value=\"{{ vibeNoteOn }}\" hint-placeholder-val=\"{{ false }}\">\n                  <div style=\"font-size:12.5px;color:{{ acc }};margin-top:8px;line-height:1.35\">{{ vibeNote }}</div>\n                </sc-if>\n              </div>\n            </sc-if>\n            <div style=\"margin-top:18px\">\n              <div style=\"display:flex;align-items:baseline;justify-content:space-between\">\n                <div style=\"font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9C8FA4\">BUDGET / PERSON</div>",
+  },
+  {
+    name: 'vibe: Other box bindings',
+    find: '      moodGroupsA: [',
+    replace: "      otherOpen: !!s.otherOpen, vibeDraft: s.vibeDraft || '', onVibeDraft: e => this.setState({ vibeDraft: e.target.value }),\n      vibeKey: e => { if (e.key === 'Enter') { e.preventDefault(); this.askVibe(); } }, vibeAsk: () => this.askVibe(),\n      vibeAskLabel: s.vibeBusy ? 'Thinking\u2026' : 'Ask AI', vibeAskOpacity: s.vibeBusy || !(s.vibeDraft || '').trim() ? 0.55 : 1, vibeNoteOn: !!s.vibeNote, vibeNote: s.vibeNote || '',\n      moodGroupsA: [",
+  },
+  {
+    name: 'vibe: asking the AI about a typed vibe',
+    find: '  wheelList(s) {',
+    replace: [
+      '  askVibe() {',
+      "    const s = this.state, text = (s.vibeDraft || '').trim();",
+      "    if (s.vibeBusy) return;",
+      "    if (!text) { this.setState({ vibeNote: 'Type your vibe first.' }); return; }",
+      "    this.setState({ vibeBusy: true, vibeNote: '' });",
+      '    const ask = window.SpinItVibe ? window.SpinItVibe.interpret(text, { places: this.P, moods: this.MOODS, kinds: this.KINDS }) : Promise.resolve(null);',
+      '    ask.then(r => {',
+      "      if (!r) { this.setState({ vibeBusy: false }); return; }",
+      "      if (r.kind === 'custom') {",
+      "        // the typed vibe replaces the vibe chips; if the other filters would leave fewer than 2, open them up",
+      "        const st = this.state, next = { ...st, vibeIds: r.ids, mood: null }, fits = this.P.filter(p => st.wheel[p.id] && this.matches(p, next)).length;",
+      "        const open = fits < 2 ? { bMin: 0, bMax: 400, setting: 'Both', kinds: [] } : {};",
+      "        this.setState({ vibeBusy: false, vibeIds: r.ids, vibeLabel: r.label, mood: null, ...open, vibeNote: (r.say || (r.ids.length + ' spots fit that vibe.')) + (fits < 2 ? ' Opened up the budget so they fit.' : '') });",
+      "        return;",
+      "      }",
+      "      // nothing fits the words: the closest of the sheet's own options, loosened step by step until 2+ spots fit",
+      "      const st = this.state, base = { vibeIds: null, vibeLabel: null, mood: r.mood || st.mood, setting: r.setting || st.setting, kinds: r.kinds && r.kinds.length ? r.kinds : st.kinds || [] };",
+      "      const count = x => this.P.filter(p => st.wheel[p.id] && this.matches(p, { ...st, ...x })).length;",
+      "      const steps = [{}, { kinds: [] }, { kinds: [], bMin: 0, bMax: 400 }, { kinds: [], bMin: 0, bMax: 400, setting: 'Both' }, { kinds: [], bMin: 0, bMax: 400, setting: 'Both', mood: null }];",
+      "      const k = steps.findIndex(x => count({ ...base, ...x }) >= 2), chosen = { ...base, ...steps[Math.max(0, k)] };",
+      "      this.setState({ vibeBusy: false, ...chosen, vibeNote: (r.say || 'Went with the closest match.') + (k > 0 ? ' Loosened the other filters so spots fit.' : ' Tweak the options below if it\u2019s off.') });",
+      "    }).catch(() => this.setState({ vibeBusy: false, vibeNote: 'Couldn\u2019t read that one. Pick a vibe above?' }));",
+      '  }',
+      '  wheelList(s) {',
+    ].join('\n'),
+  },
+  {
+    name: 'vibe: reset clears a typed vibe',
+    find: "setting: 'Both', kinds: [] });",
+    replace: "setting: 'Both', kinds: [], vibeIds: null, vibeLabel: null, vibeDraft: '', vibeNote: '', otherOpen: false });",
+  },
+  {
+    name: 'vibe: a typed vibe counts as a filter',
+    find: 'const filterCount = (s.mood ? 1 : 0)',
+    replace: 'const filterCount = (s.mood || s.vibeLabel ? 1 : 0)',
+  },
+  {
+    name: 'vibe: the first pill shows a typed vibe',
+    find: "pills: [s.mood || 'Any vibe',",
+    replace: "pills: [s.vibeLabel || s.mood || 'Any vibe',",
+  },
+  {
+    name: 'vibe: the first pill lights up for a typed vibe',
+    find: 'const on = (k === 0 && s.mood)',
+    replace: 'const on = (k === 0 && (s.mood || s.vibeLabel))',
+  },
 ];
 
 // Demo build (`node scripts/build-www.mjs --demo`, used by `npm run phone` until a backend is set up):
@@ -729,7 +801,7 @@ export const demoPatches = [
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
-    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./layout-fit.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
+    replace: '<script src="./places-extra.js"></script>\n<script src="./maps.js"></script>\n<script src="./wheel-fx.js"></script>\n<script src="./layout-fit.js"></script>\n<script src="./vibe-ai.js"></script>\n<link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />\n<script src="./vendor/leaflet/leaflet.js"></script>\n<script src="./plan-map.js"></script>\n<script src="./react.production.min.js"></script>\n<script src="./react-dom.production.min.js"></script>\n<script src="./support.js"></script>',
   },
   {
     // the design builds its first wheel before the library joins this.P, so only 6 places start on;

@@ -114,3 +114,34 @@ test('directions: exact locations go by coordinates, hand-written picks are skip
   assert.equal(new URL(l.google).searchParams.get('destination'), `${k.lat},${k.lng}`);
   assert.equal(new URL(l.apple).searchParams.get('daddr'), `${k.lat},${k.lng}`);
 });
+
+// ---- "Other" vibe (app-src/vibe-ai.js is a plain browser script) -----------------------------------------
+const vibeCtx = { window: {}, setTimeout, Promise };
+runInNewContext(readFileSync(new URL('../app-src/vibe-ai.js', import.meta.url), 'utf8'), vibeCtx);
+const vibe = vibeCtx.window.SpinItVibe;
+const vctx = { places: planned, moods: ['Chill', 'Romantic', 'Adventurous', 'Family'], kinds: ['Café', 'Restaurants', 'Entertainment', 'Fitness', 'Culture'] };
+
+test('vibe: an AI answer that fits keeps only real place ids', () => {
+  const r = vibe.parse('Here you go {"fits": true, "label": "Souq night", "ids": ["souq", "made-up", "souq", "katara"], "say": "Old Doha it is."}', vctx);
+  assert.equal(r.kind, 'custom');
+  assert.deepEqual([...r.ids], ['souq', 'katara']);
+  assert.equal(r.label, 'Souq night');
+});
+
+test('vibe: when nothing fits, the AI fallback is limited to the sheet’s own options', () => {
+  const r = vibe.parse('{"fits": false, "ids": [], "fallback": {"mood": "Sleepy", "setting": "Outdoor", "kinds": ["Fitness", "Spaceships"]}}', vctx);
+  assert.equal(r.kind, 'fallback');
+  assert.equal(r.mood, null);
+  assert.equal(r.setting, 'Outdoor');
+  assert.deepEqual([...r.kinds], ['Fitness']);
+  assert.equal(vibe.parse('not json at all', vctx), null);
+});
+
+test('vibe: without an AI, known vibes map to the sheet, place words narrow the wheel, nonsense becomes Chill', async () => {
+  const date = await vibe.interpret('romantic date night', vctx);
+  assert.equal(date.kind, 'fallback'); assert.equal(date.mood, 'Romantic');
+  const beach = await vibe.interpret('beach day', vctx);
+  assert.equal(beach.kind, 'custom'); assert.ok(beach.ids.length >= 2);
+  const junk = await vibe.interpret('asdkjh qwe zzz', vctx);
+  assert.equal(junk.kind, 'fallback'); assert.equal(junk.mood, 'Chill');
+});
