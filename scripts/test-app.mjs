@@ -69,8 +69,8 @@ try {
 
   // loosen the filters so far more than 25 places match; the wheel still shows 25
   await a.p.evaluate(() => window.SpinIt.app.setState({ mood: null, bMin: 0, bMax: 400 }));
-  await a.click('Spin'); await a.p.waitForTimeout(300);
-  // arriving on Spin opens "What's the vibe?" first; apply it to get to the wheel
+  // finishing setup lands on Spin with "What's the vibe?" open; apply it to get to the wheel
+  assert.equal(await a.st('screen'), 'spin', 'setup lands on the Spin page');
   assert.equal(await a.st('sheet'), 'mood', 'vibe sheet pops up on the Spin page');
   await a.p.getByText(/^Yalla, show me \d+ spots$/).first().click(); await a.p.waitForTimeout(300);
   assert.equal(await a.st('sheet'), null);
@@ -125,7 +125,7 @@ try {
   await c.p.getByPlaceholder('you@whatever.com').fill(email); await c.p.getByPlaceholder('The secret one').fill('hunter22!');
   await c.click('Let me in'); await c.p.waitForTimeout(2500);
   const s = await c.p.evaluate(() => { const x = window.SpinIt.app.state; return { saved: x.saved, wheelName: x.wheelName, spinsLeft: x.spinsLeft, history: x.history.length, booking: x.booking && x.booking.size, locked: !!x.locked, used: x.deals.map((d) => d.used), screen: x.screen }; });
-  assert.deepEqual(s, { saved: { 3: true }, wheelName: 'Friday Crew', spinsLeft: 3, history: 1, booking: 2, locked: true, used: [true], screen: 'discover' });
+  assert.deepEqual(s, { saved: { 3: true }, wheelName: 'Friday Crew', spinsLeft: 3, history: 1, booking: 2, locked: true, used: [true], screen: 'spin' });
   step('logging in on a fresh device restores everything from the server');
 
   await c.p.evaluate(() => window.SpinIt.app.go('spin')); await c.p.waitForTimeout(300);

@@ -21,6 +21,10 @@ const SQUAD_SIM = String.raw`  startSquad() {
 // become Desert gold; written so recolour() leaves the keys alone
 const oldAccents = () => '({ ' + ['#FFB23D', '#F0A35E', '#9D6BFF'].map((c) => `[${jsColour(c)}]: '${THEMES[0][0]}'`).join(', ') + ' })';
 
+// Profile → Theme, moved above the Doha passport (exact text from the design)
+const THEME_BLOCK = "\n            <div style=\"display:flex;align-items:baseline;justify-content:space-between;margin-top:26px\"><div style=\"font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:#FFFFFF\">Theme</div></div>\n            <div style=\"display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px\">\n              <sc-for list=\"{{ themeOpts }}\" as=\"c\" hint-placeholder-count=\"4\">\n                <div onClick=\"{{ c.pick }}\" style=\"display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px;border-radius:16px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);backdrop-filter:blur(8px) saturate(160%);-webkit-backdrop-filter:blur(8px) saturate(160%);box-shadow:inset 0 1px 1px rgba(255,255,255,0.35);cursor:pointer;border-color:{{ c.bd }}\">\n                  <div style=\"width:34px;height:34px;border-radius:50%;background:{{ c.v }};box-shadow:0 0 16px {{ c.v }}\"></div>\n                  <div style=\"font-size:11.5px;font-weight:600;color:#FFFFFF;text-align:center\">{{ c.name }}</div>\n                </div>\n              </sc-for>\n            </div>\n\n";
+const PASSPORT_HEAD = "            <div style=\"display:flex;align-items:baseline;justify-content:space-between;margin-top:26px\"><div style=\"font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:#FFFFFF\">Doha passport</div>";
+
 export const patches = [
   // ---- document head: local scripts, offline fonts, safe-area viewport ------------------------------
   // With 150+ places the wheel can't show everything: it shows at most 25 of the places that match,
@@ -673,6 +677,32 @@ export const patches = [
     find: '<div style="display:flex;gap:12px;margin-top:8px">\n              <sc-for list="{{ colorOpts }}"',
     replace: '<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">\n              <sc-for list="{{ colorOpts }}"',
   },
+  // ---- start: a signed-in launch opens on Spin (with the vibe sheet up), and sign-in / setup land there too
+  {
+    name: 'start: reopening the app lands on Spin',
+    find: "screen: this.props.startScreen ?? (d.user ? 'discover' : 'auth') });",
+    replace: "...(() => { const forced = this.props.startScreen && this.props.startScreen !== 'auth' ? this.props.startScreen : null; const to = forced || (d.user ? 'spin' : 'auth'); return { screen: to, sheet: !forced && to === 'spin' ? 'mood' : null }; })() });",
+  },
+  {
+    name: 'start: logging in lands on Spin',
+    find: "const finish = (user, msg) => { this.setState({ user, authErr: '', fPass: '', showPass: false, signStep: 0 }); this.go('discover'); this.say(msg); };",
+    replace: "const finish = (user, msg) => { this.setState({ user, authErr: '', fPass: '', showPass: false, signStep: 0 }); this.go('spin'); this.setState({ sheet: 'mood' }); this.say(msg); };",
+  },
+  {
+    name: 'start: finishing setup lands on Spin',
+    find: "const done = (msg) => { this.setState({ setupStep: 0 }); this.go('discover'); this.say(msg); };",
+    replace: "const done = (msg) => { this.setState({ setupStep: 0 }); this.go('spin'); this.say(msg); };",
+  },
+  {
+    name: 'profile: Theme leaves its old spot',
+    find: THEME_BLOCK,
+    replace: '',
+  },
+  {
+    name: 'profile: Theme sits above the Doha passport',
+    find: PASSPORT_HEAD,
+    replace: THEME_BLOCK + PASSPORT_HEAD,
+  },
   {
     name: 'respin: lock toast',
     find: "this.say('Locked in. No take-backs 🔒');",
@@ -695,7 +725,7 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:') || p.name.startsWith('respin:') || p.name.startsWith('colour:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:') || p.name.startsWith('respin:') || p.name.startsWith('colour:') || p.name.startsWith('start:') || p.name.startsWith('profile:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
