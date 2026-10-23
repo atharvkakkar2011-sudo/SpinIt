@@ -12,7 +12,7 @@ import { useStore } from '../../store';
 import { ACCENTS, colors, fonts } from '../../theme';
 
 type Tab = 'overview' | 'saved' | 'history';
-const THEMES: [string, string][] = [['#E8B86B', 'Desert gold'], ['#C9D98A', 'Sage'], ['#7FC8C0', 'Lagoon'], ['#F0A35E', 'Sunset']];
+const THEMES: [string, string][] = [['#E8B86B', 'Desert gold'], ['#C9D98A', 'Sage'], ['#7FC8C0', 'Lagoon'], ['#B03A52', 'Maroon'], ['#FF3D8B', 'Neon pink'], ['#C6FF3D', 'Acid lime'], ['#3DF2FF', 'Ice cyan'], ['#4D7CFF', 'Electric blue']];
 const REACTIONS = ['😴', '😐', '🙂', '🔥', '💯'];
 const FRIENDS: [string, string, string, string][] = [['Noor', 'N', '#F7F0E4', '#C9D98A'], ['Omar', 'O', '#968E80', '#C9D98A'], ['Lulwa', 'L', '#F0A35E', 'rgba(255,255,255,0.3)'], ['Hamad', 'H', '#7FC8C0', 'rgba(255,255,255,0.3)']];
 

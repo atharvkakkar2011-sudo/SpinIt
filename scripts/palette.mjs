@@ -19,9 +19,16 @@ export const PALETTE = {
   // the same colours written as rgba(
   'rgba(14,10,18': 'rgba(11,16,32', 'rgba(14, 10, 18': 'rgba(11, 16, 32', 'rgba(10,6,13': 'rgba(7,11,22', 'rgba(10,7,16': 'rgba(8,12,24',
   'rgba(22,15,27': 'rgba(18,26,46', 'rgba(40,20,30': 'rgba(32,30,24', 'rgba(61,242,255': 'rgba(127,200,192', 'rgba(255,61,139': 'rgba(232,184,107',
-  // theme names in the picker
-  "'Neon pink'": "'Desert gold'", "'Acid lime'": "'Sage'", "'Ice cyan'": "'Lagoon'", "'Sunset'": "'Sunset'",
 };
+
+// The theme picker (Profile → Theme) and the wheel's GLOW picker: the Desert colours, then a Neon row.
+// Neon values are written as split strings in the build so recolour() leaves them neon.
+export const THEMES = [
+  ['#E8B86B', 'Desert gold'], ['#C9D98A', 'Sage'], ['#7FC8C0', 'Lagoon'], ['#B03A52', 'Maroon'],
+  ['#FF3D8B', 'Neon pink'], ['#C6FF3D', 'Acid lime'], ['#3DF2FF', 'Ice cyan'], ['#4D7CFF', 'Electric blue'],
+];
+// a colour as JS source that recolour() will not touch
+export const jsColour = (c) => (PALETTE[c] ? `('${c.slice(0, 4)}' + '${c.slice(4)}')` : `'${c}'`);
 
 export function recolour(src) {
   const keys = Object.keys(PALETTE).sort((a, b) => b.length - a.length);

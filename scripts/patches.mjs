@@ -1,4 +1,4 @@
-import { PALETTE, recolour } from './palette.mjs';
+import { PALETTE, THEMES, jsColour, recolour } from './palette.mjs';
 // The prototype's markup and styling are left untouched. These patches change only its logic: where
 // data is stored, who decides a spin, and which native feature a button reaches. Each patch must
 // match the original source exactly once, so a changed prototype fails the build instead of
@@ -17,8 +17,9 @@ const SQUAD_SIM = String.raw`  startSquad() {
   }
 `;
 
-// saved accents from the old palette (on the device), written so recolour() leaves the keys alone
-const oldAccents = () => '({ ' + ['#FF3D8B', '#C6FF3D', '#3DF2FF', '#FFB23D', '#9D6BFF'].map((c) => `['${c.slice(0, 4)}' + '${c.slice(4)}']: '${PALETTE[c] || PALETTE['#FF3D8B']}'`).join(', ') + ' })';
+// saved accents that are no longer options (Sunset, before and after the palette swap, and the brief violet)
+// become Desert gold; written so recolour() leaves the keys alone
+const oldAccents = () => '({ ' + ['#FFB23D', '#F0A35E', '#9D6BFF'].map((c) => `[${jsColour(c)}]: '${THEMES[0][0]}'`).join(', ') + ' })';
 
 export const patches = [
   // ---- document head: local scripts, offline fonts, safe-area viewport ------------------------------
@@ -656,6 +657,21 @@ export const patches = [
     name: 'colour: a saved theme colour from the old palette maps to the new one',
     find: 'acc: d.acc || this.state.acc,',
     replace: 'acc: ' + oldAccents() + '[String(d.acc).toUpperCase()] || d.acc || this.state.acc,',
+  },
+  {
+    name: 'colour: theme picker has the Desert colours and a Neon row',
+    find: "const themes = [['#FF3D8B', 'Neon pink'], ['#C6FF3D', 'Acid lime'], ['#3DF2FF', 'Ice cyan'], ['#FFB23D', 'Sunset']];",
+    replace: 'const themes = [' + THEMES.map(([c, n]) => `[${jsColour(c)}, '${n}']`).join(', ') + '];',
+  },
+  {
+    name: 'colour: wheel glow picker offers the same colours',
+    find: "COLORS = ['#FF3D8B', '#C6FF3D', '#3DF2FF', '#FFB23D'];",
+    replace: 'COLORS = [' + THEMES.map(([c]) => jsColour(c)).join(', ') + '];',
+  },
+  {
+    name: 'colour: glow picker wraps onto two rows',
+    find: '<div style="display:flex;gap:12px;margin-top:8px">\n              <sc-for list="{{ colorOpts }}"',
+    replace: '<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">\n              <sc-for list="{{ colorOpts }}"',
   },
   {
     name: 'respin: lock toast',
