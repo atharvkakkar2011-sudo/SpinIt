@@ -12,7 +12,7 @@ export const colors = {
   glassHighlight: 'rgba(255,255,255,0.35)',
 };
 
-export const ACCENTS = ['#FF3D8B', '#C6FF3D', '#3DF2FF', '#FFB23D'] as const;
+export const ACCENTS = ['#9D6BFF', '#C6FF3D', '#3DF2FF', '#FFB23D'] as const;
 export const WHEEL_EMOJIS = ['🌙', '🔥', '🎲', '🌴', '🐪', '✨', '🍢', '🎧'] as const;
 
 export const fonts = {

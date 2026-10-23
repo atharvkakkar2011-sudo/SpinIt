@@ -649,6 +649,11 @@ export const patches = [
     replace: "{ t: 'Still free to respin' }",
   },
   {
+    name: 'colour: a saved pink accent becomes the new default',
+    find: 'acc: d.acc || this.state.acc,',
+    replace: "acc: (d.acc === '#FF3D' + '8B' ? this.state.acc : d.acc) || this.state.acc,",
+  },
+  {
     name: 'respin: lock toast',
     find: "this.say('Locked in. No take-backs 🔒');",
     replace: "this.say('Locked in 🔒');",
@@ -670,7 +675,7 @@ export const patches = [
 const DEMO_KEEP = ['wheel: at most 25 slices', 'places: extra places join the library', 'places: extra indoor places count for the cool-off filter',
   'head: full-bleed viewport for notches', 'fonts: ship the same Google Fonts subsets inside the app', 'props: hide the demo screen list'];
 export const demoPatches = [
-  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:') || p.name.startsWith('respin:')),
+  ...patches.filter((p) => DEMO_KEEP.includes(p.name) || p.name.startsWith('explore:') || p.name.startsWith('wheel:') || p.name.startsWith('map:') || p.name.startsWith('filters:') || p.name.startsWith('vibe:') || p.name.startsWith('fit:') || p.name.startsWith('respin:') || p.name.startsWith('colour:')),
   {
     name: 'demo head: React and the extra places before the runtime',
     find: '<script src="./support.js"></script>',
@@ -710,7 +715,16 @@ export const demoPatches = [
   },
 ];
 
-/** Apply every patch; each `find` must occur exactly once. Returns the patched source. */
+// The design's default accent was a hot "Neon pink"; it is now an electric violet everywhere (both builds).
+// Change ACCENT here to pick another colour; people who had pink saved get the new one (see the patch
+// 'colour: a saved pink accent becomes the new default' and supabase/migrations/20261023000010_violet_accent.sql).
+export const ACCENT = { from: '#FF3D8B', to: '#9D6BFF', name: 'Electric violet', lightFrom: '#FF7AB0', lightTo: '#C4A8FF' };
+export function recolour(src) {
+  return src.split(ACCENT.from).join(ACCENT.to).split(ACCENT.lightFrom).join(ACCENT.lightTo)
+    .split("'Neon pink'").join(`'${ACCENT.name}'`);
+}
+
+/** Apply every patch; each `find` must occur exactly once. Then swap the accent colour. Returns the patched source. */
 export function applyPatches(src, list = patches) {
   let out = src;
   const problems = [];
@@ -720,5 +734,5 @@ export function applyPatches(src, list = patches) {
     out = out.replace(p.find, () => p.replace);
   }
   if (problems.length) throw new Error('The prototype changed; update scripts/patches.mjs:\n  ' + problems.join('\n  '));
-  return out;
+  return recolour(out);
 }

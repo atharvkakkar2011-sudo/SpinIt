@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   center: { flex: 1, backgroundColor: BG, alignItems: 'center', justifyContent: 'center', padding: 28 },
   title: { color: '#F5EEF6', fontSize: 22, fontWeight: '800', marginBottom: 12 },
   body: { color: '#9C8FA4', fontSize: 15, lineHeight: 22, textAlign: 'center' },
-  code: { color: '#FF3D8B', fontWeight: '700' },
-  button: { marginTop: 24, backgroundColor: '#FF3D8B', borderRadius: 999, paddingVertical: 14, paddingHorizontal: 28 },
+  code: { color: '#9D6BFF', fontWeight: '700' },
+  button: { marginTop: 24, backgroundColor: '#9D6BFF', borderRadius: 999, paddingVertical: 14, paddingHorizontal: 28 },
   buttonText: { color: BG, fontWeight: '800', fontSize: 16 },
 });

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import Svg, { Circle, Defs, G, Mask, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 
-const NEON = ['#FF3D8B', '#B03DFF', '#3DF2FF', '#C6FF3D', '#FFB23D'];
+const NEON = ['#9D6BFF', '#B03DFF', '#3DF2FF', '#C6FF3D', '#FFB23D'];
 const SIZE = 520;
 const C = SIZE / 2;
 

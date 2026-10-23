@@ -110,7 +110,7 @@ export default function Auth() {
                     <View>
                       <Field label="Password" value={pass} onChangeText={(t) => { setPass(t); setErr(''); }} placeholder="Password" secure={!show} right={showPass} onSubmitEditing={next} />
                       <View style={{ flexDirection: 'row', gap: 6, marginTop: 14 }}>
-                        {[1, 2, 3, 4].map((k) => <View key={k} style={{ flex: 1, height: 5, borderRadius: 3, backgroundColor: k <= strength ? (strength < 2 ? '#FF7AB0' : acc) : 'rgba(255,255,255,0.18)' }} />)}
+                        {[1, 2, 3, 4].map((k) => <View key={k} style={{ flex: 1, height: 5, borderRadius: 3, backgroundColor: k <= strength ? (strength < 2 ? '#C4A8FF' : acc) : 'rgba(255,255,255,0.18)' }} />)}
                       </View>
                       <Label style={{ marginTop: 10 }}>{PASS_MOOD[strength].toUpperCase()}</Label>
                     </View>
@@ -132,7 +132,7 @@ export default function Auth() {
                       })}
                     </View>
                   )}
-                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#FF7AB0', marginTop: 14 }}>{err}</Text> : null}
+                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#C4A8FF', marginTop: 14 }}>{err}</Text> : null}
                   <Button label={step < 2 ? 'Next' : g ? `Yalla, let’s go ${term(g)}` : 'Yalla, let’s go'} accent={acc} onPress={next} style={{ marginTop: 22 }} />
                 </View>
               ) : (
@@ -146,7 +146,7 @@ export default function Auth() {
                   <Pressable onPress={() => say(okEmail(email) ? 'Reset link sent. Check your inbox.' : 'Drop your email first, bestie.')} accessibilityRole="button" style={{ alignSelf: 'flex-end', paddingVertical: 12 }}>
                     <Text style={{ fontFamily: fonts.bodySemi, color: acc }}>Forgot it?</Text>
                   </Pressable>
-                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#FF7AB0', marginBottom: 8 }}>{err}</Text> : null}
+                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#C4A8FF', marginBottom: 8 }}>{err}</Text> : null}
                   <Button label="Log in" accent={acc} onPress={login} />
                 </View>
               )}
