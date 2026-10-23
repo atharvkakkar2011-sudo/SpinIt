@@ -11,7 +11,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import * as Location from 'expo-location';
 
-const BG = '#0E0A12';
+const BG = '#0B1020';
 const PORT = 8096; // scripts/phone.mjs serves the app here
 const host = (Constants.expoConfig?.hostUri || '').split(':')[0];
 const APP_URL = process.env.EXPO_PUBLIC_SPINIT_URL || (host ? `http://${host}:${PORT}/` : '');
@@ -139,9 +139,9 @@ export default function App() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: BG },
   center: { flex: 1, backgroundColor: BG, alignItems: 'center', justifyContent: 'center', padding: 28 },
-  title: { color: '#F5EEF6', fontSize: 22, fontWeight: '800', marginBottom: 12 },
-  body: { color: '#9C8FA4', fontSize: 15, lineHeight: 22, textAlign: 'center' },
-  code: { color: '#9D6BFF', fontWeight: '700' },
-  button: { marginTop: 24, backgroundColor: '#9D6BFF', borderRadius: 999, paddingVertical: 14, paddingHorizontal: 28 },
+  title: { color: '#F7F0E4', fontSize: 22, fontWeight: '800', marginBottom: 12 },
+  body: { color: '#968E80', fontSize: 15, lineHeight: 22, textAlign: 'center' },
+  code: { color: '#E8B86B', fontWeight: '700' },
+  button: { marginTop: 24, backgroundColor: '#E8B86B', borderRadius: 999, paddingVertical: 14, paddingHorizontal: 28 },
   buttonText: { color: BG, fontWeight: '800', fontSize: 16 },
 });

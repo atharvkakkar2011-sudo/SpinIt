@@ -47,9 +47,9 @@ export default function QrSheet() {
         <View style={{ marginTop: 20, padding: 12, borderRadius: 20, backgroundColor: '#fff', opacity: live ? 1 : 0.35 }} accessibilityLabel={`QR code for ${place.deal.code}`}>
           <Svg width={200} height={200}>
             <Rect width={200} height={200} fill="#fff" />
-            {matrix.data.map((v, i) => v ? <Rect key={i} x={(i % matrix.size + 1) * cell} y={(Math.floor(i / matrix.size) + 1) * cell} width={cell + 0.4} height={cell + 0.4} fill="#0E0A12" /> : null)}
+            {matrix.data.map((v, i) => v ? <Rect key={i} x={(i % matrix.size + 1) * cell} y={(Math.floor(i / matrix.size) + 1) * cell} width={cell + 0.4} height={cell + 0.4} fill="#0B1020" /> : null)}
           </Svg>
-          {used && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontFamily: fonts.headline, fontSize: 34, color: '#9D6BFF', transform: [{ rotate: '-14deg' }] }}>USED</Text></View>}
+          {used && <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontFamily: fonts.headline, fontSize: 34, color: '#E8B86B', transform: [{ rotate: '-14deg' }] }}>USED</Text></View>}
         </View>
 
         <View style={{ marginTop: 16, borderRadius: 999, paddingHorizontal: 16, paddingVertical: 8, backgroundColor: live ? 'rgba(255,255,255,0.1)' : 'rgba(255,90,122,0.15)' }}>

@@ -12,9 +12,9 @@ import { useStore } from '../../store';
 import { ACCENTS, colors, fonts } from '../../theme';
 
 type Tab = 'overview' | 'saved' | 'history';
-const THEMES: [string, string][] = [['#9D6BFF', 'Electric violet'], ['#C6FF3D', 'Acid lime'], ['#3DF2FF', 'Ice cyan'], ['#FFB23D', 'Sunset']];
+const THEMES: [string, string][] = [['#E8B86B', 'Desert gold'], ['#C9D98A', 'Sage'], ['#7FC8C0', 'Lagoon'], ['#F0A35E', 'Sunset']];
 const REACTIONS = ['😴', '😐', '🙂', '🔥', '💯'];
-const FRIENDS: [string, string, string, string][] = [['Noor', 'N', '#F5EEF6', '#C6FF3D'], ['Omar', 'O', '#9C8FA4', '#C6FF3D'], ['Lulwa', 'L', '#FFB23D', 'rgba(255,255,255,0.3)'], ['Hamad', 'H', '#3DF2FF', 'rgba(255,255,255,0.3)']];
+const FRIENDS: [string, string, string, string][] = [['Noor', 'N', '#F7F0E4', '#C9D98A'], ['Omar', 'O', '#968E80', '#C9D98A'], ['Lulwa', 'L', '#F0A35E', 'rgba(255,255,255,0.3)'], ['Hamad', 'H', '#7FC8C0', 'rgba(255,255,255,0.3)']];
 
 function Section({ title, right, children }: { title: string; right?: string; children: React.ReactNode }) {
   return (
@@ -107,7 +107,7 @@ export default function Profile() {
         <>
           <View style={{ marginTop: 20, height: 190, borderRadius: 24, overflow: 'hidden', borderWidth: 1.5, borderColor: colors.glassBorder }}>
             <Image source={photoSource((top1 ?? placeById('lusail')!).photos[0])} style={{ position: 'absolute', width: '100%', height: '100%' }} contentFit="cover" />
-            <LinearGradient colors={['rgba(14,10,18,0.35)', 'rgba(14,10,18,0.92)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
+            <LinearGradient colors={['rgba(11,16,32,0.35)', 'rgba(11,16,32,0.92)']} style={{ position: 'absolute', width: '100%', height: '100%' }} />
             <View style={{ flex: 1, padding: 18, justifyContent: 'space-between' }}>
               <Label style={{ color: s.acc }}>SPIN WRAPPED</Label>
               {top1 ? (
@@ -208,7 +208,7 @@ export default function Profile() {
             <View style={{ flexDirection: 'row', gap: 10 }}>
               {FRIENDS.map(([name, initial, av, dot]) => (
                 <View key={name} style={{ alignItems: 'center', gap: 4 }}>
-                  <View><View style={{ width: 46, height: 46, borderRadius: 23, backgroundColor: av, alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontFamily: fonts.headline, fontSize: 17, color: '#0E0A12' }}>{initial}</Text></View>
+                  <View><View style={{ width: 46, height: 46, borderRadius: 23, backgroundColor: av, alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontFamily: fonts.headline, fontSize: 17, color: '#0B1020' }}>{initial}</Text></View>
                     <View style={{ position: 'absolute', right: 0, bottom: 0, width: 12, height: 12, borderRadius: 6, backgroundColor: dot, borderWidth: 2, borderColor: colors.bg }} /></View>
                   <Text style={{ fontFamily: fonts.body, fontSize: 12, color: colors.mid }}>{name}</Text>
                 </View>
@@ -219,7 +219,7 @@ export default function Profile() {
                 <Label style={{ color: s.acc }}>SPIN-{(u?.name ?? 'ATH').slice(0, 3).toUpperCase()}</Label>
                 <Text style={{ fontFamily: fonts.body, fontSize: 13, color: colors.mid, marginTop: 3 }}>{s.bonusSpins ? `${s.bonusSpins} bonus spin${s.bonusSpins > 1 ? 's' : ''} earned so far` : 'They join, you both get a bonus spin'}</Text>
               </View>
-              <Pressable onPress={() => { tap(); Share.share({ message: `Join me on Spin It 🎡 code SPIN-${(u?.name ?? 'ATH').slice(0, 3).toUpperCase()}` }); s.invite(); s.say('Invite sent. +1 spin, W.'); }} accessibilityRole="button"><View style={{ backgroundColor: s.acc, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8 }}><Text style={{ fontFamily: fonts.headline, fontSize: 12, color: '#0E0A12' }}>Invite</Text></View></Pressable>
+              <Pressable onPress={() => { tap(); Share.share({ message: `Join me on Spin It 🎡 code SPIN-${(u?.name ?? 'ATH').slice(0, 3).toUpperCase()}` }); s.invite(); s.say('Invite sent. +1 spin, W.'); }} accessibilityRole="button"><View style={{ backgroundColor: s.acc, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8 }}><Text style={{ fontFamily: fonts.headline, fontSize: 12, color: '#0B1020' }}>Invite</Text></View></Pressable>
             </Glass>
           </Section>
 

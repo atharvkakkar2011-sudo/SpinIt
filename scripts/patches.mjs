@@ -1,3 +1,4 @@
+import { PALETTE, recolour } from './palette.mjs';
 // The prototype's markup and styling are left untouched. These patches change only its logic: where
 // data is stored, who decides a spin, and which native feature a button reaches. Each patch must
 // match the original source exactly once, so a changed prototype fails the build instead of
@@ -15,6 +16,9 @@ const SQUAD_SIM = String.raw`  startSquad() {
     });
   }
 `;
+
+// saved accents from the old palette (on the device), written so recolour() leaves the keys alone
+const oldAccents = () => '({ ' + ['#FF3D8B', '#C6FF3D', '#3DF2FF', '#FFB23D', '#9D6BFF'].map((c) => `['${c.slice(0, 4)}' + '${c.slice(4)}']: '${PALETTE[c] || PALETTE['#FF3D8B']}'`).join(', ') + ' })';
 
 export const patches = [
   // ---- document head: local scripts, offline fonts, safe-area viewport ------------------------------
@@ -649,9 +653,9 @@ export const patches = [
     replace: "{ t: 'Still free to respin' }",
   },
   {
-    name: 'colour: a saved pink accent becomes the new default',
+    name: 'colour: a saved theme colour from the old palette maps to the new one',
     find: 'acc: d.acc || this.state.acc,',
-    replace: "acc: (d.acc === '#FF3D' + '8B' ? this.state.acc : d.acc) || this.state.acc,",
+    replace: 'acc: ' + oldAccents() + '[String(d.acc).toUpperCase()] || d.acc || this.state.acc,',
   },
   {
     name: 'respin: lock toast',
@@ -715,16 +719,7 @@ export const demoPatches = [
   },
 ];
 
-// The design's default accent was a hot "Neon pink"; it is now an electric violet everywhere (both builds).
-// Change ACCENT here to pick another colour; people who had pink saved get the new one (see the patch
-// 'colour: a saved pink accent becomes the new default' and supabase/migrations/20261023000010_violet_accent.sql).
-export const ACCENT = { from: '#FF3D8B', to: '#9D6BFF', name: 'Electric violet', lightFrom: '#FF7AB0', lightTo: '#C4A8FF' };
-export function recolour(src) {
-  return src.split(ACCENT.from).join(ACCENT.to).split(ACCENT.lightFrom).join(ACCENT.lightTo)
-    .split("'Neon pink'").join(`'${ACCENT.name}'`);
-}
-
-/** Apply every patch; each `find` must occur exactly once. Then swap the accent colour. Returns the patched source. */
+/** Apply every patch; each `find` must occur exactly once. Then swap in the palette (scripts/palette.mjs). Returns the patched source. */
 export function applyPatches(src, list = patches) {
   let out = src;
   const problems = [];

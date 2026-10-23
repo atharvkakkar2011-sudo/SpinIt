@@ -110,7 +110,7 @@ export default function Auth() {
                     <View>
                       <Field label="Password" value={pass} onChangeText={(t) => { setPass(t); setErr(''); }} placeholder="Password" secure={!show} right={showPass} onSubmitEditing={next} />
                       <View style={{ flexDirection: 'row', gap: 6, marginTop: 14 }}>
-                        {[1, 2, 3, 4].map((k) => <View key={k} style={{ flex: 1, height: 5, borderRadius: 3, backgroundColor: k <= strength ? (strength < 2 ? '#C4A8FF' : acc) : 'rgba(255,255,255,0.18)' }} />)}
+                        {[1, 2, 3, 4].map((k) => <View key={k} style={{ flex: 1, height: 5, borderRadius: 3, backgroundColor: k <= strength ? (strength < 2 ? '#F5D9A8' : acc) : 'rgba(255,255,255,0.18)' }} />)}
                       </View>
                       <Label style={{ marginTop: 10 }}>{PASS_MOOD[strength].toUpperCase()}</Label>
                     </View>
@@ -123,8 +123,8 @@ export default function Auth() {
                           <Pressable key={k} onPress={() => { tap(); setG(k); setErr(''); }} accessibilityRole="button" accessibilityState={{ selected: on }}>
                             <Glass radius={18} style={on ? { backgroundColor: acc, borderColor: acc } : undefined}>
                               <View style={{ padding: 16 }}>
-                                <Text style={{ fontFamily: fonts.headline, fontSize: 18, letterSpacing: -0.5, color: on ? '#0E0A12' : colors.white }}>{label}</Text>
-                                <Text style={{ fontFamily: fonts.body, fontSize: 13.5, color: on ? '#0E0A12' : colors.offWhite, marginTop: 3 }}>{note}</Text>
+                                <Text style={{ fontFamily: fonts.headline, fontSize: 18, letterSpacing: -0.5, color: on ? '#0B1020' : colors.white }}>{label}</Text>
+                                <Text style={{ fontFamily: fonts.body, fontSize: 13.5, color: on ? '#0B1020' : colors.offWhite, marginTop: 3 }}>{note}</Text>
                               </View>
                             </Glass>
                           </Pressable>
@@ -132,7 +132,7 @@ export default function Auth() {
                       })}
                     </View>
                   )}
-                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#C4A8FF', marginTop: 14 }}>{err}</Text> : null}
+                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#F5D9A8', marginTop: 14 }}>{err}</Text> : null}
                   <Button label={step < 2 ? 'Next' : g ? `Yalla, let’s go ${term(g)}` : 'Yalla, let’s go'} accent={acc} onPress={next} style={{ marginTop: 22 }} />
                 </View>
               ) : (
@@ -146,7 +146,7 @@ export default function Auth() {
                   <Pressable onPress={() => say(okEmail(email) ? 'Reset link sent. Check your inbox.' : 'Drop your email first, bestie.')} accessibilityRole="button" style={{ alignSelf: 'flex-end', paddingVertical: 12 }}>
                     <Text style={{ fontFamily: fonts.bodySemi, color: acc }}>Forgot it?</Text>
                   </Pressable>
-                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#C4A8FF', marginBottom: 8 }}>{err}</Text> : null}
+                  {err ? <Text accessibilityLiveRegion="polite" style={{ fontFamily: fonts.bodySemi, color: '#F5D9A8', marginBottom: 8 }}>{err}</Text> : null}
                   <Button label="Log in" accent={acc} onPress={login} />
                 </View>
               )}

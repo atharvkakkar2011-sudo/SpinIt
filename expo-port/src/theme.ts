@@ -1,18 +1,18 @@
 export const colors = {
-  bg: '#0E0A12',
-  card: '#1A1320',
-  border: '#2C2233',
-  disabled: '#3A2E42',
+  bg: '#0B1020',
+  card: '#121A2E',
+  border: '#202842',
+  disabled: '#2A3350',
   white: '#FFFFFF',
-  offWhite: '#F5EEF6',
-  mid: '#B9ADC0',
-  dim: '#7D7086',
+  offWhite: '#F7F0E4',
+  mid: '#BDB3A2',
+  dim: '#7A7366',
   glassFill: 'rgba(255,255,255,0.08)',
   glassBorder: 'rgba(255,255,255,0.2)',
   glassHighlight: 'rgba(255,255,255,0.35)',
 };
 
-export const ACCENTS = ['#9D6BFF', '#C6FF3D', '#3DF2FF', '#FFB23D'] as const;
+export const ACCENTS = ['#E8B86B', '#C9D98A', '#7FC8C0', '#F0A35E'] as const;
 export const WHEEL_EMOJIS = ['🌙', '🔥', '🎲', '🌴', '🐪', '✨', '🍢', '🎧'] as const;
 
 export const fonts = {

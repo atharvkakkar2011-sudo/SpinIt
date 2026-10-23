@@ -5,7 +5,7 @@ import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from '
 interface Piece { x0: number; y0: number; vx: number; vy: number; g: number; w: number; h: number; color: string; spin: number; delay: number; dur: number }
 
 function makePieces(width: number, height: number, accent: string, burst: number, rain: number): Piece[] {
-  const colors = [accent, '#FFFFFF', '#3DF2FF', '#C6FF3D', '#FFB23D', '#9D6BFF', '#B03DFF'];
+  const colors = [accent, '#FFFFFF', '#7FC8C0', '#C9D98A', '#F0A35E', '#E8B86B', '#B5835A'];
   const rnd = (a: number, b: number) => a + Math.random() * (b - a);
   const out: Piece[] = [];
   for (let i = 0; i < burst; i++) {

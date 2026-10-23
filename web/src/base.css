@@ -1,5 +1,5 @@
 /* Shared look for the no-app web pages: the app's palette and type. */
-:root { --bg: #0E0A12; --card: rgba(255,255,255,0.07); --line: rgba(255,255,255,0.2); --fg: #FFFFFF; --soft: #D9CEDD; --dim: #9C8FA4; --acc: #9D6BFF; --ok: #C6FF3D; --bad: #FF7A92; color-scheme: dark; }
+:root { --bg: #0B1020; --card: rgba(255,255,255,0.07); --line: rgba(255,255,255,0.2); --fg: #FFFFFF; --soft: #E2D9C8; --dim: #968E80; --acc: #E8B86B; --ok: #C9D98A; --bad: #FF7A92; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--fg); font-family: 'Instrument Sans', system-ui, sans-serif; }
 body { padding: max(28px, env(safe-area-inset-top)) 20px max(28px, env(safe-area-inset-bottom)); }
@@ -16,7 +16,7 @@ button.ghost { background: var(--card); color: var(--fg); border: 1.5px solid va
 button:disabled { opacity: .45; cursor: default; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .vibe { height: 64px; border-radius: 18px; background: var(--card); color: var(--fg); border: 1.5px solid var(--line); font: 700 15px 'Instrument Sans', sans-serif; }
-.vibe[aria-pressed="true"] { background: var(--acc); color: var(--bg); border-color: var(--acc); box-shadow: 0 0 22px rgba(157,107,255,0.5); }
+.vibe[aria-pressed="true"] { background: var(--acc); color: var(--bg); border-color: var(--acc); box-shadow: 0 0 22px rgba(232,184,107,0.5); }
 .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .row:last-child { border-bottom: 0; }
 .pill { font: 700 12px 'Space Mono', monospace; padding: 6px 10px; border-radius: 12px; border: 1.5px solid var(--line); color: var(--soft); }

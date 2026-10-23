@@ -2,19 +2,19 @@
   "appId": "app.spinit.mobile",
   "appName": "Spin It",
   "webDir": "www",
-  "backgroundColor": "#0E0A12",
+  "backgroundColor": "#0B1020",
   "ios": {
     "contentInset": "never",
-    "backgroundColor": "#0E0A12",
+    "backgroundColor": "#0B1020",
     "scheme": "Spin It"
   },
   "android": {
-    "backgroundColor": "#0E0A12"
+    "backgroundColor": "#0B1020"
   },
   "plugins": {
     "SplashScreen": {
       "launchAutoHide": false,
-      "backgroundColor": "#0E0A12",
+      "backgroundColor": "#0B1020",
       "showSpinner": false
     },
     "Keyboard": {
@@ -28,7 +28,7 @@
       ]
     },
     "LocalNotifications": {
-      "iconColor": "#9D6BFF"
+      "iconColor": "#E8B86B"
     }
   },
   "experimental": {

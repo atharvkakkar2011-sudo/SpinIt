@@ -37,19 +37,19 @@
     if (n) return;
     n = document.createElement('div');
     n.className = 'spinit-map-note';
-    n.style.cssText = 'position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:500;padding:4px 10px;border-radius:10px;background:rgba(10,7,16,0.8);border:1px solid rgba(255,255,255,0.15);color:#B9ADC0;font:500 11px \'Instrument Sans\',sans-serif;white-space:nowrap;pointer-events:none';
+    n.style.cssText = 'position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:500;padding:4px 10px;border-radius:10px;background:rgba(8,12,24,0.8);border:1px solid rgba(255,255,255,0.15);color:#BDB3A2;font:500 11px \'Instrument Sans\',sans-serif;white-space:nowrap;pointer-events:none';
     n.textContent = 'Map needs internet. The route and stops still work.';
     el.appendChild(n);
   }
 
   function pin(n, label, acc, first, approx) {
-    var bg = first ? acc : '#0E0A12', fg = first ? '#0E0A12' : acc;
+    var bg = first ? acc : '#0B1020', fg = first ? '#0B1020' : acc;
     return window.L.divIcon({
       className: 'spinit-pin',
       iconSize: [0, 0],
       html: '<div style="transform:translate(-50%,-13px);display:flex;flex-direction:column;align-items:center;gap:4px;opacity:' + (approx ? 0.75 : 1) + '">' +
         '<div style="width:26px;height:26px;border-radius:50%;background:' + bg + ';color:' + fg + ';border:2px ' + (approx ? 'dashed' : 'solid') + ' ' + acc + ';box-sizing:border-box;display:flex;align-items:center;justify-content:center;font:700 12px \'Space Mono\',monospace;box-shadow:0 0 14px ' + acc + '">' + n + '</div>' +
-        '<div style="font:700 10.5px \'Instrument Sans\',sans-serif;color:#fff;white-space:nowrap;text-shadow:0 1px 4px #000;padding:1px 6px;border-radius:6px;background:rgba(10,7,16,0.75)">' + String(label).replace(/[<>&]/g, '') + '</div></div>',
+        '<div style="font:700 10.5px \'Instrument Sans\',sans-serif;color:#fff;white-space:nowrap;text-shadow:0 1px 4px #000;padding:1px 6px;border-radius:6px;background:rgba(8,12,24,0.75)">' + String(label).replace(/[<>&]/g, '') + '</div></div>',
     });
   }
 

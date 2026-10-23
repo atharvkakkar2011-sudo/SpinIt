@@ -45,12 +45,12 @@ export const deals = {
   qrCells(token) {
     const qr = QRCode.create(token, { version: 2, errorCorrectionLevel: 'L' });
     const n = qr.modules.size;
-    return Array.from({ length: n * n }, (_, k) => ({ c: qr.modules.data[k] ? '#0E0A12' : '#FFFFFF' }));
+    return Array.from({ length: n * n }, (_, k) => ({ c: qr.modules.data[k] ? '#0B1020' : '#FFFFFF' }));
   },
 };
 
 // ---- squad ------------------------------------------------------------------------------------------
-const COLORS = ['#F5EEF6', '#9C8FA4', '#FFB23D', '#3DF2FF', '#C6FF3D'];
+const COLORS = ['#F7F0E4', '#968E80', '#F0A35E', '#7FC8C0', '#C9D98A'];
 let sq = { code: null, id: null, channel: null, poll: null, cb: null, seen: new Set() };
 
 const toMembers = (state, me) => (state.members || []).map((m, k) => ({
